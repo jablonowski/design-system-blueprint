@@ -1,0 +1,38 @@
+{
+  "font": {
+    "family": {
+      "base":      { "value": "'ING Me', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" },
+      "heading":   { "value": "'ING Me', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" },
+      "monospace": { "value": "'SF Mono', 'Fira Code', 'Courier New', monospace" }
+    },
+    "size": {
+      "xs":   { "value": "0.75rem" },
+      "sm":   { "value": "0.875rem" },
+      "base": { "value": "1rem" },
+      "md":   { "value": "1.125rem" },
+      "lg":   { "value": "1.25rem" },
+      "xl":   { "value": "1.5rem" },
+      "2xl":  { "value": "1.875rem" },
+      "3xl":  { "value": "2.25rem" },
+      "4xl":  { "value": "3rem" }
+    },
+    "weight": {
+      "light":    { "value": "300" },
+      "regular":  { "value": "400" },
+      "medium":   { "value": "500" },
+      "semibold": { "value": "600" },
+      "bold":     { "value": "700" }
+    },
+    "lineHeight": {
+      "tight":  { "value": "1.25" },
+      "base":   { "value": "1.5" },
+      "loose":  { "value": "1.75" }
+    },
+    "letterSpacing": {
+      "tight":   { "value": "-0.025em" },
+      "normal":  { "value": "0em" },
+      "wide":    { "value": "0.025em" },
+      "wider":   { "value": "0.05em" }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "design-tokens",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Mateusz Jablonowski",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "style-dictionary build --config config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jablonowski/design-system-blueprint.git",
+    "directory": "design-tokens"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.2.0"
+  }
+}
