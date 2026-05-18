@@ -1,0 +1,143 @@
+.footer {
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ebebeb;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 24px;
+}
+
+/* Top section */
+.footer-top {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+/* Brand */
+.footer-brand { flex-shrink: 0; min-width: 180px; }
+
+.footer-logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.footer-logo-link:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.footer-logo-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.footer-logo-img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.footer-brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: -0.02em;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: #888;
+  margin: 10px 0 0;
+  line-height: 1.5;
+  max-width: 200px;
+}
+
+/* Nav columns */
+.footer-nav {
+  flex: 1;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.footer-col { min-width: 120px; }
+
+.footer-col-heading {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 12px;
+}
+
+.footer-col-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-link {
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: color 0.12s ease;
+}
+
+.footer-link:hover { color: #111; }
+
+.footer-link:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+/* Bottom */
+.footer-bottom {
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.footer-legal {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.footer-legal-link {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+
+.footer-legal-link:hover { color: #555; }
+
+.footer-legal-link:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}

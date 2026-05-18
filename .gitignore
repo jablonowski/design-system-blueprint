@@ -1,3 +1,4 @@
+node_modules/
 design-tokens/package-lock.json
 design-tokens/node_modules/
 design-tokens/dist/

@@ -1,0 +1,44 @@
+{
+  "name": "@jablonowski/dsb-components",
+  "version": "1.0.0",
+  "description": "Design System Blueprint - Angular UI Components",
+  "license": "MIT",
+  "author": "Mateusz Jablonowski",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json",
+    "storybook": "ng run dsbComponents:storybook",
+    "build-storybook": "ng run dsbComponents:build-storybook",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jablonowski/design-system-blueprint.git",
+    "directory": "components"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=19.0.0",
+    "@angular/core": ">=19.0.0",
+    "@angular/forms": ">=19.0.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/platform-browser": "^19.2.20",
+    "@angular/platform-browser-dynamic": "^19.2.20",
+    "@angular/cli": "^19.0.0",
+    "@angular-devkit/build-angular": "^19.0.0",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/angular": "^8.6.18",
+    "ng-packagr": "^19.0.0",
+    "storybook": "^8.6.18",
+    "typescript": "~5.5.0",
+    "zone.js": "~0.15.0"
+  }
+}

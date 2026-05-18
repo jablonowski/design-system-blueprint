@@ -1,0 +1,72 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  line-height: 1.4;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  border: 1.5px solid #d4d4d4;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.input-sm { font-size: 12px; padding: 5px 10px; height: 30px; }
+.input-md { font-size: 14px; padding: 7px 12px; height: 36px; }
+.input-lg { font-size: 15px; padding: 9px 14px; height: 44px; }
+
+.input::placeholder { color: #aaa; }
+
+.input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Error state */
+.field-error .input {
+  border-color: #d93025;
+}
+.field-error .input:focus {
+  box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1);
+}
+
+/* Disabled */
+.field-disabled .input {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+.field-disabled .label { color: #999; }
+
+.error-msg {
+  font-size: 12px;
+  color: #d93025;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hint {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+  line-height: 1.4;
+}
