@@ -1,0 +1,86 @@
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+/* Indicator dot */
+.list-item-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot--default { background: #d4d4d4; }
+.dot--info    { background: #1a56db; }
+.dot--success { background: #1a7f3c; }
+.dot--warning { background: #92600a; }
+.dot--error   { background: #c5221f; }
+
+/* Leading slot */
+.list-item-leading {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.list-item-leading:empty { display: none; }
+
+/* Body */
+.list-item-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.list-item-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.list-item-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Variant label colors */
+.list-item--info    .list-item-label { color: #1a56db; }
+.list-item--success .list-item-label { color: #1a7f3c; }
+.list-item--warning .list-item-label { color: #92600a; }
+.list-item--error   .list-item-label { color: #c5221f; }
+
+.list-item-meta {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #aaa;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.list-item-description {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Trailing slot */
+.list-item-trailing {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.list-item-trailing:empty { display: none; }

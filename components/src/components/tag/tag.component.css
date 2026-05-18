@@ -1,0 +1,21 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* Sizes */
+.tag-sm { font-size: 11px; padding: 2px 7px; }
+.tag-md { font-size: 12px; padding: 3px 9px; }
+
+/* Variants */
+.tag-default  { background: #f0f0f0; color: #444; }
+.tag-primary  { background: #111;    color: #fff; }
+.tag-success  { background: #e6f4ea; color: #1a7f3c; }
+.tag-warning  { background: #fef3cd; color: #92600a; }
+.tag-danger   { background: #fce8e6; color: #c5221f; }
+.tag-info     { background: #e8f0fe; color: #1a56db; }

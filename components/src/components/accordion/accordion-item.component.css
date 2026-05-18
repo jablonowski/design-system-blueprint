@@ -1,0 +1,76 @@
+.accordion-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.accordion-item:first-child {
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Trigger */
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 16px 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.accordion-trigger:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.accordion-item--disabled .accordion-trigger {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* Title */
+.accordion-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+  line-height: 1.5;
+}
+
+/* Chevron */
+.accordion-chevron {
+  flex-shrink: 0;
+  width: 10px;
+  height: 6px;
+  color: #888;
+  transition: transform 0.2s ease;
+}
+
+.accordion-item--open .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+/* Body — CSS grid trick for smooth height animation without fixed max-height */
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+
+.accordion-body--open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-content {
+  overflow: hidden;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.accordion-body--open .accordion-content {
+  padding-bottom: 16px;
+}
