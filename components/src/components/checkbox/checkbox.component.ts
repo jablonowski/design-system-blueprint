@@ -13,31 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  template: `
-    <label
-      class="checkbox-root"
-      [ngClass]="{ 'checkbox-disabled': disabled, 'checkbox-checked': checked }"
-    >
-      <span class="checkbox-box" [ngClass]="{ 'checkbox-box--checked': checked, 'checkbox-box--error': hasError }">
-        <svg *ngIf="checked" class="checkbox-icon" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-      <input
-        class="checkbox-input"
-        type="checkbox"
-        [checked]="checked"
-        [disabled]="disabled"
-        [attr.aria-describedby]="hasError && errorMessage ? checkboxId + '-error' : null"
-        [id]="checkboxId"
-        (change)="onToggle($event)"
-        (blur)="onTouched()"
-      />
-      <span *ngIf="label" class="checkbox-label">{{ label }}</span>
-    </label>
-    <p *ngIf="hasError && errorMessage" [id]="checkboxId + '-error'" class="checkbox-error">{{ errorMessage }}</p>
-    <p *ngIf="hint && !hasError" class="checkbox-hint">{{ hint }}</p>
-  `,
+  templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.css'],
 })
 export class CheckboxComponent implements ControlValueAccessor {

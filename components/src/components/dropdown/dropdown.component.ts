@@ -21,47 +21,7 @@ export type DropdownSize = 'sm' | 'md' | 'lg';
       multi: true,
     },
   ],
-  template: `
-    <div class="dropdown-field" [ngClass]="{ 'dropdown-error': hasError, 'dropdown-disabled': disabled }">
-      <label *ngIf="label" [attr.for]="dropdownId" class="dropdown-label">{{ label }}</label>
-      <div class="dropdown-wrap">
-        <button
-          [id]="dropdownId"
-          type="button"
-          class="dropdown-trigger"
-          [ngClass]="['dropdown-' + size, open ? 'dropdown-trigger--open' : '']"
-          [disabled]="disabled"
-          [attr.aria-expanded]="open"
-          [attr.aria-haspopup]="'listbox'"
-          [attr.aria-invalid]="hasError || null"
-          (click)="toggle()"
-          (blur)="onTouched()"
-        >
-          <span class="dropdown-value" [ngClass]="{ 'dropdown-placeholder': !selectedLabel }">
-            {{ selectedLabel || placeholder }}
-          </span>
-          <svg class="dropdown-arrow" [ngClass]="{ 'dropdown-arrow--open': open }" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <ul *ngIf="open" class="dropdown-menu" role="listbox" [attr.aria-label]="label || placeholder">
-          <li
-            *ngFor="let option of options"
-            class="dropdown-option"
-            [ngClass]="{ 'dropdown-option--selected': value === option.value, 'dropdown-option--disabled': option.disabled }"
-            role="option"
-            [attr.aria-selected]="value === option.value"
-            [attr.aria-disabled]="option.disabled || null"
-            (click)="select(option)"
-          >
-            {{ option.label }}
-          </li>
-        </ul>
-      </div>
-      <p *ngIf="hasError && errorMessage" class="dropdown-error-msg">{{ errorMessage }}</p>
-      <p *ngIf="hint && !hasError" class="dropdown-hint">{{ hint }}</p>
-    </div>
-  `,
+  templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.css'],
 })
 export class DropdownComponent implements ControlValueAccessor {

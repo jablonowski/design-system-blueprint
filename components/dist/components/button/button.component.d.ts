@@ -1,7 +1,16 @@
+import { EventEmitter } from '@angular/core';
 import * as i0 from "@angular/core";
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
 export declare class ButtonComponent {
-    variant: 'primary' | 'secondary';
+    variant: ButtonVariant;
+    size: ButtonSize;
     disabled: boolean;
+    loading: boolean;
+    fullWidth: boolean;
+    type: 'button' | 'submit' | 'reset';
+    onClick: EventEmitter<MouseEvent>;
+    get classes(): Record<string, boolean>;
     static ɵfac: i0.ɵɵFactoryDeclaration<ButtonComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ButtonComponent, "dsb-button", never, { "variant": { "alias": "variant"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; }, {}, never, ["*"], true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ButtonComponent, "dsb-button", never, { "variant": { "alias": "variant"; "required": false; }; "size": { "alias": "size"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; "loading": { "alias": "loading"; "required": false; }; "fullWidth": { "alias": "fullWidth"; "required": false; }; "type": { "alias": "type"; "required": false; }; }, { "onClick": "onClick"; }, never, ["*"], true, never>;
 }

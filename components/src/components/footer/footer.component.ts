@@ -15,45 +15,7 @@ export interface FooterColumn {
   selector: 'dsb-footer',
   standalone: true,
   imports: [NgFor, NgIf],
-  template: `
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-top">
-          <div class="footer-brand">
-            <a [href]="logoHref" class="footer-logo-link">
-              <svg *ngIf="!logoSrc" class="footer-logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="28" height="28" rx="6" fill="#111"/>
-                <path d="M8 20V8h5.5a4.5 4.5 0 010 9H8m0 0h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <img *ngIf="logoSrc" [src]="logoSrc" [alt]="brandName" class="footer-logo-img" />
-              <span class="footer-brand-name">{{ brandName }}</span>
-            </a>
-            <p *ngIf="tagline" class="footer-tagline">{{ tagline }}</p>
-          </div>
-
-          <nav *ngIf="columns && columns.length" class="footer-nav" aria-label="Footer navigation">
-            <div *ngFor="let col of columns" class="footer-col">
-              <h3 class="footer-col-heading">{{ col.heading }}</h3>
-              <ul class="footer-col-list">
-                <li *ngFor="let link of col.links">
-                  <a [href]="link.href" class="footer-link">{{ link.label }}</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
-
-        <div class="footer-bottom">
-          <p class="footer-copy">{{ copyright }}</p>
-          <ul *ngIf="legalLinks && legalLinks.length" class="footer-legal">
-            <li *ngFor="let link of legalLinks">
-              <a [href]="link.href" class="footer-legal-link">{{ link.label }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
-  `,
+  templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {

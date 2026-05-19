@@ -11,7 +11,7 @@ import { AccordionItemComponent } from './accordion-item.component';
   selector: 'dsb-accordion',
   standalone: true,
   imports: [],
-  template: `<ng-content></ng-content>`,
+  templateUrl: './accordion.component.html',
   styles: [`:host { display: block; }`],
 })
 export class AccordionComponent implements AfterContentInit {

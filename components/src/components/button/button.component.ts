@@ -8,17 +8,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
   selector: 'dsb-button',
   standalone: true,
   imports: [NgClass, NgIf],
-  template: `
-    <button
-      [type]="type"
-      [disabled]="disabled || loading"
-      [ngClass]="classes"
-      (click)="onClick.emit($event)"
-    >
-      <span *ngIf="loading" class="spinner" aria-hidden="true"></span>
-      <ng-content></ng-content>
-    </button>
-  `,
+  templateUrl: './button.component.html',
   styleUrls: ['./button.component.css'],
 })
 export class ButtonComponent {

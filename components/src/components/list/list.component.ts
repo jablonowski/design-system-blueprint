@@ -5,18 +5,7 @@ import { NgClass } from '@angular/common';
   selector: 'dsb-list',
   standalone: true,
   imports: [NgClass],
-  template: `
-    <ul
-      class="list"
-      [ngClass]="{
-        'list-divided': divided,
-        'list-bordered': bordered,
-        'list-compact': compact
-      }"
-    >
-      <ng-content></ng-content>
-    </ul>
-  `,
+  templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {

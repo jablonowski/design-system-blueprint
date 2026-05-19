@@ -11,37 +11,7 @@ export interface NavItem {
   selector: 'dsb-header',
   standalone: true,
   imports: [NgFor, NgIf],
-  template: `
-    <header class="header">
-      <div class="header-inner">
-        <a [href]="logoHref" class="header-logo" [attr.aria-label]="logoAlt">
-          <svg *ngIf="!logoSrc" class="header-logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="28" height="28" rx="6" fill="#111"/>
-            <path d="M8 20V8h5.5a4.5 4.5 0 010 9H8m0 0h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <img *ngIf="logoSrc" [src]="logoSrc" [alt]="logoAlt" class="header-logo-img" />
-          <span *ngIf="brandName" class="header-brand">{{ brandName }}</span>
-        </a>
-
-        <nav *ngIf="navItems && navItems.length" class="header-nav" aria-label="Main navigation">
-          <ul class="header-nav-list">
-            <li *ngFor="let item of navItems">
-              <a
-                [href]="item.href"
-                class="header-nav-link"
-                [class.header-nav-link--active]="item.active"
-                [attr.aria-current]="item.active ? 'page' : null"
-              >{{ item.label }}</a>
-            </li>
-          </ul>
-        </nav>
-
-        <div *ngIf="ctaLabel" class="header-actions">
-          <a [href]="ctaHref" class="header-cta">{{ ctaLabel }}</a>
-        </div>
-      </div>
-    </header>
-  `,
+  templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {

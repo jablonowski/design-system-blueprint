@@ -10,20 +10,20 @@ Extracted from actual component CSS. Use these as the basis for CSS custom prope
 
 | Token | Value | Used for |
 |---|---|---|
-| `--color-text-primary` | `#111` | Body text, labels, headings |
-| `--color-text-body` | `#333` | Modal body text, table cell text |
-| `--color-text-secondary` | `#555` | Ghost button, accordion body, avatar initials |
-| `--color-text-muted` | `#666` | Breadcrumb links, footer links, list description |
-| `--color-text-subtle` | `#888` | Hints, table header, icon chevrons, footer tagline |
-| `--color-text-placeholder` | `#aaa` | Input placeholder, table empty state, list meta, footer copyright |
-| `--color-text-disabled` | `#999` | Disabled input/label text |
-| `--color-text-inverse` | `#fff` | Text on dark/primary backgrounds |
+| `--color-text-primary` | `#111111` | Body text, labels, headings |
+| `--color-text-body` | `#333333` | Modal body text, table cell text |
+| `--color-text-secondary` | `#555555` | Ghost button, accordion body, avatar initials |
+| `--color-text-muted` | `#666666` | Breadcrumb links, footer links, list description |
+| `--color-text-subtle` | `#888888` | Hints, table header, icon chevrons, footer tagline |
+| `--color-text-placeholder` | `#aaaaaa` | Input placeholder, table empty state, list meta, footer copyright |
+| `--color-text-disabled` | `#999999` | Disabled input/label text |
+| `--color-text-inverse` | `#ffffff` | Text on dark/primary backgrounds |
 
 ### Surfaces & Backgrounds
 
 | Token | Value | Used for |
 |---|---|---|
-| `--color-surface` | `#fff` | All control backgrounds (inputs, dropdowns, cards) |
+| `--color-surface` | `#ffffff` | All control backgrounds (inputs, dropdowns, cards) |
 | `--color-surface-subtle` | `#fafafa` | Table header bg, striped rows |
 | `--color-surface-hover` | `#f5f5f5` | Button/nav hover, disabled input bg |
 | `--color-surface-hover-2` | `#f7f7f7` | Table row hover |
@@ -35,7 +35,7 @@ Extracted from actual component CSS. Use these as the basis for CSS custom prope
 | Token | Value | Used for |
 |---|---|---|
 | `--color-border-control` | `#d4d4d4` | Input, checkbox, radio, dropdown borders |
-| `--color-border-control-hover` | `#bbb` | Button secondary border hover |
+| `--color-border-control-hover` | `#bbbbbb` | Button secondary border hover |
 | `--color-border-subtle` | `#ebebeb` | Header/footer borders, table outer border |
 | `--color-border-hairline` | `#f0f0f0` | Table cell dividers, accordion, list dividers, footer bottom |
 | `--color-border-separator` | `#c0c0c0` | Breadcrumbs chevron separator |

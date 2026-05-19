@@ -1,6 +1,6 @@
 {
   "name": "@jablonowski/dsb-tokens",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "license": "MIT",
   "author": "Mateusz Jablonowski",
@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "style-dictionary build --config config.js",
+    "release": "npm run build && npm version patch && npm publish --access public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

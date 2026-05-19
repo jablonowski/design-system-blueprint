@@ -8,11 +8,7 @@ export type TagSize = 'sm' | 'md';
   selector: 'dsb-tag',
   standalone: true,
   imports: [NgClass],
-  template: `
-    <span class="tag" [ngClass]="['tag-' + variant, 'tag-' + size]">
-      <ng-content></ng-content>
-    </span>
-  `,
+  templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.css'],
 })
 export class TagComponent {

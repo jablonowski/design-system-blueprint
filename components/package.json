@@ -6,6 +6,7 @@
   "author": "Mateusz Jablonowski",
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
+    "release": "npm run build && cd dist && npm version patch && npm publish --access public",
     "storybook": "ng run dsbComponents:storybook",
     "build-storybook": "ng run dsbComponents:build-storybook",
     "test": "echo \"Error: no test specified\" && exit 1"

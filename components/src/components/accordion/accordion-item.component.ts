@@ -5,34 +5,7 @@ import { NgClass, NgIf } from '@angular/common';
   selector: 'dsb-accordion-item',
   standalone: true,
   imports: [NgClass, NgIf],
-  template: `
-    <div class="accordion-item" [ngClass]="{ 'accordion-item--open': open, 'accordion-item--disabled': disabled }">
-      <button
-        type="button"
-        class="accordion-trigger"
-        [attr.aria-expanded]="open"
-        [disabled]="disabled"
-        (click)="toggle()"
-      >
-        <span class="accordion-title">{{ title }}</span>
-        <svg
-          class="accordion-chevron"
-          viewBox="0 0 10 6"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <div class="accordion-body" [ngClass]="{ 'accordion-body--open': open }">
-        <div class="accordion-content">
-          <ng-content></ng-content>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './accordion-item.component.html',
   styleUrls: ['./accordion-item.component.css'],
 })
 export class AccordionItemComponent {

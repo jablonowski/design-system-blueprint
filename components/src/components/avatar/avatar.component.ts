@@ -8,17 +8,7 @@ export type AvatarVariant = 'circle' | 'rounded';
   selector: 'dsb-avatar',
   standalone: true,
   imports: [NgClass, NgIf],
-  template: `
-    <span
-      class="avatar"
-      [ngClass]="['avatar-' + size, 'avatar-' + shape, src ? 'avatar-img' : 'avatar-initials']"
-      [attr.aria-label]="alt || name || null"
-      role="img"
-    >
-      <img *ngIf="src" [src]="src" [alt]="alt || name" class="avatar-image" />
-      <span *ngIf="!src" class="avatar-text">{{ initials }}</span>
-    </span>
-  `,
+  templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.css'],
 })
 export class AvatarComponent {

@@ -16,30 +16,7 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'search' | 't
       multi: true,
     },
   ],
-  template: `
-    <div class="field" [ngClass]="{ 'field-error': hasError, 'field-disabled': disabled }">
-      <label *ngIf="label" [attr.for]="inputId" class="label">{{ label }}</label>
-      <div class="input-wrap">
-        <input
-          [id]="inputId"
-          [type]="type"
-          [placeholder]="placeholder"
-          [disabled]="disabled"
-          [attr.aria-describedby]="hasError && errorMessage ? inputId + '-error' : null"
-          [attr.aria-invalid]="hasError || null"
-          class="input"
-          [ngClass]="['input-' + size]"
-          [value]="value"
-          (input)="onInput($event)"
-          (blur)="onTouched()"
-        />
-      </div>
-      <p *ngIf="hasError && errorMessage" [id]="inputId + '-error'" class="error-msg">
-        {{ errorMessage }}
-      </p>
-      <p *ngIf="hint && !hasError" class="hint">{{ hint }}</p>
-    </div>
-  `,
+  templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
 })
 export class InputComponent implements ControlValueAccessor {

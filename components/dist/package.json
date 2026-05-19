@@ -1,6 +1,6 @@
 {
   "name": "@jablonowski/dsb-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Design System Blueprint - Angular UI Components",
   "license": "MIT",
   "author": "Mateusz Jablonowski",
@@ -15,6 +15,7 @@
   "peerDependencies": {
     "@angular/common": ">=19.0.0",
     "@angular/core": ">=19.0.0",
+    "@angular/forms": ">=19.0.0",
     "zone.js": "~0.15.0"
   },
   "module": "fesm2022/jablonowski-dsb-components.mjs",
