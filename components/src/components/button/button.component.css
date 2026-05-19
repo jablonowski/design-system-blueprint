@@ -4,12 +4,16 @@
   justify-content: center;
   gap: 6px;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: var(--ds-decisions-font-weight-medium);
   letter-spacing: 0.01em;
-  border-radius: 6px;
-  border: 1.5px solid transparent;
+  border-radius: var(--ds-component-button-border-radius);
+  border: var(--ds-component-button-border-width) solid transparent;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+  transition:
+    background var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    border-color var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    color var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    opacity var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard);
   white-space: nowrap;
   text-decoration: none;
   outline: none;
@@ -17,103 +21,83 @@
 }
 
 /* Sizes */
-.btn-sm { font-size: 12px; padding: 6px 12px; height: 30px; }
-.btn-md { font-size: 14px; padding: 8px 16px; height: 36px; }
-.btn-lg { font-size: 15px; padding: 10px 20px; height: 44px; }
+.btn-sm { font-size: var(--ds-decisions-font-size-xs); padding: 6px 12px; height: 30px; }
+.btn-md { font-size: var(--ds-decisions-font-size-md); padding: 8px 16px; height: 36px; }
+.btn-lg { font-size: var(--ds-decisions-font-size-lg); padding: 10px 20px; height: 44px; }
 
 .btn-full { width: 100%; }
 
 /* Focus ring */
 .btn:focus-visible {
-  outline: 2px solid #0071e3;
-  outline-offset: 2px;
+  box-shadow: var(--ds-component-button-focus-ring);
 }
 
 /* Disabled */
 .btn:disabled {
-  opacity: 0.42;
+  opacity: var(--ds-component-button-disabled-opacity);
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* Primary */
 .btn-primary {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+  background: var(--ds-component-button-primary-background);
+  color: var(--ds-component-button-primary-text);
+  border-color: var(--ds-component-button-primary-border);
 }
 .btn-primary:hover:not(:disabled) {
-  background: #333;
-  border-color: #333;
+  background: var(--ds-component-button-primary-background-hover);
+  border-color: var(--ds-component-button-primary-background-hover);
 }
 .btn-primary:active:not(:disabled) {
-  background: #000;
-  border-color: #000;
+  background: var(--ds-component-button-primary-background-active);
+  border-color: var(--ds-component-button-primary-background-active);
 }
 
 /* Secondary */
 .btn-secondary {
-  background: #fff;
-  color: #111;
-  border-color: #d4d4d4;
+  background: var(--ds-component-button-secondary-background);
+  color: var(--ds-component-button-secondary-text);
+  border-color: var(--ds-component-button-secondary-border);
 }
 .btn-secondary:hover:not(:disabled) {
-  background: #f5f5f5;
-  border-color: #bbb;
-}
-.btn-secondary:active:not(:disabled) {
-  background: #ebebeb;
+  background: var(--ds-component-button-secondary-background-hover);
+  border-color: var(--ds-component-button-secondary-border-hover);
 }
 
 /* Ghost */
 .btn-ghost {
-  background: transparent;
-  color: #555;
+  background: var(--ds-component-button-ghost-background);
+  color: var(--ds-component-button-ghost-text);
   border-color: transparent;
 }
 .btn-ghost:hover:not(:disabled) {
-  background: #f5f5f5;
-  color: #111;
+  background: var(--ds-component-button-ghost-background-hover);
+  color: var(--ds-component-button-ghost-text-hover);
 }
 
 /* Danger */
 .btn-danger {
-  background: #fff;
-  color: #d93025;
-  border-color: #f0a9a4;
+  background: var(--ds-component-button-danger-background);
+  color: var(--ds-component-button-danger-text);
+  border-color: var(--ds-component-button-danger-border);
 }
 .btn-danger:hover:not(:disabled) {
-  background: #fef2f2;
-  border-color: #d93025;
+  background: var(--ds-component-button-danger-background-hover);
+  border-color: var(--ds-component-button-danger-border-hover);
 }
 
 /* Loading spinner */
 .spinner {
   width: 12px;
   height: 12px;
-  border: 1.5px solid currentColor;
+  border: var(--ds-component-button-border-width) solid currentColor;
   border-top-color: transparent;
-  border-radius: 50%;
+  border-radius: var(--ds-decisions-border-radius-full);
   animation: spin 0.6s linear infinite;
   flex-shrink: 0;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
-}
-
-
-.btn-secondary:hover:not(:disabled) {
-  background: var(--color-surface);
-  border-color: var(--color-text-main);
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
 }

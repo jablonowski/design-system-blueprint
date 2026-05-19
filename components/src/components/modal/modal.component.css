@@ -1,8 +1,8 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.4);
+  z-index: var(--ds-component-modal-z-index);
+  background: var(--ds-component-modal-backdrop);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,9 +10,9 @@
 }
 
 .modal-panel {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  background: var(--ds-component-modal-background);
+  border-radius: var(--ds-component-modal-border-radius);
+  box-shadow: var(--ds-component-modal-shadow);
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 64px);
@@ -42,9 +42,9 @@
 }
 
 .modal-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111;
+  font-size: var(--ds-component-modal-title-font-size);
+  font-weight: var(--ds-component-modal-title-font-weight);
+  color: var(--ds-component-modal-title-text);
   margin: 0;
   line-height: 1.4;
 }
@@ -60,22 +60,24 @@
   height: 28px;
   border: none;
   background: transparent;
-  color: #888;
+  color: var(--ds-component-modal-close-button-text);
   cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.12s ease, color 0.12s ease;
+  border-radius: var(--ds-component-modal-close-button-border-radius);
+  transition:
+    background var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    color var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard);
   padding: 0;
   margin-top: -2px;
 }
 
 .modal-close:hover {
-  background: #f0f0f0;
-  color: #111;
+  background: var(--ds-component-modal-close-button-background-hover);
+  color: var(--ds-component-modal-close-button-text-hover);
 }
 
 .modal-close:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: var(--ds-decisions-shadow-focus);
 }
 
 /* Body */
@@ -83,8 +85,8 @@
   padding: 16px 20px;
   overflow-y: auto;
   flex: 1;
-  font-size: 14px;
-  color: #333;
+  font-size: var(--ds-component-modal-body-font-size);
+  color: var(--ds-component-modal-body-text);
   line-height: 1.6;
 }
 

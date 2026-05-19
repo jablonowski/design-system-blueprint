@@ -2,6 +2,15 @@ node_modules/
 design-tokens/package-lock.json
 design-tokens/node_modules/
 design-tokens/dist/
-components/.angular/cache/
+components/.angular/
 components/dist/
 components/node_modules/
+components/storybook-static/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

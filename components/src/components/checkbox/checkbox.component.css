@@ -19,38 +19,40 @@
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  border-radius: 4px;
-  border: 1.5px solid #d4d4d4;
-  background: #fff;
+  border-radius: var(--ds-component-checkbox-border-radius);
+  border: var(--ds-component-checkbox-border-width) solid var(--ds-component-checkbox-border);
+  background: var(--ds-decisions-color-surface-base);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+  transition:
+    border-color var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    background var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
+    box-shadow var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard);
   margin-top: 1px;
 }
 
 .checkbox-root:hover:not(.checkbox-disabled) .checkbox-box {
-  border-color: #111;
+  border-color: var(--ds-component-checkbox-border-hover);
 }
 
 .checkbox-root:focus-within .checkbox-box {
-  outline: 2px solid #111;
-  outline-offset: 2px;
+  box-shadow: var(--ds-component-checkbox-focus-ring);
 }
 
 .checkbox-box--checked {
-  background: #111;
-  border-color: #111;
-  color: #fff;
+  background: var(--ds-component-checkbox-checked-background);
+  border-color: var(--ds-component-checkbox-checked-border);
+  color: var(--ds-component-checkbox-checked-text);
 }
 
 .checkbox-box--error {
-  border-color: #d93025;
+  border-color: var(--ds-component-checkbox-error-border);
 }
 
 .checkbox-box--checked.checkbox-box--error {
-  background: #d93025;
-  border-color: #d93025;
+  background: var(--ds-component-checkbox-error-checked-background);
+  border-color: var(--ds-component-checkbox-error-border);
 }
 
 .checkbox-icon {
@@ -59,26 +61,26 @@
 }
 
 .checkbox-label {
-  font-size: 14px;
-  color: #111;
+  font-size: var(--ds-decisions-font-size-md);
+  color: var(--ds-decisions-color-text-primary);
   line-height: 1.5;
 }
 
 .checkbox-disabled {
   cursor: not-allowed;
-  opacity: 0.42;
+  opacity: var(--ds-decisions-opacity-disabled);
 }
 
 .checkbox-error {
-  font-size: 12px;
-  color: #d93025;
+  font-size: var(--ds-decisions-font-size-xs);
+  color: var(--ds-decisions-color-feedback-error-text);
   margin: 5px 0 0 25px;
   line-height: 1.4;
 }
 
 .checkbox-hint {
-  font-size: 12px;
-  color: #888;
+  font-size: var(--ds-decisions-font-size-xs);
+  color: var(--ds-decisions-color-text-subtle);
   margin: 5px 0 0 25px;
   line-height: 1.4;
 }

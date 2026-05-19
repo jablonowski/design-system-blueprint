@@ -5,13 +5,13 @@
 }
 
 .list-bordered {
-  border: 1.5px solid #ebebeb;
-  border-radius: 8px;
+  border: var(--ds-decisions-border-width-control) solid var(--ds-component-list-border);
+  border-radius: var(--ds-component-list-border-radius);
   overflow: hidden;
 }
 
 .list-divided .list-item + .list-item {
-  border-top: 1px solid #f0f0f0;
+  border-top: var(--ds-decisions-border-width-hairline) solid var(--ds-component-list-divider);
 }
 
 .list-compact .list-item {

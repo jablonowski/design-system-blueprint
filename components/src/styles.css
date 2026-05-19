@@ -1,29 +1,5 @@
-:root {
-  /* Color Palette */
-  --color-bg: #ffffff;
-  --color-surface: #f8f9fa;
-  --color-border: #e9ecef;
-  --color-text-main: #212529;
-  --color-text-muted: #6c757d;
-  
-  /* Brand / Primary */
-  --color-primary: #000000;
-  --color-primary-hover: #212529;
-  --color-primary-contrast: #ffffff;
-
-  /* Semantic */
-  --color-error-bg: #fff5f5;
-  --color-error-border: #ffc9c9;
-  --color-error-text: #fa5252;
-
-  /* Typography & Layout */
-  --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --radius-sm: 4px;
-  --transition-fast: 0.15s ease-in-out;
-}
-
 body {
-  font-family: var(--font-main);
-  color: var(--color-text-main);
-  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ds-decisions-color-text-primary);
+  background-color: var(--ds-decisions-color-surface-base);
 }

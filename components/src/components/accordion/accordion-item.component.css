@@ -1,9 +1,9 @@
 .accordion-item {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: var(--ds-decisions-border-width-hairline) solid var(--ds-component-accordion-border);
 }
 
 .accordion-item:first-child {
-  border-top: 1px solid #f0f0f0;
+  border-top: var(--ds-decisions-border-width-hairline) solid var(--ds-component-accordion-border);
 }
 
 /* Trigger */
@@ -22,21 +22,21 @@
 }
 
 .accordion-trigger:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
-  border-radius: 3px;
+  outline: none;
+  box-shadow: var(--ds-component-accordion-focus-ring);
+  border-radius: var(--ds-decisions-border-radius-xs);
 }
 
 .accordion-item--disabled .accordion-trigger {
-  opacity: 0.42;
+  opacity: var(--ds-component-accordion-disabled-opacity);
   cursor: not-allowed;
 }
 
 /* Title */
 .accordion-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111;
+  font-size: var(--ds-component-accordion-title-font-size);
+  font-weight: var(--ds-component-accordion-title-font-weight);
+  color: var(--ds-component-accordion-title-text);
   line-height: 1.5;
 }
 
@@ -45,8 +45,8 @@
   flex-shrink: 0;
   width: 10px;
   height: 6px;
-  color: #888;
-  transition: transform 0.2s ease;
+  color: var(--ds-component-accordion-chevron-color);
+  transition: transform var(--ds-component-accordion-chevron-duration) var(--ds-decisions-motion-easing-standard);
 }
 
 .accordion-item--open .accordion-chevron {
@@ -57,7 +57,7 @@
 .accordion-body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.2s ease;
+  transition: grid-template-rows var(--ds-component-accordion-chevron-duration) var(--ds-decisions-motion-easing-standard);
 }
 
 .accordion-body--open {
@@ -66,8 +66,8 @@
 
 .accordion-content {
   overflow: hidden;
-  font-size: 14px;
-  color: #555;
+  font-size: var(--ds-component-accordion-body-font-size);
+  color: var(--ds-component-accordion-body-text);
   line-height: 1.6;
 }
 

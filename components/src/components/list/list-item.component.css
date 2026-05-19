@@ -10,14 +10,14 @@
   flex-shrink: 0;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--ds-decisions-border-radius-full);
 }
 
-.dot--default { background: #d4d4d4; }
-.dot--info    { background: #1a56db; }
-.dot--success { background: #1a7f3c; }
-.dot--warning { background: #92600a; }
-.dot--error   { background: #c5221f; }
+.dot--default { background: var(--ds-component-list-indicator-default); }
+.dot--info    { background: var(--ds-component-list-indicator-info); }
+.dot--success { background: var(--ds-component-list-indicator-success); }
+.dot--warning { background: var(--ds-component-list-indicator-warning); }
+.dot--error   { background: var(--ds-component-list-indicator-error); }
 
 /* Leading slot */
 .list-item-leading {
@@ -45,9 +45,9 @@
 }
 
 .list-item-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111;
+  font-size: var(--ds-decisions-font-size-md);
+  font-weight: var(--ds-decisions-font-weight-medium);
+  color: var(--ds-component-list-item-text);
   line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
@@ -55,22 +55,22 @@
 }
 
 /* Variant label colors */
-.list-item--info    .list-item-label { color: #1a56db; }
-.list-item--success .list-item-label { color: #1a7f3c; }
-.list-item--warning .list-item-label { color: #92600a; }
-.list-item--error   .list-item-label { color: #c5221f; }
+.list-item--info    .list-item-label { color: var(--ds-component-list-indicator-info); }
+.list-item--success .list-item-label { color: var(--ds-component-list-indicator-success); }
+.list-item--warning .list-item-label { color: var(--ds-component-list-indicator-warning); }
+.list-item--error   .list-item-label { color: var(--ds-component-list-indicator-error); }
 
 .list-item-meta {
   flex-shrink: 0;
-  font-size: 11px;
-  color: #aaa;
+  font-size: var(--ds-decisions-font-size-2xs);
+  color: var(--ds-component-list-item-meta);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
 .list-item-description {
-  font-size: 13px;
-  color: #666;
+  font-size: var(--ds-decisions-font-size-sm);
+  color: var(--ds-component-list-item-description);
   margin: 0;
   line-height: 1.5;
 }

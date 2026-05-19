@@ -4,17 +4,17 @@
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  background: #e8e8e8;
+  background: var(--ds-component-avatar-background);
   font-family: inherit;
-  font-weight: 600;
+  font-weight: var(--ds-decisions-font-weight-semibold);
   letter-spacing: 0.02em;
-  color: #555;
+  color: var(--ds-component-avatar-text);
   user-select: none;
 }
 
 /* Shapes */
-.avatar-circle  { border-radius: 50%; }
-.avatar-rounded { border-radius: 6px; }
+.avatar-circle  { border-radius: var(--ds-component-avatar-border-radius-circle); }
+.avatar-rounded { border-radius: var(--ds-component-avatar-border-radius-rounded); }
 
 /* Sizes */
 .avatar-xs { width: 24px;  height: 24px;  font-size: 9px; }
