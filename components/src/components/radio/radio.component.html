@@ -1,0 +1,32 @@
+<fieldset class="radio-group" [ngClass]="{ 'radio-group-inline': inline }">
+  <legend *ngIf="legend" class="radio-legend">{{ legend }}</legend>
+  <div
+    *ngFor="let option of options"
+    class="radio-item"
+    [ngClass]="{ 'radio-item--disabled': option.disabled || disabled }"
+  >
+    <label class="radio-root">
+      <span
+        class="radio-circle"
+        [ngClass]="{ 'radio-circle--checked': value === option.value, 'radio-circle--error': hasError }"
+      >
+        <span *ngIf="value === option.value" class="radio-dot"></span>
+      </span>
+      <input
+        class="radio-input"
+        type="radio"
+        [name]="groupName"
+        [value]="option.value"
+        [checked]="value === option.value"
+        [disabled]="option.disabled || disabled"
+        (change)="onSelect(option.value)"
+        (blur)="onTouched()"
+      />
+      <span class="radio-label-wrap">
+        <span class="radio-label">{{ option.label }}</span>
+        <span *ngIf="option.hint" class="radio-hint">{{ option.hint }}</span>
+      </span>
+    </label>
+  </div>
+  <p *ngIf="hasError && errorMessage" class="radio-error">{{ errorMessage }}</p>
+</fieldset>

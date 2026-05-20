@@ -1,0 +1,51 @@
+<div class="table-wrap">
+  <table class="table" [ngClass]="{ 'table-striped': striped, 'table-hoverable': hoverable }">
+    <thead class="table-head">
+      <tr>
+        <th
+          *ngFor="let col of columns"
+          class="table-th"
+          [style.width]="col.width || null"
+          [ngClass]="'align-' + col.align"
+        >
+          <ng-container *ngIf="col.headerTemplate; else defaultHeader">
+            <ng-container [ngTemplateOutlet]="col.headerTemplate"></ng-container>
+          </ng-container>
+          <ng-template #defaultHeader>{{ col.header }}</ng-template>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td [attr.colspan]="columns.length" class="table-td table-td-state">
+          <span class="table-spinner" aria-hidden="true"></span>
+          <span class="sr-only">Loading…</span>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && rows.length === 0">
+        <td [attr.colspan]="columns.length" class="table-td table-td-state">
+          {{ emptyMessage }}
+        </td>
+      </tr>
+      <tr
+        *ngFor="let row of rows; let i = index"
+        class="table-row"
+        [ngClass]="{ 'table-row-clickable': rowClickable }"
+        (click)="rowClick.emit(row)"
+      >
+        <td
+          *ngFor="let col of columns"
+          class="table-td"
+          [ngClass]="'align-' + col.align"
+        >
+          <ng-container
+            *ngIf="col.cellTemplate; else defaultCell"
+            [ngTemplateOutlet]="col.cellTemplate"
+            [ngTemplateOutletContext]="{ $implicit: row[col.key], row: row, index: i }"
+          ></ng-container>
+          <ng-template #defaultCell>{{ row[col.key] }}</ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
