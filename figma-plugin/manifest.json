@@ -1,0 +1,7 @@
+{
+  "name": "DSB — Create Design System",
+  "id": "dsb-create-design-system-blueprint",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"]
+}
