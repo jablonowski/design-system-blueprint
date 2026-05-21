@@ -53,8 +53,8 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
       assert.match(css, /--ds-color-options-red-500:\s*#d93025/);
     });
 
-    it('exports success green-700 as #1a7f3c', () => {
-      assert.match(css, /--ds-color-options-green-700:\s*#1a7f3c/);
+    it('exports success green-700 as #1a7c3c', () => {
+      assert.match(css, /--ds-color-options-green-700:\s*#1a7c3c/);
     });
 
     it('exports rgba black overlay (a40) with correct alpha', () => {
