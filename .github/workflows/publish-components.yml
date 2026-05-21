@@ -41,6 +41,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
       - run: npm ci
+      - name: Update tokens to latest published
+        run: npm install @jablonowski/dsb-tokens@latest
       - run: npm run build-storybook
       - uses: actions/upload-artifact@v4
         with:
@@ -158,6 +160,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
       - run: npm ci
-      - run: npm run release
+      - name: Update tokens to latest published
+        run: npm install @jablonowski/dsb-tokens@latest
+      - name: Build library
+        run: npm run build
+      - name: Bump version from npm registry
+        working-directory: components/dist
+        run: |
+          PUBLISHED=$(npm view @jablonowski/dsb-components version 2>/dev/null || echo "0.0.0")
+          NEXT=$(node -p "const v='${PUBLISHED}'.split('.');v[2]=String(+v[2]+1);v.join('.')")
+          npm version ${NEXT} --no-git-tag-version
+      - name: Publish to npm
+        working-directory: components/dist
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
