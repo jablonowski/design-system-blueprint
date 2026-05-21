@@ -10,6 +10,7 @@ export interface CellContext {
 export class ColumnDefDirective {
   @Input({ required: true }) key!: string;
   @Input() header = '';
+  @Input() headerAriaLabel = '';
   @Input() width = '';
   @Input() align: 'left' | 'center' | 'right' = 'left';
 

@@ -5,6 +5,7 @@
     role="dialog"
     [attr.aria-modal]="true"
     [attr.aria-labelledby]="title ? 'modal-title' : null"
+    [attr.aria-label]="!title ? (ariaLabel || 'Dialog') : null"
   >
     <div class="modal-header">
       <h2 *ngIf="title" id="modal-title" class="modal-title">{{ title }}</h2>

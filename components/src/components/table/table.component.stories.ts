@@ -41,7 +41,7 @@ export const UsersTable: Story = {
               <dsb-avatar [name]="name" size="sm"></dsb-avatar>
               <div>
                 <div style="font-weight:500;color:#111;">{{ name }}</div>
-                <div style="font-size:12px;color:#888;margin-top:1px;">{{ row['email'] }}</div>
+                <div style="font-size:12px;color:var(--ds-decisions-color-text-subtle);margin-top:1px;">{{ row['email'] }}</div>
               </div>
             </div>
           </ng-template>
@@ -57,6 +57,7 @@ export const UsersTable: Story = {
         </dsb-column>
         <dsb-column key="joined" header="Joined"></dsb-column>
         <dsb-column key="actions" header="" align="right">
+          <ng-template #headerCell><span class="sr-only">Actions</span></ng-template>
           <ng-template #cell>
             <div style="display:flex;gap:6px;justify-content:flex-end;">
               <dsb-button variant="ghost" size="sm">Edit</dsb-button>

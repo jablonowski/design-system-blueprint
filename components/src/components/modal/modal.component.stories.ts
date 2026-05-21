@@ -45,17 +45,17 @@ export const Large: Story = {
           <p style="margin:0;color:#666;">Update your profile information below.</p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
-              <label style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">First name</label>
-              <input style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="Jane" />
+              <label for="modal-fn" style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">First name</label>
+              <input id="modal-fn" style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="Jane" />
             </div>
             <div>
-              <label style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">Last name</label>
-              <input style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="Doe" />
+              <label for="modal-ln" style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">Last name</label>
+              <input id="modal-ln" style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="Doe" />
             </div>
           </div>
           <div>
-            <label style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">Email</label>
-            <input style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="jane@example.com" />
+            <label for="modal-email" style="font-size:13px;font-weight:500;display:block;margin-bottom:5px;">Email</label>
+            <input id="modal-email" style="width:100%;height:40px;border:1.5px solid #d4d4d4;border-radius:6px;padding:0 12px;font-size:14px;box-sizing:border-box;" value="jane@example.com" />
           </div>
         </div>
         <div modal-footer>
@@ -82,7 +82,7 @@ export const Small: Story = {
 };
 
 export const NoTitle: Story = {
-  args: { open: true, size: 'md' },
+  args: { open: true, size: 'md', ariaLabel: 'Payment successful' },
   render: (args) => ({
     props: args,
     moduleMetadata: { imports: [ModalComponent, ButtonComponent] },

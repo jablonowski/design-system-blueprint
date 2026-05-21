@@ -50,7 +50,7 @@ export const Exclusive: Story = {
     moduleMetadata: { imports: [AccordionComponent, AccordionItemComponent] },
     template: `
       <div style="max-width:600px;padding:8px;">
-        <p style="font-size:13px;color:#888;margin:0 0 16px;">Only one section can be open at a time.</p>
+        <p style="font-size:13px;color:#767676;margin:0 0 16px;">Only one section can be open at a time.</p>
         <dsb-accordion [exclusive]="true">
           <dsb-accordion-item title="Account settings" [open]="true">
             Manage your account details, change your password, and configure two-factor

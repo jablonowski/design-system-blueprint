@@ -7,6 +7,8 @@
           class="table-th"
           [style.width]="col.width || null"
           [ngClass]="'align-' + col.align"
+          [attr.aria-label]="col.headerAriaLabel || null"
+          scope="col"
         >
           <ng-container *ngIf="col.headerTemplate; else defaultHeader">
             <ng-container [ngTemplateOutlet]="col.headerTemplate"></ng-container>

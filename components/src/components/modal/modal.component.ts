@@ -21,6 +21,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 export class ModalComponent implements OnChanges {
   @Input() open = false;
   @Input() title = '';
+  @Input() ariaLabel = '';
   @Input() size: ModalSize = 'md';
   @Input() closeOnBackdrop = true;
 
