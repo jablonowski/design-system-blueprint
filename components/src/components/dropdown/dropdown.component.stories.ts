@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { DropdownComponent } from './dropdown.component';
 
 const countries = [
@@ -68,4 +69,34 @@ export const Sizes: Story = {
       </div>`,
     props: { opts: countries },
   }),
+};
+
+/** Interaction test — open dropdown, select an option, verify selection */
+export const Interactive: Story = {
+  args: { options: countries, label: 'Country', placeholder: 'Select a country' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button');
+
+    // Dropdown starts closed
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    // Open the dropdown
+    await userEvent.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+    // All 5 country options are visible
+    const options = canvas.getAllByRole('option');
+    expect(options).toHaveLength(countries.length);
+
+    // Select Germany
+    const germany = canvas.getByRole('option', { name: 'Germany' });
+    await userEvent.click(germany);
+
+    // Dropdown closes after selection
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    // Trigger label reflects the selected value
+    expect(trigger).toHaveTextContent('Germany');
+  },
 };

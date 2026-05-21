@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { AccordionComponent } from './accordion.component';
 import { AccordionItemComponent } from './accordion-item.component';
 import { TagComponent } from '../tag/tag.component';
@@ -126,4 +127,39 @@ export const WithDisabled: Story = {
         </dsb-accordion>
       </div>`,
   }),
+};
+
+/** Interaction test — expand and collapse accordion items */
+export const Interactive: Story = {
+  render: () => ({
+    moduleMetadata: { imports: [AccordionComponent, AccordionItemComponent] },
+    template: `
+      <div style="max-width:600px;padding:8px;">
+        <dsb-accordion>
+          <dsb-accordion-item title="First item">Content of the first item.</dsb-accordion-item>
+          <dsb-accordion-item title="Second item">Content of the second item.</dsb-accordion-item>
+          <dsb-accordion-item title="Third item">Content of the third item.</dsb-accordion-item>
+        </dsb-accordion>
+      </div>`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [first, second] = canvas.getAllByRole('button');
+
+    // All items start collapsed
+    expect(first).toHaveAttribute('aria-expanded', 'false');
+    expect(second).toHaveAttribute('aria-expanded', 'false');
+
+    // Expand first item
+    await userEvent.click(first);
+    expect(first).toHaveAttribute('aria-expanded', 'true');
+
+    // Expand second item (both can be open — non-exclusive mode)
+    await userEvent.click(second);
+    expect(second).toHaveAttribute('aria-expanded', 'true');
+
+    // Collapse first item by clicking again
+    await userEvent.click(first);
+    expect(first).toHaveAttribute('aria-expanded', 'false');
+  },
 };

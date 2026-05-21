@@ -22,61 +22,121 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: components/package.json
-      - run: npm install
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
       - name: Run unit tests
         run: echo "TODO — unit tests not yet implemented" && exit 0
 
+  # ── Build Storybook (shared artifact) ────────────────────────────────────
+  # Built once and reused by accessibility, interactions, and visual-regression jobs.
+  build-storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+      - run: npm run build-storybook
+      - uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: components/storybook-static/
+          retention-days: 1
+
   # ── Accessibility Tests ───────────────────────────────────────────────────
-  # TODO: implement axe-core / storybook-addon-a11y checks
+  # Uses @storybook/test-runner + axe-playwright to run axe against every story.
+  # Per-story opt-out: set  parameters: { a11y: { disable: true } }  in the story.
   accessibility-tests:
     name: Accessibility Tests
     runs-on: ubuntu-latest
-    needs: unit-tests
+    needs: build-storybook
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: components/package.json
-      - run: npm install
-      - name: Run accessibility tests
-        run: echo "TODO — accessibility tests not yet implemented" && exit 0
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: components/storybook-static/
+      - name: Serve Storybook
+        run: npx http-server storybook-static -p 6006 --silent &
+      - name: Wait for Storybook to be ready
+        run: npx wait-on http://localhost:6006 --timeout 30000
+      - name: Run accessibility tests (axe)
+        run: npm run test:a11y
 
   # ── Visual Regression ─────────────────────────────────────────────────────
-  # TODO: implement Storybook + Chromatic / Percy / Playwright visual diffing
+  # Uses Lost Pixel to take screenshots of every story and diff against baselines
+  # stored in .lostpixel/baseline/ (committed to the repo).
+  #
+  # FIRST RUN: generate baselines locally with  npm run test:visual:update
+  # then commit the .lostpixel/baseline/ directory.
   visual-regression:
     name: Visual Regression
     runs-on: ubuntu-latest
-    needs: unit-tests
+    needs: build-storybook
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: components/package.json
-      - run: npm install
-      - name: Run visual regression tests
-        run: echo "TODO — visual regression not yet implemented" && exit 0
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: components/storybook-static/
+      - name: Install Lost Pixel's Playwright browser
+        run: node node_modules/lost-pixel/node_modules/playwright-core/cli.js install chromium
+      - name: Run visual regression (Lost Pixel)
+        run: npm run test:visual
+      - name: Upload diff images on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lostpixel-diff
+          path: components/.lostpixel/difference/
+          retention-days: 7
 
   # ── UI Functionalities ────────────────────────────────────────────────────
-  # TODO: implement Storybook interaction tests / Playwright e2e for components
+  # Uses @storybook/test-runner to execute play() functions defined in stories.
+  # Play functions are the interaction tests for organisms: Accordion, Dropdown, Modal, Button.
   ui-functionalities:
     name: UI Functionalities
     runs-on: ubuntu-latest
-    needs: unit-tests
+    needs: build-storybook
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: components/package.json
-      - run: npm install
-      - name: Run UI functionality tests
-        run: echo "TODO — UI functionality tests not yet implemented" && exit 0
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: components/storybook-static/
+      - name: Serve Storybook
+        run: npx http-server storybook-static -p 6006 --silent &
+      - name: Wait for Storybook to be ready
+        run: npx wait-on http://localhost:6006 --timeout 30000
+      - name: Run interaction tests (play functions)
+        run: npm run test:interactions
 
   # ── Release: publish @jablonowski/dsb-components to npm ──────────────────
   release:
@@ -96,8 +156,8 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
-          cache-dependency-path: components/package.json
-      - run: npm install
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
       - run: npm run release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -9,7 +9,11 @@
     "release": "npm run build && cd dist && npm version patch && npm publish --access public",
     "storybook": "ng run dsbComponents:storybook",
     "build-storybook": "ng run dsbComponents:build-storybook",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:a11y": "test-storybook --ci --url http://localhost:6006",
+    "test:interactions": "TEST_A11Y=false test-storybook --ci --url http://localhost:6006",
+    "test:visual": "lost-pixel",
+    "test:visual:update": "LP_UPDATE=true lost-pixel",
+    "test": "echo \"Run test:a11y, test:interactions or test:visual individually\""
   },
   "repository": {
     "type": "git",
@@ -36,11 +40,18 @@
     "@angular/platform-browser": "^19.2.20",
     "@angular/platform-browser-dynamic": "^19.2.20",
     "@jablonowski/dsb-tokens": "^1.0.2",
+    "@storybook/addon-a11y": "^8.6.18",
     "@storybook/addon-essentials": "^8.6.18",
     "@storybook/angular": "^8.6.18",
+    "@storybook/test": "^8.6.18",
+    "@storybook/test-runner": "^0.22.0",
+    "axe-playwright": "^2.0.3",
+    "http-server": "^14.1.1",
+    "lost-pixel": "^3.18.2",
     "ng-packagr": "^19.0.0",
     "storybook": "^8.6.18",
     "typescript": "~5.5.0",
+    "wait-on": "^8.0.3",
     "zone.js": "~0.15.0"
   }
 }

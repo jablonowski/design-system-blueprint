@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { ModalComponent } from './modal.component';
 import { ButtonComponent } from '../button/button.component';
 
@@ -99,4 +100,38 @@ export const NoTitle: Story = {
         </div>
       </dsb-modal>`,
   }),
+};
+
+/** Interaction test — verify dialog is accessible and close button is functional */
+export const Interactive: Story = {
+  args: { open: true, title: 'Delete item', size: 'md' },
+  render: (args) => ({
+    props: args,
+    moduleMetadata: { imports: [ModalComponent, ButtonComponent] },
+    template: `
+      <dsb-modal [open]="open" [title]="title" [size]="size">
+        <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+        <div modal-footer>
+          <dsb-button variant="secondary">Cancel</dsb-button>
+          <dsb-button variant="danger">Delete</dsb-button>
+        </div>
+      </dsb-modal>`,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Dialog is in the DOM and labelled correctly
+    const dialog = canvas.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+    expect(canvas.getByText('Delete item')).toBeInTheDocument();
+
+    // Both action buttons are reachable
+    expect(canvas.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+    expect(canvas.getByRole('button', { name: /delete/i })).toBeInTheDocument();
+
+    // Close button is accessible and clickable
+    const closeBtn = canvas.getByRole('button', { name: /close modal/i });
+    expect(closeBtn).toBeInTheDocument();
+    await userEvent.click(closeBtn);
+  },
 };

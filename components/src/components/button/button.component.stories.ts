@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { ButtonComponent } from './button.component';
 
 const meta: Meta<ButtonComponent> = {
@@ -29,6 +30,14 @@ export const Primary: Story = {
     props: args,
     template: `<dsb-button [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading">Save changes</dsb-button>`,
   }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: /save changes/i });
+    expect(button).not.toBeDisabled();
+    await userEvent.click(button);
+    // Button should remain visible and not throw after click
+    expect(button).toBeInTheDocument();
+  },
 };
 
 export const Secondary: Story = {
