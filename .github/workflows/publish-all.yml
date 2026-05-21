@@ -1,0 +1,19 @@
+name: Publish All
+
+# Full release: tokens first, then components.
+# Components release only starts after tokens release succeeds.
+on:
+  workflow_dispatch:
+
+jobs:
+
+  publish-tokens:
+    name: Publish Tokens
+    uses: ./.github/workflows/publish-tokens.yml
+    secrets: inherit
+
+  publish-components:
+    name: Publish Components
+    uses: ./.github/workflows/publish-components.yml
+    needs: publish-tokens
+    secrets: inherit

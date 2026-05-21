@@ -1,0 +1,101 @@
+name: Publish Tokens
+
+# Triggered manually or called from publish-all.yml
+on:
+  workflow_dispatch:
+  workflow_call:
+
+defaults:
+  run:
+    working-directory: design-tokens
+
+jobs:
+
+  # ── Layer 1: JSON syntax ──────────────────────────────────────────────────
+  validate-json:
+    name: Validate tokens.json (syntax)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package.json
+      - run: npm install
+      - run: npm run lint:json
+
+  # ── Layer 2: Token schema ─────────────────────────────────────────────────
+  validate-schema:
+    name: Validate tokens.json (schema)
+    runs-on: ubuntu-latest
+    needs: validate-json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package.json
+      - run: npm install
+      - run: npm run lint:schema
+
+  # ── Build: Style Dictionary ───────────────────────────────────────────────
+  build:
+    name: Build (Style Dictionary)
+    runs-on: ubuntu-latest
+    needs: validate-schema
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package.json
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tokens-dist
+          path: design-tokens/dist/
+          retention-days: 1
+
+  # ── Layer 3: CSS output assertions ───────────────────────────────────────
+  test:
+    name: Test CSS output
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package.json
+      - run: npm install
+      - uses: actions/download-artifact@v4
+        with:
+          name: tokens-dist
+          path: design-tokens/dist/
+      - run: npm test
+
+  # ── Release: publish @jablonowski/dsb-tokens to npm ──────────────────────
+  release:
+    name: Release — publish to npm
+    runs-on: ubuntu-latest
+    needs: test
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package.json
+      - run: npm install
+      - run: npm run release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
