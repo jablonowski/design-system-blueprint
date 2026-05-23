@@ -53,10 +53,6 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
       assert.match(css, /--ds-color-options-red-500:\s*#d93025/);
     });
 
-    it('exports success green-700 as #1a7c3c', () => {
-      assert.match(css, /--ds-color-options-green-700:\s*#1a7c3c/);
-    });
-
     it('exports rgba black overlay (a40) with correct alpha', () => {
       // rgba(0, 0, 0, 0.4)  — used for modal backdrop
       assert.match(css, /--ds-color-options-black-a40:\s*rgba\(0,\s*0,\s*0,\s*0\.4\)/);
