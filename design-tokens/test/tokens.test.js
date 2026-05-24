@@ -41,8 +41,8 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
   // ─── Tier 1 — Options: raw values ─────────────────────────────────────────
 
   describe('Tier 1 — Options: raw values', () => {
-    it('exports neutral-900 as #6D28D9 (darkest neutral)', () => {
-      assert.match(css, /--ds-color-options-neutral-900:\s*#6D28D9/);
+    it('exports neutral-900 as #111111 (darkest neutral)', () => {
+      assert.match(css, /--ds-color-options-neutral-900:\s*#111111/);
     });
 
     it('exports neutral-0 as #ffffff (white)', () => {
