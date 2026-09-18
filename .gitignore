@@ -6,6 +6,7 @@ components/.angular/
 components/dist/
 components/node_modules/
 components/storybook-static/
+llms.txt
 
 # OS
 .DS_Store

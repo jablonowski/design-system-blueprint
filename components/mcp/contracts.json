@@ -1,0 +1,1555 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-17T19:34:15.065Z",
+  "source": {
+    "storybookIndex": "storybook-static/index.json",
+    "metadata": "src/storybook/mcp.ts"
+  },
+  "components": [
+    {
+      "key": "accordion",
+      "title": "Components/Accordion",
+      "selector": "dsb-accordion",
+      "name": "AccordionComponent",
+      "description": "Expandable container for multiple accordion items.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "exclusive": {
+          "description": "When true, only one item can remain expanded at a time.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-accordion--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--exclusive",
+          "name": "Exclusive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--with-rich-content",
+          "name": "With Rich Content",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--with-disabled",
+          "name": "With Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--interactive",
+          "name": "Interactive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "avatar",
+      "title": "Components/Avatar",
+      "selector": "dsb-avatar",
+      "name": "AvatarComponent",
+      "description": "User avatar with image fallback to initials.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "src": {
+          "description": "Image URL. If empty or failing to load, initials are rendered.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "alt": {
+          "description": "Alternative text for the avatar image.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "name": {
+          "description": "Full name used to generate initials fallback.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "size": {
+          "description": "Visual size variant.",
+          "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ]
+        },
+        "shape": {
+          "description": "Avatar shape variant.",
+          "type": "'circle' | 'rounded'",
+          "defaultValue": "'circle'",
+          "control": "select",
+          "options": [
+            "circle",
+            "rounded"
+          ]
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-avatar--initials",
+          "name": "Initials",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        },
+        {
+          "id": "components-avatar--with-image",
+          "name": "With Image",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        },
+        {
+          "id": "components-avatar--rounded",
+          "name": "Rounded",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        },
+        {
+          "id": "components-avatar--single-name",
+          "name": "Single Name",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        },
+        {
+          "id": "components-avatar--sizes",
+          "name": "Sizes",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        },
+        {
+          "id": "components-avatar--group",
+          "name": "Group",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/avatar/avatar.component.stories.ts",
+          "componentPath": "./src/components/avatar/avatar.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "breadcrumbs",
+      "title": "Components/Breadcrumbs",
+      "selector": "dsb-breadcrumbs",
+      "name": "BreadcrumbsComponent",
+      "description": "Navigation trail representing current location hierarchy.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "items": {
+          "description": "Ordered breadcrumb items. Last item is rendered as current page.",
+          "type": "BreadcrumbItem[]",
+          "defaultValue": "[]"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-breadcrumbs--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
+          "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
+        },
+        {
+          "id": "components-breadcrumbs--short",
+          "name": "Short",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
+          "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
+        },
+        {
+          "id": "components-breadcrumbs--deep",
+          "name": "Deep",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
+          "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
+        },
+        {
+          "id": "components-breadcrumbs--root-only",
+          "name": "Root Only",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
+          "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "button",
+      "title": "Components/Button",
+      "selector": "dsb-button",
+      "name": "ButtonComponent",
+      "description": "Action trigger button with variants and loading state.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "variant": {
+          "description": "Visual style variant.",
+          "type": "'primary' | 'secondary' | 'ghost' | 'danger'",
+          "defaultValue": "'primary'",
+          "control": "select",
+          "options": [
+            "primary",
+            "secondary",
+            "ghost",
+            "danger"
+          ]
+        },
+        "size": {
+          "description": "Visual size variant.",
+          "type": "'sm' | 'md' | 'lg'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        "disabled": {
+          "description": "Disables interaction and applies disabled styles.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "loading": {
+          "description": "Shows a spinner and blocks interaction while true.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "fullWidth": {
+          "description": "Expands button width to fill its container.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "type": {
+          "description": "Native HTML button type attribute.",
+          "type": "'button' | 'submit' | 'reset'",
+          "defaultValue": "'button'",
+          "control": "select",
+          "options": [
+            "button",
+            "submit",
+            "reset"
+          ]
+        }
+      },
+      "events": {
+        "onClick": {
+          "description": "Emits native click MouseEvent.",
+          "type": "MouseEvent",
+          "deprecated": "Use native (click) binding on the component host element."
+        }
+      },
+      "stories": [
+        {
+          "id": "components-button--primary",
+          "name": "Primary",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--secondary",
+          "name": "Secondary",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--ghost",
+          "name": "Ghost",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--danger",
+          "name": "Danger",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--sizes",
+          "name": "Sizes",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--loading",
+          "name": "Loading",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        },
+        {
+          "id": "components-button--all-variants",
+          "name": "All Variants",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/button/button.component.stories.ts",
+          "componentPath": "./src/components/button/button.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "checkbox",
+      "title": "Components/Checkbox",
+      "selector": "dsb-checkbox",
+      "name": "CheckboxComponent",
+      "description": "Single boolean form control with hint and error state.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "label": {
+          "description": "Visible label next to checkbox control.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "checked": {
+          "description": "Current checked state.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "disabled": {
+          "description": "Disables user interaction.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "hasError": {
+          "description": "Toggles error style and semantics.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "errorMessage": {
+          "description": "Error text displayed below the control when hasError is true.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "hint": {
+          "description": "Helper text rendered below the control when no error is active.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "checkboxId": {
+          "description": "Explicit input id for label association. Auto-generated when omitted.",
+          "type": "string",
+          "control": "text"
+        }
+      },
+      "events": {
+        "checkedChange": {
+          "description": "Emits whenever checked state changes.",
+          "type": "boolean"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-checkbox--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--checked",
+          "name": "Checked",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--with-hint",
+          "name": "With Hint",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--with-error",
+          "name": "With Error",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--disabled",
+          "name": "Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--disabled-checked",
+          "name": "Disabled Checked",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        },
+        {
+          "id": "components-checkbox--group",
+          "name": "Group",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/checkbox/checkbox.component.stories.ts",
+          "componentPath": "./src/components/checkbox/checkbox.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "dropdown",
+      "title": "Components/Dropdown",
+      "selector": "dsb-dropdown",
+      "name": "DropdownComponent",
+      "description": "Single-select dropdown form control.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "options": {
+          "description": "Available dropdown options.",
+          "type": "DropdownOption[]",
+          "defaultValue": "[]"
+        },
+        "label": {
+          "description": "Label shown above the trigger button.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "placeholder": {
+          "description": "Fallback text before a value is selected.",
+          "type": "string",
+          "defaultValue": "'Select an option'",
+          "control": "text"
+        },
+        "size": {
+          "description": "Visual size variant.",
+          "type": "'sm' | 'md' | 'lg'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        "disabled": {
+          "description": "Disables interaction.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "hasError": {
+          "description": "Enables error style and semantics.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "errorMessage": {
+          "description": "Error text rendered below the control.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "hint": {
+          "description": "Helper text shown when no error is active.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "dropdownId": {
+          "description": "Explicit id for trigger/menu relation. Auto-generated when omitted.",
+          "type": "string",
+          "control": "text"
+        }
+      },
+      "events": {
+        "valueChange": {
+          "description": "Emits selected option value after change.",
+          "type": "string"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-dropdown--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--with-value",
+          "name": "With Value",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--with-hint",
+          "name": "With Hint",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--with-error",
+          "name": "With Error",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--disabled",
+          "name": "Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--sizes",
+          "name": "Sizes",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        },
+        {
+          "id": "components-dropdown--interactive",
+          "name": "Interactive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/dropdown/dropdown.component.stories.ts",
+          "componentPath": "./src/components/dropdown/dropdown.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "footer",
+      "title": "Components/Footer",
+      "selector": "dsb-footer",
+      "name": "FooterComponent",
+      "description": "Site footer with brand section, navigation columns and legal links.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "brandName": {
+          "description": "Brand label displayed near the logo.",
+          "type": "string",
+          "defaultValue": "'Design System'",
+          "control": "text"
+        },
+        "logoSrc": {
+          "description": "Optional logo image URL.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "logoHref": {
+          "description": "Navigation target for logo/brand link.",
+          "type": "string",
+          "defaultValue": "'/'",
+          "control": "text"
+        },
+        "tagline": {
+          "description": "Optional short brand/supporting statement.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "columns": {
+          "description": "Footer navigation columns and links.",
+          "type": "FooterColumn[]",
+          "defaultValue": "[]"
+        },
+        "copyright": {
+          "description": "Copyright text shown in the bottom row.",
+          "type": "string",
+          "control": "text"
+        },
+        "legalLinks": {
+          "description": "Bottom legal links rendered inline.",
+          "type": "FooterLink[]",
+          "defaultValue": "[]"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-footer--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/footer/footer.component.stories.ts",
+          "componentPath": "./src/components/footer/footer.component.ts"
+        },
+        {
+          "id": "components-footer--minimal",
+          "name": "Minimal",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/footer/footer.component.stories.ts",
+          "componentPath": "./src/components/footer/footer.component.ts"
+        },
+        {
+          "id": "components-footer--with-tagline",
+          "name": "With Tagline",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/footer/footer.component.stories.ts",
+          "componentPath": "./src/components/footer/footer.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "header",
+      "title": "Components/Header",
+      "selector": "dsb-header",
+      "name": "HeaderComponent",
+      "description": "Top navigation header with brand, nav links and optional CTA.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "brandName": {
+          "description": "Brand text rendered in the left section.",
+          "type": "string",
+          "defaultValue": "'Design System'",
+          "control": "text"
+        },
+        "logoSrc": {
+          "description": "Optional logo image URL.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "logoAlt": {
+          "description": "Alternative text for the logo image.",
+          "type": "string",
+          "defaultValue": "'Logo'",
+          "control": "text"
+        },
+        "logoHref": {
+          "description": "Navigation target for clicking the logo/brand area.",
+          "type": "string",
+          "defaultValue": "'/'",
+          "control": "text"
+        },
+        "navItems": {
+          "description": "Top-level navigation links.",
+          "type": "NavItem[]",
+          "defaultValue": "[]"
+        },
+        "ctaLabel": {
+          "description": "Optional label for right-side call-to-action link.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "ctaHref": {
+          "description": "Href for call-to-action link.",
+          "type": "string",
+          "defaultValue": "'#'",
+          "control": "text"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-header--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/header/header.component.stories.ts",
+          "componentPath": "./src/components/header/header.component.ts"
+        },
+        {
+          "id": "components-header--logo-only",
+          "name": "Logo Only",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/header/header.component.stories.ts",
+          "componentPath": "./src/components/header/header.component.ts"
+        },
+        {
+          "id": "components-header--with-nav-no-action",
+          "name": "With Nav No Action",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/header/header.component.stories.ts",
+          "componentPath": "./src/components/header/header.component.ts"
+        },
+        {
+          "id": "components-header--minimal-brand",
+          "name": "Minimal Brand",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/header/header.component.stories.ts",
+          "componentPath": "./src/components/header/header.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "input",
+      "title": "Components/Input",
+      "selector": "dsb-input",
+      "name": "InputComponent",
+      "description": "Text input control with CVA support, hints and error state.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "label": {
+          "description": "Visible label above the input.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "type": {
+          "description": "Native input type.",
+          "type": "'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url'",
+          "defaultValue": "'text'",
+          "control": "select",
+          "options": [
+            "text",
+            "email",
+            "password",
+            "number",
+            "search",
+            "tel",
+            "url"
+          ]
+        },
+        "placeholder": {
+          "description": "Placeholder value shown when the input is empty.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "size": {
+          "description": "Visual size variant.",
+          "type": "'sm' | 'md' | 'lg'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        "hasError": {
+          "description": "Enables error visual state and message rendering.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "errorMessage": {
+          "description": "Error text displayed when hasError is true.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "hint": {
+          "description": "Supporting text rendered when no error is active.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "disabled": {
+          "description": "Disables the native input and interactions.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "inputId": {
+          "description": "Explicit input id for label association. Auto-generated by default.",
+          "type": "string",
+          "control": "text"
+        }
+      },
+      "events": {
+        "valueChange": {
+          "description": "Emits current text value on user input.",
+          "type": "string"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-input--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--with-hint",
+          "name": "With Hint",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--with-error",
+          "name": "With Error",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--password",
+          "name": "Password",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--disabled",
+          "name": "Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--no-label",
+          "name": "No Label",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        },
+        {
+          "id": "components-input--sizes",
+          "name": "Sizes",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/input/input.component.stories.ts",
+          "componentPath": "./src/components/input/input.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "list",
+      "title": "Components/List",
+      "selector": "dsb-list",
+      "name": "ListComponent",
+      "description": "Container for list items with optional separators and compact mode.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "divided": {
+          "description": "When true, separates neighboring items with dividers.",
+          "type": "boolean",
+          "defaultValue": "true",
+          "control": "boolean"
+        },
+        "bordered": {
+          "description": "Adds outer border and rounded corners around the list.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "compact": {
+          "description": "Reduces vertical spacing for dense data display.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-list--simple",
+          "name": "Simple",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--activity-log",
+          "name": "Activity Log",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--with-avatars",
+          "name": "With Avatars",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--with-actions",
+          "name": "With Actions",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--compact",
+          "name": "Compact",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "modal",
+      "title": "Components/Modal",
+      "selector": "dsb-modal",
+      "name": "ModalComponent",
+      "description": "Dialog overlay for critical tasks and confirmations.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "open": {
+          "description": "Controls modal visibility state.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "title": {
+          "description": "Dialog heading used as the accessible label when provided.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "ariaLabel": {
+          "description": "Accessible name fallback when title is omitted.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "size": {
+          "description": "Dialog max-width size variant.",
+          "type": "'sm' | 'md' | 'lg' | 'xl'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ]
+        },
+        "closeOnBackdrop": {
+          "description": "Allows closing the modal by clicking the backdrop.",
+          "type": "boolean",
+          "defaultValue": "true",
+          "control": "boolean"
+        }
+      },
+      "events": {
+        "openChange": {
+          "description": "Two-way binding companion event emitted on close.",
+          "type": "boolean"
+        },
+        "closed": {
+          "description": "Emitted whenever the modal transitions to closed state.",
+          "type": "void"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-modal--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/modal/modal.component.stories.ts",
+          "componentPath": "./src/components/modal/modal.component.ts"
+        },
+        {
+          "id": "components-modal--large",
+          "name": "Large",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/modal/modal.component.stories.ts",
+          "componentPath": "./src/components/modal/modal.component.ts"
+        },
+        {
+          "id": "components-modal--small",
+          "name": "Small",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/modal/modal.component.stories.ts",
+          "componentPath": "./src/components/modal/modal.component.ts"
+        },
+        {
+          "id": "components-modal--no-title",
+          "name": "No Title",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/modal/modal.component.stories.ts",
+          "componentPath": "./src/components/modal/modal.component.ts"
+        },
+        {
+          "id": "components-modal--interactive",
+          "name": "Interactive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/modal/modal.component.stories.ts",
+          "componentPath": "./src/components/modal/modal.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "radioGroup",
+      "title": "Components/RadioGroup",
+      "selector": "dsb-radio-group",
+      "name": "RadioGroupComponent",
+      "description": "Single-choice selection group with optional hints and validation state.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "options": {
+          "description": "Available radio options.",
+          "type": "RadioOption[]",
+          "defaultValue": "[]"
+        },
+        "legend": {
+          "description": "Fieldset legend describing the decision.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "disabled": {
+          "description": "Disables the entire group interaction.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "hasError": {
+          "description": "Toggles error style and message display.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "errorMessage": {
+          "description": "Error text displayed when hasError is true.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "inline": {
+          "description": "Displays options in a horizontal row.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "groupName": {
+          "description": "Native name attribute for radio grouping. Auto-generated by default.",
+          "type": "string",
+          "control": "text"
+        }
+      },
+      "events": {
+        "valueChange": {
+          "description": "Emits selected option value.",
+          "type": "string"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-radiogroup--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/radio/radio.component.stories.ts",
+          "componentPath": "./src/components/radio/radio.component.ts"
+        },
+        {
+          "id": "components-radiogroup--inline",
+          "name": "Inline",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/radio/radio.component.stories.ts",
+          "componentPath": "./src/components/radio/radio.component.ts"
+        },
+        {
+          "id": "components-radiogroup--with-error",
+          "name": "With Error",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/radio/radio.component.stories.ts",
+          "componentPath": "./src/components/radio/radio.component.ts"
+        },
+        {
+          "id": "components-radiogroup--disabled",
+          "name": "Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/radio/radio.component.stories.ts",
+          "componentPath": "./src/components/radio/radio.component.ts"
+        },
+        {
+          "id": "components-radiogroup--with-disabled-option",
+          "name": "With Disabled Option",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/radio/radio.component.stories.ts",
+          "componentPath": "./src/components/radio/radio.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "table",
+      "title": "Components/Table",
+      "selector": "dsb-table",
+      "name": "TableComponent",
+      "description": "Data table supporting custom header and cell templates per column.",
+      "stability": "beta",
+      "since": "1.0.0",
+      "props": {
+        "rows": {
+          "description": "Row dataset to render. Keys are consumed by dsb-column key bindings.",
+          "type": "Record<string, unknown>[]",
+          "defaultValue": "[]"
+        },
+        "striped": {
+          "description": "Applies zebra striping to data rows.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "hoverable": {
+          "description": "Highlights rows on hover.",
+          "type": "boolean",
+          "defaultValue": "true",
+          "control": "boolean"
+        },
+        "loading": {
+          "description": "Shows loading state while data is being fetched.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "rowClickable": {
+          "description": "Enables row click interactions and pointer affordance.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "emptyMessage": {
+          "description": "Message rendered when rows array is empty.",
+          "type": "string",
+          "defaultValue": "'No data to display.'",
+          "control": "text"
+        }
+      },
+      "events": {
+        "rowClick": {
+          "description": "Emits full row object when a row is clicked.",
+          "type": "Record<string, unknown>"
+        }
+      },
+      "stories": [
+        {
+          "id": "components-table--users-table",
+          "name": "Users Table",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/table/table.component.stories.ts",
+          "componentPath": "./src/components/table/table.component.ts"
+        },
+        {
+          "id": "components-table--striped",
+          "name": "Striped",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/table/table.component.stories.ts",
+          "componentPath": "./src/components/table/table.component.ts"
+        },
+        {
+          "id": "components-table--loading",
+          "name": "Loading",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/table/table.component.stories.ts",
+          "componentPath": "./src/components/table/table.component.ts"
+        },
+        {
+          "id": "components-table--empty",
+          "name": "Empty",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/table/table.component.stories.ts",
+          "componentPath": "./src/components/table/table.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "tag",
+      "title": "Components/Tag",
+      "selector": "dsb-tag",
+      "name": "TagComponent",
+      "description": "Compact status label used for categorization and emphasis.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "variant": {
+          "description": "Visual status variant.",
+          "type": "'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info'",
+          "defaultValue": "'default'",
+          "control": "select",
+          "options": [
+            "default",
+            "primary",
+            "success",
+            "warning",
+            "danger",
+            "info"
+          ]
+        },
+        "size": {
+          "description": "Tag size variant.",
+          "type": "'sm' | 'md'",
+          "defaultValue": "'md'",
+          "control": "select",
+          "options": [
+            "sm",
+            "md"
+          ]
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-tag--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/tag/tag.component.stories.ts",
+          "componentPath": "./src/components/tag/tag.component.ts"
+        },
+        {
+          "id": "components-tag--all-variants",
+          "name": "All Variants",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/tag/tag.component.stories.ts",
+          "componentPath": "./src/components/tag/tag.component.ts"
+        },
+        {
+          "id": "components-tag--sizes",
+          "name": "Sizes",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/tag/tag.component.stories.ts",
+          "componentPath": "./src/components/tag/tag.component.ts"
+        },
+        {
+          "id": "components-tag--in-context",
+          "name": "In Context",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/tag/tag.component.stories.ts",
+          "componentPath": "./src/components/tag/tag.component.ts"
+        }
+      ]
+    }
+  ]
+}

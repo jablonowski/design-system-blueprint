@@ -1,17 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { AvatarComponent } from './avatar.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<AvatarComponent> = {
   title: 'Components/Avatar',
   component: AvatarComponent,
   tags: ['autodocs'],
-  argTypes: {
-    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
-    shape: { control: 'select', options: ['circle', 'rounded'] },
-    name: { control: 'text' },
-    src: { control: 'text' },
-    alt: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('avatar'),
   },
+  argTypes: getArgTypes('avatar'),
 };
 
 export default meta;
@@ -56,10 +54,10 @@ export const Group: Story = {
     template: `
       <div style="display:flex;align-items:center;padding:8px;">
         <div style="display:flex;">
-          <span style="z-index:4;outline:2px solid #fff;border-radius:50%;"><dsb-avatar name="Alice B"></dsb-avatar></span>
-          <span style="z-index:3;margin-left:-10px;outline:2px solid #fff;border-radius:50%;"><dsb-avatar name="Bob C"></dsb-avatar></span>
-          <span style="z-index:2;margin-left:-10px;outline:2px solid #fff;border-radius:50%;"><dsb-avatar name="Carol D"></dsb-avatar></span>
-          <span style="z-index:1;margin-left:-10px;outline:2px solid #fff;border-radius:50%;"><dsb-avatar name="Dan E"></dsb-avatar></span>
+          <span style="z-index:4;outline:2px solid var(--ds-decisions-color-text-inverse);border-radius:50%;"><dsb-avatar name="Alice B"></dsb-avatar></span>
+          <span style="z-index:3;margin-left:-10px;outline:2px solid var(--ds-decisions-color-text-inverse);border-radius:50%;"><dsb-avatar name="Bob C"></dsb-avatar></span>
+          <span style="z-index:2;margin-left:-10px;outline:2px solid var(--ds-decisions-color-text-inverse);border-radius:50%;"><dsb-avatar name="Carol D"></dsb-avatar></span>
+          <span style="z-index:1;margin-left:-10px;outline:2px solid var(--ds-decisions-color-text-inverse);border-radius:50%;"><dsb-avatar name="Dan E"></dsb-avatar></span>
         </div>
       </div>`,
   }),

@@ -1,24 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { expect, userEvent, within } from '@storybook/test';
 import { ButtonComponent } from './button.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<ButtonComponent> = {
   title: 'Components/Button',
   component: ButtonComponent,
   tags: ['autodocs'],
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'ghost', 'danger'],
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-    },
-    disabled: { control: 'boolean' },
-    loading: { control: 'boolean' },
-    fullWidth: { control: 'boolean' },
+  parameters: {
+    mcp: getMcpContract('button'),
   },
+  argTypes: getArgTypes('button'),
 };
 
 export default meta;

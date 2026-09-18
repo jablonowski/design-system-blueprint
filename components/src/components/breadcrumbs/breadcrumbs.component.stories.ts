@@ -1,10 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { BreadcrumbsComponent } from './breadcrumbs.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<BreadcrumbsComponent> = {
   title: 'Components/Breadcrumbs',
   component: BreadcrumbsComponent,
   tags: ['autodocs'],
+  parameters: {
+    mcp: getMcpContract('breadcrumbs'),
+  },
+  argTypes: getArgTypes('breadcrumbs'),
 };
 
 export default meta;

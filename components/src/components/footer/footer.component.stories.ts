@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { FooterComponent } from './footer.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const columns = [
   {
@@ -41,13 +42,9 @@ const meta: Meta<FooterComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    mcp: getMcpContract('footer'),
   },
-  argTypes: {
-    brandName: { control: 'text' },
-    tagline: { control: 'text' },
-    copyright: { control: 'text' },
-    logoHref: { control: 'text' },
-  },
+  argTypes: getArgTypes('footer'),
 };
 
 export default meta;

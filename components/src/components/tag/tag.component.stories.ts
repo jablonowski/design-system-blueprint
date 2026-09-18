@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { TagComponent } from './tag.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<TagComponent> = {
   title: 'Components/Tag',
   component: TagComponent,
   tags: ['autodocs'],
-  argTypes: {
-    variant: { control: 'select', options: ['default', 'primary', 'success', 'warning', 'danger', 'info'] },
-    size: { control: 'select', options: ['sm', 'md'] },
+  parameters: {
+    mcp: getMcpContract('tag'),
   },
+  argTypes: getArgTypes('tag'),
 };
 
 export default meta;

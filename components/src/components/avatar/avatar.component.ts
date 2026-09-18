@@ -12,10 +12,15 @@ export type AvatarVariant = 'circle' | 'rounded';
   styleUrls: ['./avatar.component.css'],
 })
 export class AvatarComponent {
+  /** Avatar image URL. Falls back to initials when empty/unavailable. */
   @Input() src = '';
+  /** Alternative text for avatar image. */
   @Input() alt = '';
+  /** Full name used to derive initials fallback. */
   @Input() name = '';
+  /** Visual size variant. */
   @Input() size: AvatarSize = 'md';
+  /** Avatar shape variant. */
   @Input() shape: AvatarVariant = 'circle';
 
   get initials(): string {

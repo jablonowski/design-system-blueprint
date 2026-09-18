@@ -1,18 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { CheckboxComponent } from './checkbox.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<CheckboxComponent> = {
   title: 'Components/Checkbox',
   component: CheckboxComponent,
   tags: ['autodocs'],
-  argTypes: {
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    hasError: { control: 'boolean' },
-    label: { control: 'text' },
-    hint: { control: 'text' },
-    errorMessage: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('checkbox'),
   },
+  argTypes: getArgTypes('checkbox'),
 };
 
 export default meta;

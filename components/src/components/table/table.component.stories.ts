@@ -4,18 +4,16 @@ import { ColumnDefDirective } from './column-def.directive';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { TagComponent } from '../tag/tag.component';
 import { ButtonComponent } from '../button/button.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<TableComponent> = {
   title: 'Components/Table',
   component: TableComponent,
   tags: ['autodocs'],
-  argTypes: {
-    striped: { control: 'boolean' },
-    hoverable: { control: 'boolean' },
-    loading: { control: 'boolean' },
-    rowClickable: { control: 'boolean' },
-    emptyMessage: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('table'),
   },
+  argTypes: getArgTypes('table'),
 };
 
 export default meta;
@@ -40,7 +38,7 @@ export const UsersTable: Story = {
             <div style="display:flex;align-items:center;gap:10px;">
               <dsb-avatar [name]="name" size="sm"></dsb-avatar>
               <div>
-                <div style="font-weight:500;color:#111;">{{ name }}</div>
+                <div style="font-weight:500;color:var(--ds-decisions-color-text-primary);">{{ name }}</div>
                 <div style="font-size:12px;color:var(--ds-decisions-color-text-subtle);margin-top:1px;">{{ row['email'] }}</div>
               </div>
             </div>

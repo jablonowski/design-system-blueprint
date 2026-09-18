@@ -3,12 +3,22 @@ import * as i0 from "@angular/core";
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 export declare class ButtonComponent {
+    /** Visual style variant. */
     variant: ButtonVariant;
+    /** Visual size variant. */
     size: ButtonSize;
+    /** Disables interactions and applies disabled styles. */
     disabled: boolean;
+    /** Shows a spinner and blocks interaction. */
     loading: boolean;
+    /** Expands button width to fill parent container. */
     fullWidth: boolean;
+    /** Native HTML button type attribute. */
     type: 'button' | 'submit' | 'reset';
+    /**
+     * Emits the native click event.
+     * @deprecated Use native (click) binding on the host element.
+     */
     onClick: EventEmitter<MouseEvent>;
     get classes(): Record<string, boolean>;
     static ɵfac: i0.ɵɵFactoryDeclaration<ButtonComponent, never>;

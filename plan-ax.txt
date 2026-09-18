@@ -1,0 +1,44 @@
+Jasne, tym razem jako plan wdrożenia w POC, po kolei.
+
+Krok pierwszy: Storybook MCP nad Twoją biblioteką Angulara. To fundament — kontrakty komponentów dla agenta.
+
+Krok drugi: uporządkuj metadane, żeby MCP miało co zwracać. Typy, JSDoc nad propsami, argTypes, deprecation flags.
+
+Krok trzeci: własny MCP nad paczką tokenów. Odpowiada na pytanie "jaki token dla tego przypadku".
+
+Specyfikacja kontraktu odpowiedzi (źródło prawdy dla kroku 3):
+design-tokens/token-mcp-contract.md
+
+Skrót reguł:
+- zwracamy wyłącznie tier 2 (semantic alias)
+- tier 3 to precedensy do uzasadnienia, nigdy wynik
+- zapytania muszą być intencyjne, nie po wartości
+- brak pokrycia => no-coverage (bez zgadywania)
+- każda odpowiedź resolved musi mieć rationale oparte o precedens
+
+Krok czwarty: AGENTS dot md w repo systemu — hierarchia źródeł plus ręczne mapowanie wzorców Figmy na Twoje komponenty.
+
+Implementacja:
+- AGENTS.md (polityka repo)
+- hierarchia źródeł dla agentów
+- routing pytań: komponenty vs tokeny
+- ręczna mapa wzorców Figmy -> komponenty Angular
+
+Krok piąty: ESLint blokujący surowe wartości, i to samo w CI. Egzekucja, nie prośba.
+
+Implementacja:
+- components/scripts/lint-raw-values.js
+- npm run lint:raw-values
+- bramka CI w .github/workflows/publish-components.yml
+
+Zakres v1:
+- blokada surowych kolorów (hex/rgb/hsl) w components/src/components
+- egzekucja token-first bez zgadywania
+
+Krok szósty: llms dot txt generowany w pipeline. Tanie, więc niech będzie.
+
+Krok siódmy: wersja pliku dla aplikacji klienckiej, publikowana w paczce npm, plus snippet do wklejenia.
+
+I na koniec: audyt. Czyste repo, jedno zadanie, sprawdzasz czy pojawił się gdzieś hex.
+
+Zapisać Ci to jako przypomnienia?

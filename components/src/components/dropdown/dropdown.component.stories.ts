@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { expect, userEvent, within } from '@storybook/test';
 import { DropdownComponent } from './dropdown.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const countries = [
   { value: 'us', label: 'United States' },
@@ -14,15 +15,10 @@ const meta: Meta<DropdownComponent> = {
   title: 'Components/Dropdown',
   component: DropdownComponent,
   tags: ['autodocs'],
-  argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    disabled: { control: 'boolean' },
-    hasError: { control: 'boolean' },
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    hint: { control: 'text' },
-    errorMessage: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('dropdown'),
   },
+  argTypes: getArgTypes('dropdown'),
 };
 
 export default meta;

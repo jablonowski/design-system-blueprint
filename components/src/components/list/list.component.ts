@@ -9,7 +9,10 @@ import { NgClass } from '@angular/common';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
+  /** Shows divider lines between list items. */
   @Input() divided = true;
+  /** Adds outer border and rounded container. */
   @Input() bordered = false;
+  /** Reduces spacing for dense list layouts. */
   @Input() compact = false;
 }

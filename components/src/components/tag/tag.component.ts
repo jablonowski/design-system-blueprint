@@ -12,6 +12,8 @@ export type TagSize = 'sm' | 'md';
   styleUrls: ['./tag.component.css'],
 })
 export class TagComponent {
+  /** Visual status variant. */
   @Input() variant: TagVariant = 'default';
+  /** Tag size variant. */
   @Input() size: TagSize = 'md';
 }

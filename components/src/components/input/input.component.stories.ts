@@ -1,26 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { InputComponent } from './input.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<InputComponent> = {
   title: 'Components/Input',
   component: InputComponent,
   tags: ['autodocs'],
-  argTypes: {
-    type: {
-      control: 'select',
-      options: ['text', 'email', 'password', 'number', 'search', 'tel'],
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-    },
-    hasError: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    errorMessage: { control: 'text' },
-    hint: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('input'),
   },
+  argTypes: getArgTypes('input'),
 };
 
 export default meta;

@@ -12,12 +12,22 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
   styleUrls: ['./button.component.css'],
 })
 export class ButtonComponent {
+  /** Visual style variant. */
   @Input() variant: ButtonVariant = 'primary';
+  /** Visual size variant. */
   @Input() size: ButtonSize = 'md';
+  /** Disables interactions and applies disabled styles. */
   @Input() disabled = false;
+  /** Shows a spinner and blocks interaction. */
   @Input() loading = false;
+  /** Expands button width to fill parent container. */
   @Input() fullWidth = false;
+  /** Native HTML button type attribute. */
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  /**
+   * Emits the native click event.
+   * @deprecated Use native (click) binding on the host element.
+   */
   @Output() onClick = new EventEmitter<MouseEvent>();
 
   get classes(): Record<string, boolean> {

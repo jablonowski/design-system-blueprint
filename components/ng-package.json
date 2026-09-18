@@ -3,5 +3,8 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
+  "assets": [
+    "llms.client.txt"
+  ],
   "dest": "dist"
 }

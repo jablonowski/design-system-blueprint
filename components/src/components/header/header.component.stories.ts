@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { HeaderComponent } from './header.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const navItems = [
   { label: 'Home', href: '/', active: true },
@@ -14,13 +15,9 @@ const meta: Meta<HeaderComponent> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    mcp: getMcpContract('header'),
   },
-  argTypes: {
-    brandName: { control: 'text' },
-    logoHref: { control: 'text' },
-    ctaLabel: { control: 'text' },
-    ctaHref: { control: 'text' },
-  },
+  argTypes: getArgTypes('header'),
 };
 
 export default meta;

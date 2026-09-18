@@ -3,8 +3,11 @@ import { NgClass, NgIf, NgFor } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface DropdownOption {
+  /** Value emitted when this option is selected. */
   value: string;
+  /** Visible label shown in menu and trigger once selected. */
   label: string;
+  /** Prevents selecting this option when true. */
   disabled?: boolean;
 }
 
@@ -27,16 +30,26 @@ export type DropdownSize = 'sm' | 'md' | 'lg';
 export class DropdownComponent implements ControlValueAccessor {
   private static idCounter = 0;
 
+  /** Available options for the menu. */
   @Input() options: DropdownOption[] = [];
+  /** Label rendered above the control. */
   @Input() label = '';
+  /** Fallback text shown before selection. */
   @Input() placeholder = 'Select an option';
+  /** Visual size variant. */
   @Input() size: DropdownSize = 'md';
+  /** Disables interaction. */
   @Input() disabled = false;
+  /** Enables error style and message rendering. */
   @Input() hasError = false;
+  /** Error message shown when hasError is true. */
   @Input() errorMessage = '';
+  /** Supporting hint shown when no error is active. */
   @Input() hint = '';
+  /** Explicit element id. Auto-generated when not provided. */
   @Input() dropdownId = `dsb-dropdown-${++DropdownComponent.idCounter}`;
 
+  /** Emits selected option value after change. */
   @Output() valueChange = new EventEmitter<string>();
 
   value = '';

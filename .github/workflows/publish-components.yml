@@ -24,6 +24,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
       - run: npm ci
+      - name: Lint raw values (token policy)
+        run: npm run lint:raw-values
+        env:
+          DS_LINT_ROLLOUT: baseline
       - name: Run unit tests
         run: echo "TODO — unit tests not yet implemented" && exit 0
 
@@ -164,6 +168,8 @@ jobs:
         run: npm install @jablonowski/dsb-tokens@latest
       - name: Build library
         run: npm run build
+      - name: Verify client LLM guide in package
+        run: test -f dist/llms.client.txt
       - name: Bump version from npm registry
         working-directory: components/dist
         run: |

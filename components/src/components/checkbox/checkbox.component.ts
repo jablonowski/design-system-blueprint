@@ -19,14 +19,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class CheckboxComponent implements ControlValueAccessor {
   private static idCounter = 0;
 
+  /** Visible label rendered next to checkbox. */
   @Input() label = '';
+  /** Current checked state. */
   @Input() checked = false;
+  /** Disables interaction with the control. */
   @Input() disabled = false;
+  /** Enables error style and semantics. */
   @Input() hasError = false;
+  /** Error message displayed when hasError is true. */
   @Input() errorMessage = '';
+  /** Helper text rendered when no error is active. */
   @Input() hint = '';
+  /** Explicit checkbox id for input-label linking. */
   @Input() checkboxId = `dsb-checkbox-${++CheckboxComponent.idCounter}`;
 
+  /** Emits checked state whenever it changes. */
   @Output() checkedChange = new EventEmitter<boolean>();
 
   onTouched: () => void = () => {};

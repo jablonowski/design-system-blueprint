@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { RadioGroupComponent } from './radio.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const options = [
   { value: 'free', label: 'Free', hint: 'Up to 3 projects' },
@@ -11,13 +12,10 @@ const meta: Meta<RadioGroupComponent> = {
   title: 'Components/RadioGroup',
   component: RadioGroupComponent,
   tags: ['autodocs'],
-  argTypes: {
-    disabled: { control: 'boolean' },
-    hasError: { control: 'boolean' },
-    inline: { control: 'boolean' },
-    legend: { control: 'text' },
-    errorMessage: { control: 'text' },
+  parameters: {
+    mcp: getMcpContract('radioGroup'),
   },
+  argTypes: getArgTypes('radioGroup'),
 };
 
 export default meta;

@@ -4,14 +4,16 @@ import { AccordionComponent } from './accordion.component';
 import { AccordionItemComponent } from './accordion-item.component';
 import { TagComponent } from '../tag/tag.component';
 import { ButtonComponent } from '../button/button.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<AccordionComponent> = {
   title: 'Components/Accordion',
   component: AccordionComponent,
   tags: ['autodocs'],
-  argTypes: {
-    exclusive: { control: 'boolean' },
+  parameters: {
+    mcp: getMcpContract('accordion'),
   },
+  argTypes: getArgTypes('accordion'),
 };
 
 export default meta;
@@ -50,7 +52,7 @@ export const Exclusive: Story = {
     moduleMetadata: { imports: [AccordionComponent, AccordionItemComponent] },
     template: `
       <div style="max-width:600px;padding:8px;">
-        <p style="font-size:13px;color:#767676;margin:0 0 16px;">Only one section can be open at a time.</p>
+        <p style="font-size:13px;color:var(--ds-decisions-color-text-subtle);margin:0 0 16px;">Only one section can be open at a time.</p>
         <dsb-accordion [exclusive]="true">
           <dsb-accordion-item title="Account settings" [open]="true">
             Manage your account details, change your password, and configure two-factor
@@ -96,7 +98,7 @@ export const WithRichContent: Story = {
           <dsb-accordion-item title="Installation">
             <div style="display:flex;flex-direction:column;gap:10px;">
               <p style="margin:0;">Add the library to your Angular project:</p>
-              <pre style="background:#f5f5f5;border-radius:6px;padding:12px;font-size:13px;margin:0;overflow-x:auto;">npm install &#64;blueprint/components</pre>
+              <pre style="background:var(--ds-decisions-color-surface-hover);border-radius:6px;padding:12px;font-size:13px;margin:0;overflow-x:auto;">npm install &#64;blueprint/components</pre>
               <p style="margin:0;">Then import the components you need directly in your standalone component.</p>
             </div>
           </dsb-accordion-item>

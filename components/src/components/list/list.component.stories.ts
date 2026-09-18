@@ -4,16 +4,16 @@ import { ListItemComponent } from './list-item.component';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { TagComponent } from '../tag/tag.component';
 import { ButtonComponent } from '../button/button.component';
+import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
 const meta: Meta<ListComponent> = {
   title: 'Components/List',
   component: ListComponent,
   tags: ['autodocs'],
-  argTypes: {
-    divided: { control: 'boolean' },
-    bordered: { control: 'boolean' },
-    compact: { control: 'boolean' },
+  parameters: {
+    mcp: getMcpContract('list'),
   },
+  argTypes: getArgTypes('list'),
 };
 
 export default meta;
