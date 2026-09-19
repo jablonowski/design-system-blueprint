@@ -37,6 +37,24 @@ export class TableComponent implements AfterContentInit {
   @ContentChildren(ColumnDefDirective) columnDefs!: QueryList<ColumnDefDirective>;
   columns: ColumnDefDirective[] = [];
 
+  /**
+   * Row clicks only leave the component when the consumer opted in. Emitting
+   * unconditionally makes `rowClickable` a styling flag with a behavioural side
+   * effect, which is exactly the "looks right, behaves wrong" failure the visual
+   * tests cannot see.
+   */
+  emitRowClick(row: Record<string, unknown>): void {
+    if (!this.rowClickable) return;
+    this.rowClick.emit(row);
+  }
+
+  /** Space activates a clickable row without scrolling the page. */
+  onRowKeydownSpace(event: Event, row: Record<string, unknown>): void {
+    if (!this.rowClickable) return;
+    event.preventDefault();
+    this.rowClick.emit(row);
+  }
+
   ngAfterContentInit(): void {
     this.columns = this.columnDefs.toArray();
     this.columnDefs.changes.subscribe(() => {
