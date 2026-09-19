@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { RadioGroupComponent } from './radio.component';
 import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
@@ -23,6 +24,24 @@ type Story = StoryObj<RadioGroupComponent>;
 
 export const Default: Story = {
   args: { options, legend: 'Choose a plan', value: 'free' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // The set is a labelled group, so the question is announced with each option.
+    const group = canvas.getByRole('group', { name: /choose a plan/i });
+    expect(group).toBeInTheDocument();
+
+    const free = canvas.getByRole('radio', { name: /free/i });
+    const pro = canvas.getByRole('radio', { name: /pro/i });
+
+    expect(free).toBeChecked();
+    expect(pro).not.toBeChecked();
+
+    await userEvent.click(pro);
+
+    expect(pro).toBeChecked();
+    expect(free).not.toBeChecked();
+  },
 };
 
 export const Inline: Story = {
@@ -49,6 +68,19 @@ export const WithError: Story = {
 
 export const Disabled: Story = {
   args: { options, legend: 'Choose a plan', value: 'pro', disabled: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const radios = canvas.getAllByRole('radio');
+
+    radios.forEach((radio) => expect(radio).toBeDisabled());
+
+    // A disabled group must not be changeable by click either — greyed out is a look,
+    // not a behaviour.
+    const free = canvas.getByRole('radio', { name: /free/i });
+    await userEvent.click(free);
+    expect(free).not.toBeChecked();
+    expect(canvas.getByRole('radio', { name: /pro/i })).toBeChecked();
+  },
 };
 
 export const WithDisabledOption: Story = {
