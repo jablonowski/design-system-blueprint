@@ -5,40 +5,80 @@ const path = require('path');
 
 const COMPONENTS_ROOT = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(COMPONENTS_ROOT, 'llms.client.txt');
+const CONTRACT_FILE = path.join(COMPONENTS_ROOT, 'mcp', 'contracts.json');
+
+/** Selector list, read from the generated contracts so it cannot go stale. */
+function readSelectors() {
+  if (!fs.existsSync(CONTRACT_FILE)) return [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(CONTRACT_FILE, 'utf8'));
+    return (parsed.components || [])
+      .map((c) => c.selector)
+      .filter(Boolean)
+      .sort();
+  } catch (error) {
+    return [];
+  }
+}
 
 function content() {
+  const selectors = readSelectors();
+  const selectorLine = selectors.length
+    ? selectors.join(', ')
+    : 'dsb-button, dsb-input, dsb-table, dsb-modal';
+
   return [
     '# @jablonowski/dsb-components - Client LLM Guide',
     '',
-    'This file is shipped with the npm package and is intended for agents working in client applications.',
+    'Shipped with the npm package, for agents working in client applications.',
     '',
     '## Goal',
     '- Build UI with dsb components first, not custom primitives.',
     '- Keep implementation token-first and semantics-first.',
     '',
     '## Component Selection',
-    '- Prefer selectors from this library (for example: dsb-button, dsb-input, dsb-table, dsb-modal).',
-    '- If multiple components fit, choose behavior match first, then style match.',
+    `- Available selectors: ${selectorLine}.`,
+    '- If multiple components fit, choose behaviour match first, then style match.',
     '- Reuse existing variants before creating new custom variants.',
+    '- Sub-components (dsb-list-item, dsb-accordion-item) are always used inside their parent.',
     '',
     '## Token Rules (mandatory)',
-    '- Final recommendations must use semantic decision tokens (tier 2).',
-    '- Never use raw color values (hex/rgb/hsl) in component styles.',
-    '- Never return tier 1 or tier 3 tokens as final recommendation.',
-    '- If no semantic token exists, return no-coverage and suggest token contribution.',
-    '- Value-based questions (for example "which token for #1A73E8") are invalid; resolve by intent.',
+    '- Import tokens from `@jablonowski/dsb-tokens/css`. That entry point exposes tier 2',
+    '  decisions only — if a variable is not in it, it is not yours to use.',
+    '- Final recommendations must be tier 2 `--ds-decisions-*` custom properties.',
+    '- Never use raw colour values (hex/rgb/hsl) in styles.',
+    '- Never use `--ds-*-options-*` (tier 1) or `--ds-component-*` (tier 3) in application code.',
+    '  Tier 3 is private to this library and will change without a major version.',
+    '- If no semantic token exists for the intent, return no-coverage and suggest a token',
+    '  contribution. Do not pick the nearest one.',
+    '- Value-based questions ("which token for #1A73E8") are invalid; resolve by intent.',
+    '',
+    '## Choosing the Right Token Family',
+    '- Interactive surface (button, CTA, checked control) -> `--ds-decisions-color-action-*`.',
+    '- Page and card backgrounds -> `--ds-decisions-color-surface-*`.',
+    '- Alerts, banners, validation -> `--ds-decisions-color-feedback-*`.',
+    '- Body and label colour -> `--ds-decisions-color-text-*`.',
+    '- Do not describe an interactive surface with a text colour token.',
+    '- Spacing -> `--ds-decisions-space-*`. Element size -> `--ds-decisions-size-*`.',
+    '  Layout width -> `--ds-decisions-layout-width-*`.',
+    '- Form controls share one height scale (`--ds-decisions-size-control-*`), so an input and',
+    '  a select in the same row line up. Do not override control heights.',
     '',
     '## Accessibility and UX',
     '- Keep native semantics and ARIA from dsb components intact.',
-    '- Do not remove focus states, keyboard behavior, or labels.',
-    '- Keep visible error and hint messaging behavior consistent with component APIs.',
+    '- Do not remove focus states, keyboard behaviour, or labels.',
+    '- Keep visible error and hint messaging behaviour consistent with component APIs.',
+    '- Status must not be carried by colour alone; keep the text or indicator that goes with it.',
     '',
-    '## Table Template Note',
+    '## Table Notes',
     '- In dsb-table custom cell templates, use: <ng-template #cell let-row="row">.',
-    '- Do not use let-row without row alias, because it binds only cell value ($implicit).',
+    '- Do not use let-row without the row alias, because it binds only the cell value ($implicit).',
+    '- Rows emit (rowClick) only when [rowClickable] is true. When it is, rows are focusable and',
+    '  respond to Enter and Space — do not re-implement that with a click handler on a cell.',
     '',
     '## Implementation Guardrails',
-    '- Avoid local CSS literals for spacing/typography/radius/z-index/motion where tokens exist.',
+    '- No CSS literals for spacing, size, typography, radius, z-index or motion. Tokens exist',
+    '  for all of them.',
     '- Use library inputs/outputs and documented variants before overrides.',
     '- Treat this file as a bootstrap policy; project-level instructions may add constraints.',
     '',
@@ -46,7 +86,7 @@ function content() {
     '1. Current task requirements in the client repository.',
     '2. This file.',
     '3. Component API docs / stories in the dsb repository.',
-    '4. Token contract and resolver guidance from dsb token MCP docs.',
+    '4. Token contract and resolver guidance from the dsb token MCP.',
     '',
     'Generated by components/scripts/generate-llms-client-txt.js.',
     '',

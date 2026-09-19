@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T19:34:15.065Z",
+  "generatedAt": "2026-09-19T21:04:00.991Z",
   "source": {
     "storybookIndex": "storybook-static/index.json",
     "metadata": "src/storybook/mcp.ts"
@@ -17,6 +17,94 @@
       "props": {
         "exclusive": {
           "description": "When true, only one item can remain expanded at a time.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-accordion--default",
+          "name": "Default",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--exclusive",
+          "name": "Exclusive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--with-rich-content",
+          "name": "With Rich Content",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--with-disabled",
+          "name": "With Disabled",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        },
+        {
+          "id": "components-accordion--interactive",
+          "name": "Interactive",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/accordion/accordion.component.stories.ts",
+          "componentPath": "./src/components/accordion/accordion.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "accordionItem",
+      "title": "Components/Accordion",
+      "selector": "dsb-accordion-item",
+      "name": "AccordionItemComponent",
+      "description": "A single expandable section. Always used inside dsb-accordion.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "title": {
+          "description": "Header text displayed in the toggle button.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "open": {
+          "description": "Initial or controlled open state of the section.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        },
+        "disabled": {
+          "description": "Prevents toggling when true.",
           "type": "boolean",
           "defaultValue": "false",
           "control": "boolean"
@@ -226,7 +314,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
           "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
@@ -259,7 +348,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/breadcrumbs/breadcrumbs.component.stories.ts",
           "componentPath": "./src/components/breadcrumbs/breadcrumbs.component.ts"
@@ -764,7 +854,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/footer/footer.component.stories.ts",
           "componentPath": "./src/components/footer/footer.component.ts"
@@ -775,7 +866,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/footer/footer.component.stories.ts",
           "componentPath": "./src/components/footer/footer.component.ts"
@@ -852,7 +944,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/header/header.component.stories.ts",
           "componentPath": "./src/components/header/header.component.ts"
@@ -863,7 +956,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/header/header.component.stories.ts",
           "componentPath": "./src/components/header/header.component.ts"
@@ -1091,7 +1185,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/list/list.component.stories.ts",
           "componentPath": "./src/components/list/list.component.ts"
@@ -1102,7 +1197,116 @@
           "tags": [
             "dev",
             "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--with-avatars",
+          "name": "With Avatars",
+          "tags": [
+            "dev",
+            "test",
             "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--with-actions",
+          "name": "With Actions",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--compact",
+          "name": "Compact",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        }
+      ]
+    },
+    {
+      "key": "listItem",
+      "title": "Components/List",
+      "selector": "dsb-list-item",
+      "name": "ListItemComponent",
+      "description": "A single row inside dsb-list, with optional description, meta text and status indicator.",
+      "stability": "stable",
+      "since": "1.0.0",
+      "props": {
+        "label": {
+          "description": "Primary line text.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "description": {
+          "description": "Secondary descriptive text below the label.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "meta": {
+          "description": "Auxiliary right-aligned meta text.",
+          "type": "string",
+          "defaultValue": "''",
+          "control": "text"
+        },
+        "variant": {
+          "description": "Semantic visual variant for status contexts.",
+          "type": "'default' | 'info' | 'success' | 'warning' | 'error'",
+          "defaultValue": "'default'",
+          "control": "select",
+          "options": [
+            "default",
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        "indicator": {
+          "description": "Shows a compact leading indicator dot.",
+          "type": "boolean",
+          "defaultValue": "false",
+          "control": "boolean"
+        }
+      },
+      "events": {},
+      "stories": [
+        {
+          "id": "components-list--simple",
+          "name": "Simple",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
+          ],
+          "importPath": "./src/components/list/list.component.stories.ts",
+          "componentPath": "./src/components/list/list.component.ts"
+        },
+        {
+          "id": "components-list--activity-log",
+          "name": "Activity Log",
+          "tags": [
+            "dev",
+            "test",
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/list/list.component.stories.ts",
           "componentPath": "./src/components/list/list.component.ts"
@@ -1320,7 +1524,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/radio/radio.component.stories.ts",
           "componentPath": "./src/components/radio/radio.component.ts"
@@ -1353,7 +1558,8 @@
           "tags": [
             "dev",
             "test",
-            "autodocs"
+            "autodocs",
+            "play-fn"
           ],
           "importPath": "./src/components/radio/radio.component.stories.ts",
           "componentPath": "./src/components/radio/radio.component.ts"

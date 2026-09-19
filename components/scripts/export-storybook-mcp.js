@@ -43,6 +43,10 @@ function groupStoriesByTitle(indexEntries) {
 }
 
 function toStorybookTitle(contract) {
+  // Sub-components (dsb-list-item, dsb-accordion-item) are demonstrated inside their
+  // parent's stories, so they point at the parent title rather than exporting an empty
+  // stories array — an agent asking for example usage must always get a story path.
+  if (contract.storybookTitle) return contract.storybookTitle;
   const componentName = contract.name.replace(/Component$/, '');
   return `Components/${componentName}`;
 }

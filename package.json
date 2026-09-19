@@ -1,21 +1,34 @@
 {
   "name": "design-system-blueprint",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "devDependencies": {},
+  "description": "Proof of concept for design system engineering: token pipeline, component library, agent-facing contracts, and release automation.",
+  "private": true,
+  "type": "commonjs",
   "scripts": {
     "generate:llms": "node scripts/generate-llms-txt.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "verify:tokens": "npm --prefix design-tokens run ci",
+    "verify:tokens-mcp": "npm --prefix tokens-mcp test",
+    "verify:components": "npm --prefix components run lint && npm --prefix components test",
+    "verify": "npm run verify:tokens && npm run verify:tokens-mcp && npm run verify:components && npm run generate:llms",
+    "install:all": "npm --prefix design-tokens ci && npm --prefix components ci",
+    "test": "npm run verify"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jablonowski/design-system-blueprint.git"
+    "url": "git+https://github.com/jablonowski/design-system-blueprint.git",
+    "directory": "."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "style-dictionary",
+    "angular",
+    "storybook",
+    "mcp",
+    "agent-experience"
+  ],
+  "author": "Mateusz Jablonowski",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jablonowski/design-system-blueprint/issues"
   },

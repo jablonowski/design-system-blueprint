@@ -29,25 +29,31 @@
           {{ emptyMessage }}
         </td>
       </tr>
-      <tr
-        *ngFor="let row of rows; let i = index"
-        class="table-row"
-        [ngClass]="{ 'table-row-clickable': rowClickable }"
-        (click)="rowClick.emit(row)"
-      >
-        <td
-          *ngFor="let col of columns"
-          class="table-td"
-          [ngClass]="'align-' + col.align"
+      <ng-container *ngIf="!loading">
+        <tr
+          *ngFor="let row of rows; let i = index"
+          class="table-row"
+          [ngClass]="{ 'table-row-clickable': rowClickable }"
+          [attr.tabindex]="rowClickable ? 0 : null"
+          [attr.role]="rowClickable ? 'button' : null"
+          (click)="emitRowClick(row)"
+          (keydown.enter)="emitRowClick(row)"
+          (keydown.space)="onRowKeydownSpace($event, row)"
         >
-          <ng-container
-            *ngIf="col.cellTemplate; else defaultCell"
-            [ngTemplateOutlet]="col.cellTemplate"
-            [ngTemplateOutletContext]="{ $implicit: row[col.key], row: row, index: i }"
-          ></ng-container>
-          <ng-template #defaultCell>{{ row[col.key] }}</ng-template>
-        </td>
-      </tr>
+          <td
+            *ngFor="let col of columns"
+            class="table-td"
+            [ngClass]="'align-' + col.align"
+          >
+            <ng-container
+              *ngIf="col.cellTemplate; else defaultCell"
+              [ngTemplateOutlet]="col.cellTemplate"
+              [ngTemplateOutletContext]="{ $implicit: row[col.key], row: row, index: i }"
+            ></ng-container>
+            <ng-template #defaultCell>{{ row[col.key] }}</ng-template>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>

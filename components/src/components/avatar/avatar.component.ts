@@ -24,8 +24,9 @@ export class AvatarComponent {
   @Input() shape: AvatarVariant = 'circle';
 
   get initials(): string {
-    if (!this.name) return '?';
-    const parts = this.name.trim().split(/\s+/);
+    const trimmed = this.name.trim();
+    if (!trimmed) return '?';
+    const parts = trimmed.split(/\s+/);
     return parts.length >= 2
       ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
       : parts[0].slice(0, 2).toUpperCase();

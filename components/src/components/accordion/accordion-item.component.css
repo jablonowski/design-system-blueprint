@@ -12,10 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--ds-decisions-space-lg);
   background: none;
   border: none;
-  padding: 16px 0;
+  padding: var(--ds-decisions-space-xl) 0;
   cursor: pointer;
   font-family: inherit;
   text-align: left;
@@ -37,14 +37,14 @@
   font-size: var(--ds-component-accordion-title-font-size);
   font-weight: var(--ds-component-accordion-title-font-weight);
   color: var(--ds-component-accordion-title-text);
-  line-height: 1.5;
+  line-height: var(--ds-decisions-font-line-height-normal);
 }
 
 /* Chevron */
 .accordion-chevron {
   flex-shrink: 0;
-  width: 10px;
-  height: 6px;
+  width: var(--ds-component-accordion-chevron-width);
+  height: var(--ds-component-accordion-chevron-height);
   color: var(--ds-component-accordion-chevron-color);
   transition: transform var(--ds-component-accordion-chevron-duration) var(--ds-decisions-motion-easing-standard);
 }
@@ -68,9 +68,9 @@
   overflow: hidden;
   font-size: var(--ds-component-accordion-body-font-size);
   color: var(--ds-component-accordion-body-text);
-  line-height: 1.6;
+  line-height: var(--ds-decisions-font-line-height-relaxed);
 }
 
 .accordion-body--open .accordion-content {
-  padding-bottom: 16px;
+  padding-bottom: var(--ds-decisions-space-xl);
 }

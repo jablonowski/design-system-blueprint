@@ -21,13 +21,15 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: design-tokens/package.json
-      - run: npm install
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
       - run: npm run lint:json
 
-  # ── Layer 2: Token schema ─────────────────────────────────────────────────
+  # ── Layer 2: Token schema and tier boundaries ─────────────────────────────
+  # Enforces that tier 2 only references tier 1 and tier 3 only references tier 2.
+  # This is the architectural firewall; if it fails, the token graph has a hole in it.
   validate-schema:
-    name: Validate tokens.json (schema)
+    name: Validate tokens.json (schema + tier boundaries)
     runs-on: ubuntu-latest
     needs: validate-json
     steps:
@@ -36,23 +38,40 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: design-tokens/package.json
-      - run: npm install
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
       - run: npm run lint:schema
+
+  # ── Layer 3: Token MCP contract ───────────────────────────────────────────
+  # The resolver ships the token graph to agents, so its guarantees gate the token
+  # release: no tier 1/3 answers, no value-based lookup, no-coverage over guessing.
+  contract-tests:
+    name: Token MCP contract tests
+    runs-on: ubuntu-latest
+    needs: validate-schema
+    defaults:
+      run:
+        working-directory: tokens-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm test
 
   # ── Build: Style Dictionary ───────────────────────────────────────────────
   build:
     name: Build (Style Dictionary)
     runs-on: ubuntu-latest
-    needs: validate-schema
+    needs: contract-tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: design-tokens/package.json
-      - run: npm install
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
@@ -60,7 +79,7 @@ jobs:
           path: design-tokens/dist/
           retention-days: 1
 
-  # ── Layer 3: CSS output assertions ───────────────────────────────────────
+  # ── Layer 4: CSS output assertions ───────────────────────────────────────
   test:
     name: Test CSS output
     runs-on: ubuntu-latest
@@ -71,8 +90,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: design-tokens/package.json
-      - run: npm install
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
       - uses: actions/download-artifact@v4
         with:
           name: tokens-dist
@@ -94,9 +113,16 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
-          cache-dependency-path: design-tokens/package.json
-      - run: npm install
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
       - run: npm run build
+      - name: Verify the public token surface contains no raw options
+        run: |
+          if grep -q -- '-options-' dist/css/public.css; then
+            echo "::error::public.css leaks tier 1 tokens — the distribution boundary is broken"
+            exit 1
+          fi
+          echo "public.css exposes decisions only"
       - name: Bump version from npm registry
         run: |
           PUBLISHED=$(npm view @jablonowski/dsb-tokens version 2>/dev/null || echo "0.0.0")

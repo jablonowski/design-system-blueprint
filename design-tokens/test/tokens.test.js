@@ -1,34 +1,35 @@
 'use strict';
 
 /**
- * Layer 3 — Style Dictionary output tests
+ * Style Dictionary output tests.
  *
- * Asserts that the built dist/css/variables.css contains the expected
- * CSS custom property declarations. Requires `npm run build` to have
- * run first (the CI workflow handles this ordering).
+ * Asserts that the built artifacts contain what the architecture promises. Requires
+ * `npm run build` to have run first (the CI workflow handles the ordering).
  *
- * Variable names are verified against the actual component CSS files in
- * components/src/components/ — e.g. button.component.css uses
- * var(--ds-component-button-border-radius) and var(--ds-decisions-font-weight-medium).
+ * Three kinds of assertion live here:
+ *   • spot checks on tier 1, 2 and 3 output, including a full three-tier alias chain
+ *   • structural checks that hold for the whole file — no duplicate variable names, no
+ *     unresolved references
+ *   • distribution boundary checks — the public artifact must not expose raw options
  *
- * Test selection covers:
- *   • A raw color option (tier 1)
- *   • A raw non-color option to verify unit conversion (border-radius full → 50%)
- *   • A decision alias resolved via var() (tier 2, with outputReferences: true)
- *   • A component float alias resolved via var() (tier 3)
- *   • A three-tier alias chain: component → decision → option
+ * The structural ones are the valuable ones. A spot check tells you one token is right;
+ * a structural check tells you the build did not quietly collide two tokens into one
+ * variable name, which Style Dictionary only warns about.
  */
 
 const { describe, it, before } = require('node:test');
 const assert = require('node:assert/strict');
-const fs     = require('fs');
-const path   = require('path');
+const fs = require('fs');
+const path = require('path');
 
-const CSS_FILE = path.resolve(__dirname, '../dist/css/variables.css');
+const DIST = path.resolve(__dirname, '../dist');
+const CSS_FILE = path.join(DIST, 'css/variables.css');
+const PUBLIC_CSS_FILE = path.join(DIST, 'css/public.css');
 
 let css = '';
+let publicCss = '';
 
-describe('Style Dictionary output — dist/css/variables.css', () => {
+describe('Style Dictionary output', () => {
   before(() => {
     assert.ok(
       fs.existsSync(CSS_FILE),
@@ -36,6 +37,9 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     );
     css = fs.readFileSync(CSS_FILE, 'utf8');
     assert.ok(css.length > 0, 'CSS output file must not be empty');
+
+    assert.ok(fs.existsSync(PUBLIC_CSS_FILE), `Public output not found at ${PUBLIC_CSS_FILE}`);
+    publicCss = fs.readFileSync(PUBLIC_CSS_FILE, 'utf8');
   });
 
   // ─── Tier 1 — Options: raw values ─────────────────────────────────────────
@@ -54,7 +58,6 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     });
 
     it('exports rgba black overlay (a40) with correct alpha', () => {
-      // rgba(0, 0, 0, 0.4)  — used for modal backdrop
       assert.match(css, /--ds-color-options-black-a40:\s*rgba\(0,\s*0,\s*0,\s*0\.4\)/);
     });
 
@@ -65,13 +68,23 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     it('exports easing standard as "ease"', () => {
       assert.match(css, /--ds-easing-options-standard:\s*ease/);
     });
+
+    it('exports the spacing scale', () => {
+      assert.match(css, /--ds-space-options-1:\s*1px/);
+      assert.match(css, /--ds-space-options-16:\s*16px/);
+      assert.match(css, /--ds-space-options-64:\s*64px/);
+    });
+
+    it('exports the element size and layout width scales', () => {
+      assert.match(css, /--ds-size-options-36:\s*36px/);
+      assert.match(css, /--ds-layout-options-1200:\s*1200px/);
+    });
   });
 
   // ─── Tier 2 — Decisions: alias references via var() ───────────────────────
 
   describe('Tier 2 — Decisions: var() alias references', () => {
     it('color.text.primary references options neutral-900', () => {
-      // decisions.color.text.primary → {color.options.neutral.900}
       assert.match(
         css,
         /--ds-decisions-color-text-primary:\s*var\(--ds-color-options-neutral-900\)/
@@ -79,7 +92,6 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     });
 
     it('color.text.inverse references options neutral-0', () => {
-      // decisions.color.text.inverse → {color.options.neutral.0}
       assert.match(
         css,
         /--ds-decisions-color-text-inverse:\s*var\(--ds-color-options-neutral-0\)/
@@ -94,11 +106,7 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     });
 
     it('font.size.md references options font-size-14', () => {
-      // decisions.font.size.md → {font.size.options.14}
-      assert.match(
-        css,
-        /--ds-decisions-font-size-md:\s*var\(--ds-font-size-options-14\)/
-      );
+      assert.match(css, /--ds-decisions-font-size-md:\s*var\(--ds-font-size-options-14\)/);
     });
 
     it('font.weight.medium references options font-weight-medium', () => {
@@ -109,17 +117,34 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
     });
 
     it('border.radius.lg references options border-radius-6', () => {
-      // decisions.border.radius.lg → {border.radius.options.6}
       assert.match(
         css,
         /--ds-decisions-border-radius-lg:\s*var\(--ds-border-radius-options-6\)/
       );
     });
 
-    it('border.radius.full references options border-radius-full', () => {
+    it('space.xl references options space-16', () => {
+      assert.match(css, /--ds-decisions-space-xl:\s*var\(--ds-space-options-16\)/);
+    });
+
+    it('size.control shares one height scale across every form control', () => {
+      assert.match(css, /--ds-decisions-size-control-sm:\s*var\(--ds-size-options-30\)/);
+      assert.match(css, /--ds-decisions-size-control-md:\s*var\(--ds-size-options-36\)/);
+      assert.match(css, /--ds-decisions-size-control-lg:\s*var\(--ds-size-options-44\)/);
+    });
+
+    it('exposes an action family for interactive surfaces', () => {
       assert.match(
         css,
-        /--ds-decisions-border-radius-full:\s*var\(--ds-border-radius-options-full\)/
+        /--ds-decisions-color-action-primary-background:\s*var\(--ds-color-options-neutral-900\)/
+      );
+      assert.match(
+        css,
+        /--ds-decisions-color-action-primary-background-hover:\s*var\(--ds-color-options-neutral-800\)/
+      );
+      assert.match(
+        css,
+        /--ds-decisions-color-action-danger-text:\s*var\(--ds-color-options-red-500\)/
       );
     });
   });
@@ -128,26 +153,40 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
 
   describe('Tier 3 — Components: three-tier var() chains', () => {
     it('button.borderRadius references decisions border-radius-lg', () => {
-      // component.button.borderRadius → {decisions.border.radius.lg}
-      // camelCase borderRadius → kebab border-radius confirmed in button.component.css
       assert.match(
         css,
         /--ds-component-button-border-radius:\s*var\(--ds-decisions-border-radius-lg\)/
       );
     });
 
-    it('button.primary.background references decisions color.text.primary', () => {
-      // component.button.primary.background → {decisions.color.text.primary}
+    it('button.primary.background references the action family, not a text colour', () => {
+      // A primary action surface described by decisions.color.text.* means the semantic
+      // layer is missing a decision. This assertion is the regression guard for that.
       assert.match(
         css,
-        /--ds-component-button-primary-background:\s*var\(--ds-decisions-color-text-primary\)/
+        /--ds-component-button-primary-background:\s*var\(--ds-decisions-color-action-primary-background\)/
+      );
+      assert.doesNotMatch(
+        css,
+        /--ds-component-button-primary-background:\s*var\(--ds-decisions-color-text-/
       );
     });
 
-    it('button.primary.text references decisions color.text.inverse', () => {
+    it('button.primary.text references the action family label colour', () => {
       assert.match(
         css,
-        /--ds-component-button-primary-text:\s*var\(--ds-decisions-color-text-inverse\)/
+        /--ds-component-button-primary-text:\s*var\(--ds-decisions-color-action-primary-text\)/
+      );
+    });
+
+    it('checked controls reference the selected action tokens', () => {
+      assert.match(
+        css,
+        /--ds-component-checkbox-checked-background:\s*var\(--ds-decisions-color-action-selected-background\)/
+      );
+      assert.match(
+        css,
+        /--ds-component-radio-dot-color:\s*var\(--ds-decisions-color-action-selected-background\)/
       );
     });
 
@@ -170,6 +209,82 @@ describe('Style Dictionary output — dist/css/variables.css', () => {
         css,
         /--ds-component-tag-success-background:\s*var\(--ds-decisions-color-feedback-success-surface\)/
       );
+    });
+  });
+
+  // ─── Structural guarantees ────────────────────────────────────────────────
+
+  describe('Structural guarantees', () => {
+    const declarations = () =>
+      [...css.matchAll(/^\s*(--ds-[\w-]+):\s*([^;]+);/gm)].map((m) => ({
+        name: m[1],
+        value: m[2].trim(),
+      }));
+
+    it('declares no custom property twice', () => {
+      // Style Dictionary only *warns* about name collisions, and the loser is silently
+      // overwritten. Two tokens flattening to one variable name is a data-loss bug.
+      const seen = new Map();
+      const duplicates = [];
+
+      for (const { name, value } of declarations()) {
+        if (seen.has(name) && seen.get(name) !== value) {
+          duplicates.push(`${name}: "${seen.get(name)}" then "${value}"`);
+        }
+        seen.set(name, value);
+      }
+
+      assert.deepEqual(duplicates, [], `colliding variable names:\n  ${duplicates.join('\n  ')}`);
+    });
+
+    it('leaves no var() reference pointing at an undeclared variable', () => {
+      const declared = new Set(declarations().map((d) => d.name));
+      const dangling = new Set();
+
+      for (const match of css.matchAll(/var\((--ds-[\w-]+)\)/g)) {
+        if (!declared.has(match[1])) dangling.add(match[1]);
+      }
+
+      assert.deepEqual([...dangling], []);
+    });
+
+    it('keeps every component variable one hop from a decision', () => {
+      const offenders = declarations()
+        .filter((d) => d.name.startsWith('--ds-component-'))
+        .filter((d) => d.value.startsWith('var('))
+        .filter((d) => !d.value.startsWith('var(--ds-decisions-'));
+
+      assert.deepEqual(
+        offenders.map((d) => `${d.name}: ${d.value}`),
+        [],
+        'a component variable reached past the semantic layer'
+      );
+    });
+  });
+
+  // ─── Distribution boundary ────────────────────────────────────────────────
+
+  describe('Public surface (dist/css/public.css)', () => {
+    it('exposes decision tokens', () => {
+      assert.match(publicCss, /--ds-decisions-color-action-primary-background:/);
+      assert.match(publicCss, /--ds-decisions-space-xl:/);
+    });
+
+    it('exposes no raw options', () => {
+      // This is the distribution half of the firewall: a consumer importing the public
+      // entry point is unable to reach tier 1, not merely asked not to.
+      const leaks = [...publicCss.matchAll(/^\s*(--ds-[\w-]*-options-[\w-]+):/gm)].map((m) => m[1]);
+      assert.deepEqual(leaks, []);
+    });
+
+    it('exposes no component tokens', () => {
+      const leaks = [...publicCss.matchAll(/^\s*(--ds-component-[\w-]+):/gm)].map((m) => m[1]);
+      assert.deepEqual(leaks, []);
+    });
+
+    it('resolves values so the file stands alone', () => {
+      assert.doesNotMatch(publicCss, /var\(--ds-[\w-]*-options-/);
+      assert.match(publicCss, /--ds-decisions-color-text-primary:\s*#111111/);
     });
   });
 });

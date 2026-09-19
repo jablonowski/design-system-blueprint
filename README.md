@@ -1,26 +1,33 @@
 # design-system-blueprint
 
-Proof-of-concept repository for design system engineering, showing the full path from design tokens to components, documentation, testing, and npm publishing.
+Proof-of-concept repository for design system engineering, showing the full path from
+design tokens to components, documentation, testing, agent-facing contracts, and npm
+publishing.
 
 ## Purpose
 
-This project demonstrates five layers:
+This project demonstrates six layers:
 
-1. Design tokens package
+1. Design tokens package with an enforced three-tier architecture
 2. Component library consuming tokens
 3. Storybook for development and documentation
 4. Automated testing across all layers
-5. GitHub Actions pipelines for release
+5. Machine-readable contracts for coding agents (AX)
+6. GitHub Actions pipelines for verification and release
 
 ## Repository Structure
 
 - Root workspace metadata: [package.json](package.json)
 - Tokens package: [design-tokens/package.json](design-tokens/package.json)
 - Components package: [components/package.json](components/package.json)
+- Token MCP server: [tokens-mcp/package.json](tokens-mcp/package.json)
+- Agent policy: [AGENTS.md](AGENTS.md)
 - GitHub workflows:
+	- [.github/workflows/verify.yml](.github/workflows/verify.yml) — runs on every push and PR
 	- [.github/workflows/publish-tokens.yml](.github/workflows/publish-tokens.yml)
 	- [.github/workflows/publish-components.yml](.github/workflows/publish-components.yml)
 	- [.github/workflows/publish-all.yml](.github/workflows/publish-all.yml)
+	- [.github/workflows/visual-baseline.yml](.github/workflows/visual-baseline.yml)
 
 ## Design Source
 
@@ -28,129 +35,192 @@ Figma base design:
 
 https://www.figma.com/design/iJ92LuFOsPjO6avZ2anbwO/Design-System-Blueprint?node-id=0-1&p=f&t=VBrE2AqIFZxxbNaO-0
 
-The visual quality is intentionally simple. The goal is to demonstrate the complete design-to-code stream:
+The visual quality is intentionally simple. The goal is to demonstrate the complete
+design-to-code stream, not to win a design award.
 
-- token definition
-- token transformation and distribution
-- component implementation
-- Storybook documentation
-- automated testing and CI/CD release
-
-If the Figma link is not publicly accessible, request viewer access or use exported screenshots as design baseline input.
+If the Figma link is not publicly accessible, request viewer access or use exported
+screenshots as design baseline input.
 
 ## Prerequisites
 
 - Node.js 20.x
 - npm 10+
-- Playwright Chromium (for Storybook interaction/a11y test runner)
+- Playwright Chromium (for the Storybook interaction, a11y and visual test runners)
 
 ## Installation
 
-This repo has two independent npm projects.
-
-Install dependencies in each project:
+This repo contains three independent npm projects. `tokens-mcp` has no dependencies.
 
 ```bash
-cd design-tokens
-npm ci
-
-cd ../components
-npm ci
+npm run install:all
 ```
+
+Or individually:
+
+```bash
+cd design-tokens && npm ci
+cd ../components && npm ci
+```
+
+## One command to verify everything
+
+```bash
+npm run verify
+```
+
+Runs, in order: token lint and schema/tier validation, token build, CSS output assertions,
+the Token MCP contract suite, the strict raw-value guard, the component API contract test,
+component unit tests, and the `llms.txt` generation. Everything except the three
+browser-dependent suites, which need a Storybook build and a browser.
+
+---
 
 ## 1) Design Tokens Subproject
 
-Important files:
+### Three-tier architecture
+
+| Tier | Namespace | Role | Valid in application code |
+|------|-----------|------|---------------------------|
+| 1 | `color.options.*`, `space.options.*`, `size.options.*`, `layout.options.*`, … | Raw values | No |
+| 2 | `decisions.*` | Semantic decisions, named by intent | **Yes — only these** |
+| 3 | `component.*` | Component-scoped, private to the library | No |
+
+Tier 2 covers colour (text, surface, border, **action**, feedback, overlay), typography
+(size, weight, line height, tracking), spacing, element size, layout width, radius, border
+width, shadow, motion, opacity and z-index.
+
+`decisions.color.action.*` is the family a button-like element resolves to. It exists
+because without it a primary button's background has nowhere to point but a *text* colour
+decision — an alias that builds fine, looks fine, and teaches every consumer the wrong
+thing about the system.
+
+### Tier boundaries are enforced
+
+[design-tokens/scripts/validate-schema.js](design-tokens/scripts/validate-schema.js) fails
+the build when:
+
+- a reference does not resolve to an existing token
+- a tier 2 token references anything other than tier 1
+- a tier 3 token references anything other than tier 2
+
+This is the architectural half of the firewall. The distribution half is below.
+
+### The public token surface
+
+Two artifacts are built per platform:
+
+| Artifact | Contents | Who imports it |
+|----------|----------|----------------|
+| `dist/css/variables.css` | Everything, with `var()` references preserved | The component library (it needs tier 3) |
+| `dist/css/public.css` | Tier 2 only, values resolved | Consumer applications |
+
+The same split exists for SCSS (`_variables.scss` / `_public.scss`) and JSON
+(`tokens.json` / `decisions.json`). Consumers import the public entry point and are
+therefore *unable* to reach a raw option, rather than merely being asked not to:
+
+```js
+import '@jablonowski/dsb-tokens/css';        // decisions only
+import '@jablonowski/dsb-tokens/css/full';   // everything, for the library itself
+```
+
+The token release pipeline greps `public.css` for `-options-` and fails if the boundary
+ever leaks.
+
+All five platforms share the `ds` prefix. One source of truth that emits three different
+naming conventions is three sources of truth wearing a disguise.
+
+### Important files
 
 - Source token JSON: [design-tokens/tokens/tokens.json](design-tokens/tokens/tokens.json)
 - Style Dictionary config: [design-tokens/config.js](design-tokens/config.js)
 - JSON syntax validation: [design-tokens/scripts/validate-json.js](design-tokens/scripts/validate-json.js)
-- Schema validation: [design-tokens/scripts/validate-schema.js](design-tokens/scripts/validate-schema.js)
+- Schema and tier validation: [design-tokens/scripts/validate-schema.js](design-tokens/scripts/validate-schema.js)
 - Output assertions: [design-tokens/test/tokens.test.js](design-tokens/test/tokens.test.js)
 
-Run locally:
+### Run locally
 
 ```bash
 cd design-tokens
-npm run lint:json
-npm run lint:schema
-npm run build
-npm test
+npm run ci       # lint + schema + build + output tests
 ```
 
-Single command for local CI-equivalent token checks:
-
-```bash
-cd design-tokens
-npm run ci
-```
-
-Build outputs are generated in:
-
-- [design-tokens/dist/css](design-tokens/dist/css)
-- [design-tokens/dist/scss](design-tokens/dist/scss)
-- [design-tokens/dist/js](design-tokens/dist/js)
-- [design-tokens/dist/ts](design-tokens/dist/ts)
-- [design-tokens/dist/json](design-tokens/dist/json)
+---
 
 ## 2) Components Library Subproject
 
-Important files:
+### Important files
 
 - Package scripts: [components/package.json](components/package.json)
 - Angular build config: [components/angular.json](components/angular.json)
 - Storybook config: [components/.storybook/main.ts](components/.storybook/main.ts)
-- Storybook preview/a11y defaults: [components/.storybook/preview.ts](components/.storybook/preview.ts)
+- Storybook preview / a11y defaults: [components/.storybook/preview.ts](components/.storybook/preview.ts)
 - Storybook test-runner setup: [components/.storybook/test-runner.ts](components/.storybook/test-runner.ts)
+- Unit test config: [components/jest.config.unit.js](components/jest.config.unit.js)
 - Visual regression setup: [components/lostpixel.config.ts](components/lostpixel.config.ts)
 
-Run locally:
+### Run locally
 
 ```bash
 cd components
-npm run storybook
+npm run storybook          # develop
+npm run build-storybook    # static build
+npm run build              # Angular library package
 ```
 
-Build Storybook static output:
-
-```bash
-cd components
-npm run build-storybook
-```
-
-Build Angular library package:
-
-```bash
-cd components
-npm run build
-```
+---
 
 ## 3) Testing Strategy
 
-### A. Tokens input and output checks
+Five layers, each catching something the others cannot.
+
+| Layer | Command | Catches | Needs a browser |
+|-------|---------|---------|-----------------|
+| Token input/output | `npm run ci` (design-tokens) | Malformed tokens, broken references, tier violations, wrong build output | No |
+| Token MCP contract | `npm test` (tokens-mcp) | The resolver guessing, crossing tiers, or citing a false precedent | No |
+| Raw value guard | `npm run lint:raw-values:strict` | Hardcoded design values in component source | No |
+| Component API contract | `npm run test:contracts` | Agent-facing metadata drifting from the Angular source | No |
+| Unit tests | `npm run test:unit` | Component logic and DOM contracts | No |
+| Accessibility | `npm run test:a11y` | WCAG violations in every story | Yes |
+| Interactions | `npm run test:interactions` | Behaviour: play functions per story | Yes |
+| Visual regression | `npm run test:visual` | Unintended pixel changes | Yes |
+
+### A. Tokens
 
 ```bash
-cd design-tokens
-npm run ci
+cd design-tokens && npm run ci
 ```
 
-This covers:
+### B. Token MCP contract
 
-- JSON syntax validation
-- token schema validation
-- Style Dictionary build
-- CSS output assertions
+```bash
+cd tokens-mcp && npm test
+```
 
-### B. Storybook accessibility tests
+Asserts the guarantees in
+[design-tokens/token-mcp-contract.md](design-tokens/token-mcp-contract.md). The negative
+cases matter more than the positive ones: the failure mode this server exists to prevent
+is a confident wrong answer, not a missing one.
 
-In terminal A:
+### C. Static gates and unit tests
 
 ```bash
 cd components
-npm run storybook
+npm run lint:raw-values:strict   # 0 errors, 0 warnings
+npm run test                     # unit tests + API contract test
 ```
 
-In terminal B:
+Unit tests run on Jest + jsdom — no browser binary, so they behave identically on a laptop
+and on a CI runner.
+
+### D. Storybook accessibility tests
+
+Terminal A:
+
+```bash
+cd components && npm run storybook
+```
+
+Terminal B:
 
 ```bash
 cd components
@@ -158,26 +228,19 @@ npx playwright install chromium
 npm run test:a11y
 ```
 
-### C. Storybook functional interaction tests
+axe runs against every story by default. Per-story opt-out:
+`parameters: { a11y: { disable: true } }`. There are currently zero opt-outs.
 
-In terminal A:
-
-```bash
-cd components
-npm run storybook
-```
-
-In terminal B:
+### E. Storybook interaction tests
 
 ```bash
 cd components
-npx playwright install chromium
 npm run test:interactions
 ```
 
-### D. Visual regression tests (Lost Pixel)
+Every component has at least one `play()` function.
 
-Run comparison against committed baselines:
+### F. Visual regression (Lost Pixel)
 
 ```bash
 cd components
@@ -185,82 +248,61 @@ npm run build-storybook
 npm run test:visual
 ```
 
-Generate or update baselines intentionally:
+**Baselines are generated in CI, not locally.** Font rasterisation differs enough between
+macOS and the CI image to blow past any sane pixel threshold, so a locally generated
+baseline produces failures that have nothing to do with the change under review — which is
+how a visual gate ends up permanently red and then permanently ignored.
 
-```bash
-cd components
-npm run build-storybook
-npm run test:visual:update
-```
+After an intentional visual change, run the **Generate Visual Baselines** workflow. It
+regenerates on `ubuntu-latest` and opens a pull request with the new images for review.
+The comparison job fails loudly if no baselines are committed, rather than passing on an
+empty directory.
 
 Artifacts:
 
-- Baseline: [components/.lostpixel/baseline](components/.lostpixel/baseline)
-- Current: [components/.lostpixel/current](components/.lostpixel/current)
-- Diff: [components/.lostpixel/difference](components/.lostpixel/difference)
+- Baseline: [components/.lostpixel/baseline](components/.lostpixel/baseline) (committed)
+- Current and diff: generated, git-ignored
 
-### E. Unit test status
-
-The components CI workflow currently contains a unit test placeholder step (TODO), see [.github/workflows/publish-components.yml](.github/workflows/publish-components.yml).
+---
 
 ## AX (Agent Experience)
 
-This section is dedicated to agent-oriented integration and machine-readable contracts. New AX elements can be added here over time.
+Machine-readable contracts for agents. This is the part of the repository that decides
+whether an agent writing UI against this system produces correct code or plausible-looking
+nonsense.
 
-### Storybook MCP Contracts
+### Storybook MCP contracts
 
-To expose machine-readable component contracts for agents, component metadata is centralized in [components/src/storybook/mcp.ts](components/src/storybook/mcp.ts) and attached to stories via `parameters.mcp` and generated `argTypes`.
-
-Generate JSON contracts from Storybook + metadata:
-
-```bash
-cd components
-npm run mcp:contracts
-```
-
-Fast regeneration without rebuilding Storybook:
+Component metadata is centralised in
+[components/src/storybook/mcp.ts](components/src/storybook/mcp.ts) and attached to stories
+via `parameters.mcp` and generated `argTypes`.
 
 ```bash
 cd components
-npm run mcp:contracts:fast
+npm run mcp:contracts        # rebuild Storybook, then export
+npm run mcp:contracts:fast   # export only
 ```
 
-Output artifact:
+Output: [components/mcp/contracts.json](components/mcp/contracts.json) — selector,
+component name, stability, since version, typed props with defaults and control hints,
+events with deprecation markers, and Storybook story IDs.
 
-- [components/mcp/contracts.json](components/mcp/contracts.json)
+That metadata is hand-written, and nothing in the build forces it to match the Angular
+source. So [components/test/contracts.test.js](components/test/contracts.test.js) reads the
+real `@Input`/`@Output` surface out of the components and asserts the metadata describes
+exactly that surface — no missing props, no invented ones, selectors matching, every
+public component documented, and the exported JSON in sync with its source. A contract for
+agents without a contract test is documentation with better branding.
 
-The artifact includes:
+Sub-components (`dsb-list-item`, `dsb-accordion-item`) are documented too, and point at
+their parent's stories for example usage. AGENTS.md routes to them, and the quality gate
+says "confirm the component exists in contracts.json" — those two statements have to be
+able to both be true.
 
-- selector and component name
-- stability and since version
-- typed props with defaults and control hints
-- events with deprecation markers
-- Storybook story IDs and paths for each component
+### Token MCP
 
-### Token MCP Contracts (Draft)
-
-Token MCP specification for intent-based token resolution is documented in:
-
-- [design-tokens/token-mcp-contract.md](design-tokens/token-mcp-contract.md)
-
-Scope of this draft:
-
-- resolved response can return only tier 2 semantic tokens
-- tier 3 component tokens are evidence only, never output
-- value-based lookups are rejected
-- no-coverage is preferred over false-positive matching
-- resolved response requires precedent-based rationale
-
-### Token MCP Package (Implementation)
-
-Reference implementation is available in:
-
-- [tokens-mcp/package.json](tokens-mcp/package.json)
-- [tokens-mcp/src/server.js](tokens-mcp/src/server.js)
-- [tokens-mcp/src/token-engine.js](tokens-mcp/src/token-engine.js)
-- [tokens-mcp/test/contract.test.js](tokens-mcp/test/contract.test.js)
-
-Run locally:
+Specification: [design-tokens/token-mcp-contract.md](design-tokens/token-mcp-contract.md)
+Implementation: [tokens-mcp/](tokens-mcp/)
 
 ```bash
 cd tokens-mcp
@@ -268,101 +310,55 @@ npm test
 npm start
 ```
 
-### Agent Routing Policy (Step 4)
+Behaviour:
 
-Repository-wide agent policy, source hierarchy, and manual Figma pattern mapping are defined in:
+- resolved answers are always tier 2 `decisions.*` tokens
+- tier 3 is precedent evidence only, mapped by direct alias — never by heuristic
+- value-based lookups (hex, rgb, hsl, px, rem) are rejected
+- four gates stand between a question and an answer: value, property family, vocabulary
+  evidence, and ambiguity. Each one can only produce `rejected` or `no-coverage`
 
-- [AGENTS.md](AGENTS.md)
+The point of the gates is that `no-coverage` is the *easy* path through the code. A
+resolver that always answers is not a firewall, it is a hallucination with a schema.
 
-This policy covers:
+### Agent routing policy
 
-- source-of-truth order for agent decisions
-- intent routing to components and token tools
-- mandatory tier 2-only token output policy
-- no-coverage and value-based rejection behavior
+[AGENTS.md](AGENTS.md) defines the source-of-truth hierarchy, the token policy, the manual
+Figma pattern map, and the quality gates an agent applies before answering.
 
-### Raw Value Guard (Step 5)
+### Raw value guard
 
 Design value lint enforces token-first implementation in component source.
 
-Implementation:
-
-- [components/scripts/lint-raw-values.js](components/scripts/lint-raw-values.js)
-- scripts in [components/package.json](components/package.json)
+Implementation: [components/scripts/lint-raw-values.js](components/scripts/lint-raw-values.js)
 
 Severity model:
 
-- Always error: hardcoded colors, lint suppressions.
-- Baseline (default): spacing, typography, radius/border, z-index, motion as warnings.
-- Strict mode: spacing, typography, radius/border, z-index, motion promoted to errors.
-- Always warning: breakpoints in media queries, dimensions.
-
-Core ignore rules:
-
-- zero values (`0`, `0px`, `0rem`, etc.)
-- percentages and viewport units (`%`, `vh`, `vw`, `dvh`, `dvw`, `vmin`, `vmax`)
-- `1px` hairline for border/outline contexts
-- keywords: `auto`, `none`, `fit-content`, `min-content`, `max-content`
-- `transparent`, `currentColor`, `inherit`, `initial`, `unset` for color/global keyword contexts
-- `calc(...)` expressions composed only of token references and operators
-
-Run locally (baseline rollout):
+- Always error: hardcoded colours, lint suppressions
+- Baseline: spacing, typography, radius/border, z-index, motion as warnings
+- Strict: the above promoted to errors
+- Always warning: breakpoints in media queries, dimensions
 
 ```bash
 cd components
-npm run lint:raw-values
+npm run lint:raw-values          # baseline rollout
+npm run lint:raw-values:strict   # strict — this is what CI runs, and it passes clean
 ```
 
-Run locally (strict rollout):
+`npm run lint` is strict. Strict mode currently reports **zero errors and zero warnings**:
+every spacing, size, typography, radius, motion and z-index value in component source
+resolves through a token. Where no token existed, the token was added rather than the rule
+relaxed — a linter that reports findings nobody can fix is a linter nobody reads.
 
-```bash
-cd components
-npm run lint:raw-values:strict
-```
+### LLM context artifacts
 
-CI enforcement:
+- Repository bootstrap: `llms.txt`, generated by
+  [scripts/generate-llms-txt.js](scripts/generate-llms-txt.js) (`npm run generate:llms`)
+- Client application guide: `llms.client.txt`, generated by
+  [components/scripts/generate-llms-client-txt.js](components/scripts/generate-llms-client-txt.js)
+  and published inside `@jablonowski/dsb-components`
 
-- [.github/workflows/publish-components.yml](.github/workflows/publish-components.yml)
-- lint runs in the first job, before other checks
-
-### LLM Context Artifact (Step 6)
-
-Lightweight LLM bootstrap context is generated as `llms.txt`.
-
-Implementation:
-
-- generator: [scripts/generate-llms-txt.js](scripts/generate-llms-txt.js)
-- npm script: `npm run generate:llms`
-- pipeline job: `generate-llms-context` in [.github/workflows/publish-all.yml](.github/workflows/publish-all.yml)
-
-Run locally:
-
-```bash
-cd .
-npm run generate:llms
-```
-
-Pipeline output:
-
-- uploaded artifact name: `llms-context`
-- file: `llms.txt`
-
-### Client App LLM Guide in npm Package (Step 7)
-
-Client-oriented guidance is generated and published with `@jablonowski/dsb-components`.
-
-Implementation:
-
-- generator: [components/scripts/generate-llms-client-txt.js](components/scripts/generate-llms-client-txt.js)
-- build hook: `prebuild` in [components/package.json](components/package.json)
-- package asset config: [components/ng-package.json](components/ng-package.json)
-- release verification: [.github/workflows/publish-components.yml](.github/workflows/publish-components.yml)
-
-Published file path in consumer app:
-
-- `node_modules/@jablonowski/dsb-components/llms.client.txt`
-
-Snippet do wklejenia w klientowej aplikacji (`.github/copilot-instructions.md`):
+Snippet for a client app's `.github/copilot-instructions.md`:
 
 ```md
 ## Design System Blueprint Policy
@@ -378,76 +374,63 @@ Required behavior:
 - For `dsb-table` custom cells use: `<ng-template #cell let-row="row">`.
 ```
 
-## 4) Local End-to-End Check (CI-like)
+---
 
-Run this sequence to validate the full stack before release:
+## 4) GitHub Actions Pipelines
 
-```bash
-# 1) Tokens checks
-cd design-tokens
-npm ci
-npm run ci
+### Verify (every push and pull request)
 
-# 2) Components checks
-cd ../components
-npm ci
-npm run build-storybook
-npx playwright install chromium
-npm run test:visual
+[.github/workflows/verify.yml](.github/workflows/verify.yml)
 
-# run Storybook in one terminal, then execute:
-npm run test:a11y
-npm run test:interactions
+Runs the browser-free half of the suite: token schema and tier boundaries, Token MCP
+contract, strict raw-value lint, component API contract, unit tests, `llms.txt` generation.
 
-# final library build
-npm run build
-```
-
-## 5) GitHub Actions Pipelines
+Before this existed the publish workflows were the only CI, and they are manual — which
+means every gate in the repository was opt-in at release time, the point in the process
+where a red build is most expensive and most likely to be waved through.
 
 ### Publish Tokens
 
-Workflow: [.github/workflows/publish-tokens.yml](.github/workflows/publish-tokens.yml)
-
-Pipeline gates:
+[.github/workflows/publish-tokens.yml](.github/workflows/publish-tokens.yml)
 
 1. Validate tokens JSON syntax
-2. Validate tokens schema
-3. Build tokens
-4. Test CSS outputs
-5. Publish `@jablonowski/dsb-tokens` to npm
+2. Validate token schema and tier boundaries
+3. Token MCP contract tests
+4. Build tokens
+5. Test CSS outputs
+6. Verify the public surface leaks no raw options
+7. Publish `@jablonowski/dsb-tokens` to npm
 
 ### Publish Components
 
-Workflow: [.github/workflows/publish-components.yml](.github/workflows/publish-components.yml)
+[.github/workflows/publish-components.yml](.github/workflows/publish-components.yml)
 
-Pipeline gates:
+1. Static gates — strict raw-value lint + API contract test
+2. Unit tests
+3. Build Storybook (shared artifact)
+4. Accessibility tests
+5. Visual regression (fails if no baselines are committed)
+6. UI interaction tests
+7. Build and publish `@jablonowski/dsb-components` to npm
 
-1. Unit tests (placeholder for now)
-2. Build Storybook
-3. Accessibility tests
-4. Visual regression tests
-5. UI interaction tests
-6. Build and publish `@jablonowski/dsb-components` to npm
+### Publish All
 
-### Publish All (Orchestration)
+[.github/workflows/publish-all.yml](.github/workflows/publish-all.yml) — tokens first,
+components only after the token publish succeeds, then the `llms.txt` artifact.
 
-Workflow: [.github/workflows/publish-all.yml](.github/workflows/publish-all.yml)
+### Generate Visual Baselines
 
-Behavior:
-
-- Publishes tokens first
-- Publishes components only after token publish succeeds
+[.github/workflows/visual-baseline.yml](.github/workflows/visual-baseline.yml) — manual,
+regenerates Lost Pixel baselines on the CI image and opens a PR for review.
 
 ## Publishing Notes
 
-- Workflows require npm authentication token in GitHub environment/secrets
-- Patch version is auto-calculated from currently published npm version
-- Components release flow updates tokens dependency to latest before build/publish
+- Workflows require an npm authentication token in the GitHub environment/secrets
+- Patch version is auto-calculated from the currently published npm version
+- All workflows use `npm ci`, and both lockfiles are committed — the published artifact is
+  reproducible from this repository
 
 ## Using Local Token Changes Before Publish
-
-If you changed tokens locally and want components to consume them before npm publish:
 
 ```bash
 cd design-tokens
@@ -461,6 +444,7 @@ npm run build
 
 ## Known Caveats
 
-- Root [package.json](package.json) does not orchestrate both subprojects yet
-- Components unit tests are still marked TODO in CI
-- Visual regression depends on committed baseline images
+- Lost Pixel baselines must be generated by the CI workflow before the visual gate does
+  anything useful; the gate fails with instructions until they are committed
+- The Figma pattern map in AGENTS.md is maintained by hand. Nothing verifies it against
+  Figma, so it is the one contract in this repository without a test behind it

@@ -1,11 +1,34 @@
 {
   "name": "@jablonowski/dsb-tokens",
   "version": "1.0.3",
-  "description": "",
+  "description": "Design System Blueprint — three-tier design tokens (options, decisions, component).",
   "license": "MIT",
   "author": "Mateusz Jablonowski",
   "type": "commonjs",
-  "main": "index.js",
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "main": "./dist/js/tokens.js",
+  "types": "./dist/ts/tokens.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/ts/tokens.d.ts",
+      "default": "./dist/js/tokens.js"
+    },
+    "./css": "./dist/css/public.css",
+    "./css/full": "./dist/css/variables.css",
+    "./scss": "./dist/scss/_public.scss",
+    "./scss/full": "./dist/scss/_variables.scss",
+    "./json": "./dist/json/decisions.json",
+    "./json/full": "./dist/json/tokens.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "tokens/tokens.json",
+    "README.md"
+  ],
   "scripts": {
     "build": "style-dictionary build --config config.js",
     "release": "npm run build && npm version patch && npm publish --access public",

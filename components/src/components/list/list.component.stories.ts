@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, userEvent, within } from '@storybook/test';
 import { ListComponent } from './list.component';
 import { ListItemComponent } from './list-item.component';
 import { AvatarComponent } from '../avatar/avatar.component';
@@ -20,6 +21,17 @@ export default meta;
 type Story = StoryObj<ListComponent>;
 
 export const Simple: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // The container and its children expose list semantics even though they are divs.
+    const list = canvas.getByRole('list');
+    expect(within(list).getAllByRole('listitem')).toHaveLength(4);
+    expect(canvas.getByText('Project created')).toBeInTheDocument();
+    expect(
+      canvas.getByText('The repository was initialised with a default branch.')
+    ).toBeInTheDocument();
+  },
   render: () => ({
     moduleMetadata: { imports: [ListComponent, ListItemComponent] },
     template: `
@@ -35,6 +47,19 @@ export const Simple: Story = {
 };
 
 export const ActivityLog: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    expect(canvas.getByText('Deployment succeeded')).toBeInTheDocument();
+    expect(canvas.getByText('2 min ago')).toBeInTheDocument();
+
+    // Status is carried by the text, not only by the indicator colour — the dot is a
+    // redundant cue, which is the point.
+    const items = canvas.getAllByRole('listitem');
+    expect(items.length).toBeGreaterThanOrEqual(4);
+    expect(canvasElement.querySelector('.dot--success')).not.toBeNull();
+    expect(canvasElement.querySelector('.dot--warning')).not.toBeNull();
+  },
   render: () => ({
     moduleMetadata: { imports: [ListComponent, ListItemComponent] },
     template: `

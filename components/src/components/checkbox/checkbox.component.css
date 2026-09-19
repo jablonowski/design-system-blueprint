@@ -1,7 +1,7 @@
 .checkbox-root {
   display: inline-flex;
   align-items: flex-start;
-  gap: 9px;
+  gap: var(--ds-decisions-space-md);
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -17,8 +17,8 @@
 
 .checkbox-box {
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  width: var(--ds-component-checkbox-box-size);
+  height: var(--ds-component-checkbox-box-size);
   border-radius: var(--ds-component-checkbox-border-radius);
   border: var(--ds-component-checkbox-border-width) solid var(--ds-component-checkbox-border);
   background: var(--ds-decisions-color-surface-base);
@@ -29,7 +29,7 @@
     border-color var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
     background var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard),
     box-shadow var(--ds-decisions-motion-duration-base) var(--ds-decisions-motion-easing-standard);
-  margin-top: 1px;
+  margin-top: var(--ds-decisions-space-4xs);
 }
 
 .checkbox-root:hover:not(.checkbox-disabled) .checkbox-box {
@@ -56,14 +56,14 @@
 }
 
 .checkbox-icon {
-  width: 12px;
-  height: 10px;
+  width: var(--ds-component-checkbox-check-width);
+  height: var(--ds-component-checkbox-check-height);
 }
 
 .checkbox-label {
   font-size: var(--ds-decisions-font-size-md);
   color: var(--ds-decisions-color-text-primary);
-  line-height: 1.5;
+  line-height: var(--ds-decisions-font-line-height-normal);
 }
 
 .checkbox-disabled {
@@ -74,13 +74,13 @@
 .checkbox-error {
   font-size: var(--ds-decisions-font-size-xs);
   color: var(--ds-decisions-color-feedback-error-text);
-  margin: 5px 0 0 25px;
-  line-height: 1.4;
+  margin: var(--ds-decisions-space-xs) 0 0 var(--ds-decisions-space-3xl);
+  line-height: var(--ds-decisions-font-line-height-tight);
 }
 
 .checkbox-hint {
   font-size: var(--ds-decisions-font-size-xs);
   color: var(--ds-decisions-color-text-subtle);
-  margin: 5px 0 0 25px;
-  line-height: 1.4;
+  margin: var(--ds-decisions-space-xs) 0 0 var(--ds-decisions-space-3xl);
+  line-height: var(--ds-decisions-font-line-height-tight);
 }

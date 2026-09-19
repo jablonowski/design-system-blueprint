@@ -1,12 +1,15 @@
 node_modules/
-design-tokens/package-lock.json
 design-tokens/node_modules/
 design-tokens/dist/
 components/.angular/
 components/dist/
 components/node_modules/
 components/storybook-static/
+components/coverage/
 llms.txt
+
+# Lockfiles are committed on purpose: the release workflows run `npm ci`, which is
+# the only way the artifact published to npm is reproducible from this repository.
 
 # OS
 .DS_Store

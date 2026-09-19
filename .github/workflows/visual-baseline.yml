@@ -1,0 +1,74 @@
+name: Generate Visual Baselines
+
+# Visual baselines are environment-specific: font rasterisation on macOS and on the
+# CI image differ enough to blow past any sane pixel threshold. Baselines generated
+# on a laptop therefore fail in CI for reasons that have nothing to do with the change
+# under review — which is how a visual regression gate ends up permanently red and then
+# permanently ignored.
+#
+# So baselines are generated HERE, on the same ubuntu-latest image the comparison job
+# uses, and opened as a pull request for a human to approve. Run this workflow after an
+# intentional visual change.
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'What intentional visual change are these baselines for?'
+        required: true
+        type: string
+
+defaults:
+  run:
+    working-directory: components
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    name: Generate and open PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Install Lost Pixel's Playwright browser
+        run: node node_modules/lost-pixel/node_modules/playwright-core/cli.js install chromium
+
+      - name: Generate baselines
+        run: npm run test:visual:update
+
+      - name: Summarise
+        run: |
+          COUNT=$(find .lostpixel/baseline -name '*.png' | wc -l)
+          echo "Generated ${COUNT} baseline images on ubuntu-latest."
+          echo "### Visual baselines" >> "$GITHUB_STEP_SUMMARY"
+          echo "Generated **${COUNT}** images for: ${{ inputs.reason }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/visual-baselines
+          delete-branch: true
+          add-paths: components/.lostpixel/baseline
+          commit-message: "chore(visual): regenerate Lost Pixel baselines"
+          title: "chore(visual): regenerate Lost Pixel baselines"
+          body: |
+            Regenerated Lost Pixel baselines on `ubuntu-latest`, the same image the
+            comparison job runs on.
+
+            **Reason given:** ${{ inputs.reason }}
+
+            Review the image diff in the Files changed tab before merging. Every changed
+            image is an intentional design change being accepted as the new truth — if
+            one of them surprises you, that is a regression, not a baseline update.
