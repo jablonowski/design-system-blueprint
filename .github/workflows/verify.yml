@@ -1,0 +1,82 @@
+name: Verify
+
+# The publish workflows are manual. Until this existed, nothing ran on a pull request,
+# which means every gate in this repository was opt-in at release time — the point in the
+# process where a red build is most expensive and most likely to be waved through.
+#
+# This runs the cheap, browser-free half of the suite on every push and pull request:
+# token schema and tier boundaries, the token MCP contract, the raw-value guard in strict
+# mode, the component API contract, and unit tests. The browser suites (a11y, interactions,
+# visual) stay in the release pipeline because they need a Storybook build and a browser.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  tokens:
+    name: Tokens — schema, tier boundaries, build, output
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: design-tokens
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: design-tokens/package-lock.json
+      - run: npm ci
+      - run: npm run ci
+
+  token-mcp:
+    name: Token MCP — resolution contract
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tokens-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm test
+
+  components:
+    name: Components — token policy, API contract, unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: components
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: components/package-lock.json
+      - run: npm ci
+      - name: Lint raw values (strict)
+        run: npm run lint:raw-values:strict
+      - name: Verify MCP contracts against component source
+        run: npm run test:contracts
+      - name: Unit tests
+        run: npm run test:unit
+
+  llms-context:
+    name: llms.txt is reproducible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Generate llms.txt
+        run: npm run generate:llms
+      - uses: actions/upload-artifact@v4
+        with:
+          name: llms-context
+          path: llms.txt
+          retention-days: 7
