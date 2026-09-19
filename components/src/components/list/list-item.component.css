@@ -1,15 +1,15 @@
 .list-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: var(--ds-decisions-space-lg);
+  padding: var(--ds-decisions-space-lg) var(--ds-decisions-space-xl);
 }
 
 /* Indicator dot */
 .list-item-dot {
   flex-shrink: 0;
-  width: 8px;
-  height: 8px;
+  width: var(--ds-component-list-indicator-size);
+  height: var(--ds-component-list-indicator-size);
   border-radius: var(--ds-decisions-border-radius-full);
 }
 
@@ -34,21 +34,21 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--ds-decisions-space-2xs);
 }
 
 .list-item-top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
+  gap: var(--ds-decisions-space-sm);
 }
 
 .list-item-label {
   font-size: var(--ds-decisions-font-size-md);
   font-weight: var(--ds-decisions-font-weight-medium);
   color: var(--ds-component-list-item-text);
-  line-height: 1.4;
+  line-height: var(--ds-decisions-font-line-height-tight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -72,7 +72,7 @@
   font-size: var(--ds-decisions-font-size-sm);
   color: var(--ds-component-list-item-description);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--ds-decisions-font-line-height-normal);
 }
 
 /* Trailing slot */
@@ -80,7 +80,7 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--ds-decisions-space-xs);
 }
 
 .list-item-trailing:empty { display: none; }

@@ -15,5 +15,5 @@
 }
 
 .list-compact .list-item {
-  padding: 8px 12px;
+  padding: var(--ds-decisions-space-sm) var(--ds-decisions-space-lg);
 }

@@ -1,14 +1,14 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: var(--ds-decisions-space-xs);
 }
 
 .label {
   font-size: var(--ds-decisions-font-size-sm);
   font-weight: var(--ds-decisions-font-weight-medium);
   color: var(--ds-decisions-color-text-primary);
-  line-height: 1.4;
+  line-height: var(--ds-decisions-font-line-height-tight);
 }
 
 .input-wrap {
@@ -32,9 +32,9 @@
   -webkit-appearance: none;
 }
 
-.input-sm { font-size: var(--ds-decisions-font-size-xs); padding: 5px 10px; height: 30px; }
-.input-md { font-size: var(--ds-decisions-font-size-md); padding: 7px 12px; height: 36px; }
-.input-lg { font-size: var(--ds-decisions-font-size-lg); padding: 9px 14px; height: 44px; }
+.input-sm { font-size: var(--ds-decisions-font-size-xs); padding: var(--ds-decisions-space-xs) var(--ds-decisions-space-md); height: var(--ds-component-input-height-sm); }
+.input-md { font-size: var(--ds-decisions-font-size-md); padding: var(--ds-decisions-space-sm) var(--ds-decisions-space-lg); height: var(--ds-component-input-height-md); }
+.input-lg { font-size: var(--ds-decisions-font-size-lg); padding: var(--ds-decisions-space-md) var(--ds-decisions-space-xl); height: var(--ds-component-input-height-lg); }
 
 .input::placeholder { color: var(--ds-component-input-placeholder); }
 
@@ -63,12 +63,12 @@
   font-size: var(--ds-decisions-font-size-xs);
   color: var(--ds-decisions-color-feedback-error-text);
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--ds-decisions-font-line-height-tight);
 }
 
 .hint {
   font-size: var(--ds-decisions-font-size-xs);
   color: var(--ds-decisions-color-text-subtle);
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--ds-decisions-font-line-height-tight);
 }
