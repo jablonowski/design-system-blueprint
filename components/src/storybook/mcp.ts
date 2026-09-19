@@ -19,6 +19,9 @@ type ComponentContract = {
   name: string;
   selector: string;
   description: string;
+  /** Storybook title to source example stories from. Defaults to `Components/<Name>`.
+   *  Sub-components are demonstrated inside their parent's stories, not their own. */
+  storybookTitle?: string;
   stability: 'stable' | 'beta';
   since: string;
   props: Record<string, PropContract>;
@@ -27,6 +30,7 @@ type ComponentContract = {
 
 export type ComponentContractKey =
   | 'accordion'
+  | 'accordionItem'
   | 'avatar'
   | 'breadcrumbs'
   | 'button'
@@ -36,6 +40,7 @@ export type ComponentContractKey =
   | 'header'
   | 'input'
   | 'list'
+  | 'listItem'
   | 'modal'
   | 'radioGroup'
   | 'table'
@@ -51,6 +56,34 @@ const contracts: Record<ComponentContractKey, ComponentContract> = {
     props: {
       exclusive: {
         description: 'When true, only one item can remain expanded at a time.',
+        type: 'boolean',
+        defaultValue: 'false',
+        control: 'boolean',
+      },
+    },
+  },
+  accordionItem: {
+    name: 'AccordionItemComponent',
+    selector: 'dsb-accordion-item',
+    description: 'A single expandable section. Always used inside dsb-accordion.',
+    storybookTitle: 'Components/Accordion',
+    stability: 'stable',
+    since: '1.0.0',
+    props: {
+      title: {
+        description: 'Header text displayed in the toggle button.',
+        type: 'string',
+        defaultValue: "''",
+        control: 'text',
+      },
+      open: {
+        description: 'Initial or controlled open state of the section.',
+        type: 'boolean',
+        defaultValue: 'false',
+        control: 'boolean',
+      },
+      disabled: {
+        description: 'Prevents toggling when true.',
         type: 'boolean',
         defaultValue: 'false',
         control: 'boolean',
@@ -480,6 +513,47 @@ const contracts: Record<ComponentContractKey, ComponentContract> = {
       },
       compact: {
         description: 'Reduces vertical spacing for dense data display.',
+        type: 'boolean',
+        defaultValue: 'false',
+        control: 'boolean',
+      },
+    },
+  },
+  listItem: {
+    name: 'ListItemComponent',
+    selector: 'dsb-list-item',
+    description: 'A single row inside dsb-list, with optional description, meta text and status indicator.',
+    storybookTitle: 'Components/List',
+    stability: 'stable',
+    since: '1.0.0',
+    props: {
+      label: {
+        description: 'Primary line text.',
+        type: 'string',
+        defaultValue: "''",
+        control: 'text',
+      },
+      description: {
+        description: 'Secondary descriptive text below the label.',
+        type: 'string',
+        defaultValue: "''",
+        control: 'text',
+      },
+      meta: {
+        description: 'Auxiliary right-aligned meta text.',
+        type: 'string',
+        defaultValue: "''",
+        control: 'text',
+      },
+      variant: {
+        description: 'Semantic visual variant for status contexts.',
+        type: "'default' | 'info' | 'success' | 'warning' | 'error'",
+        defaultValue: "'default'",
+        control: 'select',
+        options: ['default', 'info', 'success', 'warning', 'error'],
+      },
+      indicator: {
+        description: 'Shows a compact leading indicator dot.',
         type: 'boolean',
         defaultValue: 'false',
         control: 'boolean',
