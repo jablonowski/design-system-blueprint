@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { expect, userEvent, within } from '@storybook/test';
+import { expect, fireEvent, userEvent, within } from '@storybook/test';
 import { RadioGroupComponent } from './radio.component';
 import { getArgTypes, getMcpContract } from '../../storybook/mcp';
 
@@ -31,8 +31,11 @@ export const Default: Story = {
     const group = canvas.getByRole('group', { name: /choose a plan/i });
     expect(group).toBeInTheDocument();
 
-    const free = canvas.getByRole('radio', { name: /free/i });
-    const pro = canvas.getByRole('radio', { name: /pro/i });
+    // The accessible name is the label joined to its hint — "Free" reads as
+    // "FreeUp to 3 projects". An unanchored /pro/i therefore also matches
+    // "...3 projects", so these are anchored to the label.
+    const free = canvas.getByRole('radio', { name: /^Free/ });
+    const pro = canvas.getByRole('radio', { name: /^Pro/ });
 
     expect(free).toBeChecked();
     expect(pro).not.toBeChecked();
@@ -76,10 +79,15 @@ export const Disabled: Story = {
 
     // A disabled group must not be changeable by click either — greyed out is a look,
     // not a behaviour.
-    const free = canvas.getByRole('radio', { name: /free/i });
-    await userEvent.click(free);
+    //
+    // The CSS sets pointer-events: none, which makes userEvent refuse to click at all.
+    // Refusing is not the same as being unchangeable, so the event is dispatched
+    // directly: this asserts the disabled attribute holds, independently of the styling
+    // that hides the control from a real pointer.
+    const free = canvas.getByRole('radio', { name: /^Free/ });
+    await fireEvent.click(free);
     expect(free).not.toBeChecked();
-    expect(canvas.getByRole('radio', { name: /pro/i })).toBeChecked();
+    expect(canvas.getByRole('radio', { name: /^Pro/ })).toBeChecked();
   },
 };
 
