@@ -26,17 +26,19 @@
   },
   "files": [
     "dist",
+    "figma",
     "tokens/tokens.json",
     "README.md"
   ],
   "scripts": {
     "build": "style-dictionary build --config config.js",
-    "release": "npm run build && npm version patch && npm publish --access public",
+    "ci": "npm run lint && npm run build && npm test",
+    "generate:figma": "node scripts/generate-figma-tokens.js",
+    "lint": "npm run lint:json && npm run lint:schema",
     "lint:json": "node scripts/validate-json.js",
     "lint:schema": "node scripts/validate-schema.js",
-    "lint": "npm run lint:json && npm run lint:schema",
-    "test": "node --test test/tokens.test.js",
-    "ci": "npm run lint && npm run build && npm test"
+    "release": "npm run build && npm version patch && npm publish --access public",
+    "test": "node --test test/*.test.js"
   },
   "repository": {
     "type": "git",

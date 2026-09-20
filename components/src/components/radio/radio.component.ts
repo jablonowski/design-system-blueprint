@@ -53,6 +53,13 @@ export class RadioGroupComponent implements ControlValueAccessor {
   private onChange: (v: string) => void = () => {};
 
   onSelect(val: string): void {
+    // The template hides the native input and sets the disabled attribute, and the CSS
+    // takes the item out of the pointer flow. None of that stops a programmatic change
+    // event, and a control that still mutates on one is disabled in appearance only —
+    // the same failure dsb-table had with rowClick.
+    if (this.disabled) return;
+    if (this.options.some((option) => option.value === val && option.disabled)) return;
+
     this.value = val;
     this.onChange(val);
     this.valueChange.emit(val);

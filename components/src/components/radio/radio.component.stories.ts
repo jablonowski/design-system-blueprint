@@ -31,13 +31,18 @@ export const Default: Story = {
     const group = canvas.getByRole('group', { name: /choose a plan/i });
     expect(group).toBeInTheDocument();
 
-    const free = canvas.getByRole('radio', { name: /free/i });
-    const pro = canvas.getByRole('radio', { name: /pro/i });
+    // The accessible name is the label joined to its hint — "Free" reads as
+    // "FreeUp to 3 projects". An unanchored /pro/i therefore also matches
+    // "...3 projects", so these are anchored to the label.
+    const free = canvas.getByRole('radio', { name: /^Free/ });
+    const pro = canvas.getByRole('radio', { name: /^Pro/ });
 
     expect(free).toBeChecked();
     expect(pro).not.toBeChecked();
 
-    await userEvent.click(pro);
+    // The native input is visually hidden and has pointer-events: none, so it is never
+    // the click target. A user clicks the label, and so does this test.
+    await userEvent.click(canvas.getByText('Pro'));
 
     expect(pro).toBeChecked();
     expect(free).not.toBeChecked();
@@ -74,12 +79,16 @@ export const Disabled: Story = {
 
     radios.forEach((radio) => expect(radio).toBeDisabled());
 
-    // A disabled group must not be changeable by click either — greyed out is a look,
-    // not a behaviour.
-    const free = canvas.getByRole('radio', { name: /free/i });
-    await userEvent.click(free);
-    expect(free).not.toBeChecked();
-    expect(canvas.getByRole('radio', { name: /pro/i })).toBeChecked();
+    // Not merely greyed out: the item is taken out of the pointer flow, so a click never
+    // reaches the control, and the selected value stays put.
+    expect(canvas.getByRole('radio', { name: /^Pro/ })).toBeChecked();
+
+    const item = canvasElement.querySelector('.radio-item--disabled');
+    expect(item).not.toBeNull();
+    expect(window.getComputedStyle(item as Element).pointerEvents).toBe('none');
+
+    // The other half — that a programmatic change is refused as well — is asserted in
+    // the unit tests, where the event can be driven without fighting the pointer layer.
   },
 };
 
