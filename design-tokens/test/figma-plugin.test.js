@@ -211,3 +211,29 @@ test('descriptions from the token comments are carried over', async () => {
   const described = state.variables.filter((v) => v.description);
   assert.ok(described.length > 50, `only ${described.length} variables carry a description`);
 });
+
+// ─── The packaged plugin variant ──────────────────────────────────────────────
+
+test('the packaged plugin carries the same logic and a valid manifest', () => {
+  const pluginDir = path.join(OUT_DIR, 'plugin');
+  const code = fs.readFileSync(path.join(pluginDir, 'code.js'), 'utf8');
+  const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'manifest.json'), 'utf8'));
+
+  assert.equal(manifest.main, 'code.js');
+  assert.equal(manifest.api, '1.0.0');
+  assert.deepEqual(manifest.editorType, ['figma']);
+  assert.equal(
+    manifest.documentAccess,
+    'dynamic-page',
+    'dynamic-page requires the async variable getters the script already uses'
+  );
+
+  assert.match(code, /const DRY_RUN = true;/);
+  assert.match(code, /const OVERWRITE_EXISTING = false;/);
+  assert.match(code, /figma\.closePlugin/);
+  assert.doesNotThrow(() => new Function('figma', 'console', code.replace(/\nrun\(\)[\s\S]*$/, '')));
+
+  // Same token payload as the Scripter variant — one source, two wrappers.
+  const payload = (src) => src.match(/const TOKENS = (\[[\s\S]*?\n\]);/)[1];
+  assert.equal(payload(code), payload(SCRIPT));
+});

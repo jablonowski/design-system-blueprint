@@ -3,7 +3,12 @@
 // Creates the design-token variables in this Figma file.
 //
 // HOW TO RUN
-//   Plugins -> Scripter -> paste this whole file -> Run.
+//   1. Plugins -> Development -> Show/Hide console.
+//      Open it FIRST: the plugin closes when it finishes and the plan is
+//      printed there.
+//   2. Plugins -> Development -> Import plugin from manifest...
+//      Pick the manifest.json sitting next to this file.
+//   3. Plugins -> Development -> DSB - Import Tokens.
 //
 // FIRST RUN IS A DRY RUN. Nothing is written until you set DRY_RUN to false. Read the
 // output, then run it again for real. Duplicate the file first if it matters to you.
@@ -3664,4 +3669,10 @@ async function run() {
   figma.notify('Tokens applied: ' + plan.create.length + ' created, ' + written + ' values written.');
 }
 
-run();
+run().then(
+  () => figma.closePlugin(),
+  (error) => {
+    console.log('FAILED: ' + (error && error.message ? error.message : String(error)));
+    figma.closePlugin('Import failed: ' + (error && error.message ? error.message : 'see console'));
+  }
+);
