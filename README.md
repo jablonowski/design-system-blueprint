@@ -166,6 +166,31 @@ Shadows, `em` tracking values and percentages are not exported: Figma variables 
 colour, number, string and boolean only. That is a limit of the target, not a gap in the
 token set.
 
+### Three measurements the audit left open, and how they were settled
+
+Comparing the components against the design file turned up three differences. All three
+are now decided, and the decision is recorded here rather than left as folklore.
+
+**Form field gap: 5px in the design, 6px in code — 6 stands.**
+The 5 was off the scale. Keeping it would mean the spacing scale has an exception on the
+day it was introduced, and the next person would reasonably add a second one. Nothing
+argues for 5 any more: the design file derives from these tokens now, so its old value
+was a reading of the thing being generated, not an authority over it.
+
+**Control heights: 33 and 37 in the design, 36 for both in code — 36 stands.**
+The design's input was 33 tall and its select 37, both auto-height. That gap was not a
+decision anybody made; it fell out of two different vertical paddings, 8 and 10, on
+otherwise identical controls — same horizontal padding, same radius, same type size. An
+input and a select sitting in one form row have to line up, so both now resolve through
+`decisions.size.control.*`. Fixed heights rather than padding-driven ones, because a
+fixed height is a thing a test can assert.
+
+**Size variants exist in code but not in the design file.**
+`sm | md | lg` has no counterpart in Figma, which documents one size per component and
+varies only the state. After the variable import the *tokens* are there, so nothing is
+blocked; what is missing is three frames per sized component. That is a drawing job, not
+a token job, and it stays open deliberately — see the caveats at the end.
+
 ### Important files
 
 - Source token JSON: [design-tokens/tokens/tokens.json](design-tokens/tokens/tokens.json)
@@ -487,5 +512,7 @@ npm run build
 - The Figma export is generated and verified, but applying it still needs a human to run
   the import inside Figma. Nothing here can detect that the design file was edited by hand
   afterwards
+- The design file documents one size per component. The `sm | md | lg` scale lives only in
+  code and in the variables, not in any frame a designer can look at
 - The Figma pattern map in AGENTS.md is maintained by hand. Nothing verifies it against
   Figma, so it is the one contract in this repository without a test behind it

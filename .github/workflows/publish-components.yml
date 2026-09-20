@@ -68,6 +68,11 @@ jobs:
       - run: npm ci
       - name: Update tokens to latest published
         run: npm install @jablonowski/dsb-tokens@latest
+      # Guard against building the whole visual suite on a token package that predates
+      # the component source: every missing variable renders as a collapsed layout, and
+      # a11y and visual regression would both be measuring the wrong thing.
+      - name: Verify the published tokens cover what the components use
+        run: npm run test:contracts
       - run: npm run build-storybook
       - uses: actions/upload-artifact@v4
         with:

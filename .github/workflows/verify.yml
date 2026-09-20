@@ -57,6 +57,12 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
+      # The components package links the token package from disk, and the built CSS is
+      # not committed. Without this the stylesheet angular.json loads does not exist and
+      # the token-usage gate has nothing to check against.
+      - name: Build tokens the components link against
+        working-directory: design-tokens
+        run: npm ci && npm run build
       - run: npm ci
       - name: Lint raw values (strict)
         run: npm run lint:raw-values:strict
