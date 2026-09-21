@@ -8,11 +8,35 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test test/*.test.js"
+    "sync:tokens": "node scripts/sync-tokens.js",
+    "test": "node --test test/*.test.js",
+    "ci": "npm test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jablonowski/design-system-blueprint.git",
     "directory": "tokens-mcp"
-  }
+  },
+  "bin": {
+    "dsb-tokens-mcp": "src/server.js"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "tokens/tokens.json",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "design-tokens",
+    "design-system",
+    "mcp",
+    "model-context-protocol",
+    "agent-experience"
+  ]
 }

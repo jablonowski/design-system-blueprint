@@ -1,0 +1,77 @@
+name: Publish Token MCP
+
+# The resolver is the channel an agent actually uses, and until it was published it only
+# worked from a checkout of this repository — it read its tokens through a relative path
+# into a sibling directory. An agent working in someone else's project could not reach it
+# at all, which made the Agent Experience claim untestable outside the monorepo.
+#
+# It carries its own snapshot of the token source, because the token package deliberately
+# does not publish that source to consumers. The snapshot is the thing most likely to rot,
+# so the release refuses to run while it differs from the source by a single byte.
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+defaults:
+  run:
+    working-directory: tokens-mcp
+
+jobs:
+  # ── Contract, packaging and wire surface ─────────────────────────────────
+  # Covers the resolution guarantees (tier 2 only, no value lookup, no-coverage over
+  # guessing), the bundled snapshot's freshness, the packed file list, and the real
+  # server answering over stdio without naming a tier 1 token.
+  tests:
+    name: Contract and packaging tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm test
+
+  release:
+    name: Release — publish to npm
+    runs-on: ubuntu-latest
+    needs: tests
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      # The snapshot is checked by the test job above against the source in this same
+      # checkout. Repeated here because this is the job that makes it permanent: a stale
+      # snapshot published once is a resolver answering from tokens nobody ships.
+      - name: Refuse to publish a stale token snapshot
+        run: |
+          if ! diff -q tokens/tokens.json ../design-tokens/tokens/tokens.json > /dev/null; then
+            echo "::error::tokens/tokens.json differs from the token source. Run: npm run sync:tokens"
+            exit 1
+          fi
+          COUNT=$(node -e "
+            const t=require('./tokens/tokens.json');
+            let n=0;
+            const walk=(x)=>{ if(!x||typeof x!=='object')return;
+              if(typeof x.value==='string'){n++;return;}
+              for(const [k,v] of Object.entries(x)) if(k!=='comment') walk(v); };
+            walk(t); console.log(n);
+          ")
+          echo "Bundled snapshot is current: ${COUNT} tokens."
+
+      - name: Bump version from npm registry
+        run: |
+          PUBLISHED=$(npm view @jablonowski/dsb-tokens-mcp version 2>/dev/null || echo "0.0.0")
+          NEXT=$(node -p "const v='${PUBLISHED}'.split('.');v[2]=String(+v[2]+1);v.join('.')")
+          npm version ${NEXT} --no-git-tag-version
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

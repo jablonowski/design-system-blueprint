@@ -5,8 +5,9 @@ name: Verify
 # process where a red build is most expensive and most likely to be waved through.
 #
 # This runs the cheap, browser-free half of the suite on every push and pull request:
-# token schema and tier boundaries, the token MCP contract, the raw-value guard in strict
-# mode, the component API contract, and unit tests. The browser suites (a11y, interactions,
+# token schema and tier boundaries, the published token surface, the token MCP contract
+# and its bundled snapshot, the raw-value guard in strict mode, the component API
+# contract, and unit tests. The browser suites (a11y, interactions,
 # visual) stay in the release pipeline because they need a Storybook build and a browser.
 
 on:
@@ -32,7 +33,7 @@ jobs:
       - run: npm run ci
 
   token-mcp:
-    name: Token MCP — resolution contract
+    name: Token MCP — contract, packaging, wire surface
     runs-on: ubuntu-latest
     defaults:
       run:

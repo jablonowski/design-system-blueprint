@@ -168,37 +168,6 @@ function createTokenEngine(tokensPath) {
   const tier2 = leaves.filter((x) => x.tier === 2);
   const tier3 = leaves.filter((x) => x.tier === 3);
 
-  const memoTerminal = new Map();
-
-  function resolveTerminal(path, visited = new Set()) {
-    if (memoTerminal.has(path)) return memoTerminal.get(path);
-    if (visited.has(path)) return null;
-    visited.add(path);
-
-    const token = byPath.get(path);
-    if (!token) return null;
-
-    const ref = parseReference(token.value);
-    if (!ref) {
-      const terminal = { type: 'literal', value: token.value, path };
-      memoTerminal.set(path, terminal);
-      return terminal;
-    }
-
-    const target = byPath.get(ref);
-    if (!target) return null;
-
-    if (target.tier === 1) {
-      const terminal = { type: 'tier1', value: target.value, path: target.path };
-      memoTerminal.set(path, terminal);
-      return terminal;
-    }
-
-    const terminal = resolveTerminal(target.path, visited);
-    memoTerminal.set(path, terminal);
-    return terminal;
-  }
-
   /**
    * Map a private tier 3 token to the public tier 2 token a consumer should use.
    *
