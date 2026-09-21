@@ -12,7 +12,8 @@ import type { CustomProjectConfig } from 'lost-pixel';
  *    change under review — which is how a visual gate ends up permanently red and then
  *    permanently ignored. Run the "Generate Visual Baselines" workflow; it renders on
  *    the same image the comparison job uses and opens a PR for review.
- *    `npm run test:visual:update` refuses to run outside CI for this reason.
+ *    `npm run test:visual:update` (which runs `lost-pixel update`) refuses to run
+ *    outside CI for this reason.
  *
  * 2. Baselines are generated from the branch you intend to ship, after it is correct.
  *    Baselines taken while something is broken make the breakage the specification,
@@ -28,8 +29,15 @@ export const config: CustomProjectConfig = {
     storybookUrl: 'storybook-static',
   },
 
-  // Regenerate baselines instead of comparing when LP_UPDATE=true
-  generateOnly: process.env['LP_UPDATE'] === 'true',
+  // Despite the name, this is not "generate instead of compare" — it is the flag that
+  // marks the OSS mode, as opposed to the hosted platform. It has to be constant,
+  // because failOnDifference below is only honoured while it is set: with it false,
+  // lost-pixel logs every difference it found and then exits 0. It was previously bound
+  // to an environment variable the comparison run does not set, so the visual gate
+  // reported differences and passed anyway.
+  //
+  // Updating baselines is a separate CLI mode: `lost-pixel update`.
+  generateOnly: true,
 
   // Fail the pipeline if any visual difference is detected
   failOnDifference: true,

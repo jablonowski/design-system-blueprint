@@ -105,3 +105,25 @@ test('every story has a committed baseline, and every baseline has a story', () 
     '\n  baselines with no story (renamed or deleted, now dead weight):\n    ' + orphaned.join('\n    ') + '\n'
   );
 });
+
+// ─── The configuration that decides whether the gate can fail at all ──────────
+
+test('the visual gate is configured so that a difference actually fails it', () => {
+  const config = fs.readFileSync(path.join(ROOT, 'lostpixel.config.ts'), 'utf8');
+
+  // lost-pixel only honours failOnDifference while generateOnly is set: with it false it
+  // logs the differences it found and exits 0. Binding it to an environment variable —
+  // which is what this repository did — silently turned the comparison into a report.
+  assert.match(
+    config,
+    /^\s*generateOnly: true,\s*$/m,
+    'generateOnly must be the literal true; anything conditional disarms failOnDifference'
+  );
+  assert.match(config, /^\s*failOnDifference: true,\s*$/m);
+
+  // Baselines are written by lost-pixel's update mode. generateOnly does not write them,
+  // whatever its name suggests.
+  const scripts = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts;
+  assert.match(scripts['test:visual:update'], /lost-pixel update/);
+  assert.match(scripts['test:visual:update'], /guard-visual-update/);
+});

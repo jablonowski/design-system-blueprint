@@ -52,8 +52,12 @@ jobs:
       - name: Install Lost Pixel's Playwright browser
         run: node node_modules/lost-pixel/node_modules/playwright-core/cli.js install chromium
 
+      # lost-pixel exits 1 after an update run: from its point of view it just found a
+      # pile of missing baselines. It writes them all the same. Whether the run produced
+      # anything usable is asserted by the coverage check below — which fails on an empty
+      # or incomplete baseline set — rather than by this exit code.
       - name: Generate baselines
-        run: npm run test:visual:update
+        run: npm run test:visual:update || true
 
       # A baseline set that silently covers fewer stories than exist is the failure
       # mode this whole gate is meant to avoid, so it is checked before the PR is opened.
