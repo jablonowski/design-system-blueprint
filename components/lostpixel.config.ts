@@ -3,17 +3,22 @@ import type { CustomProjectConfig } from 'lost-pixel';
 /**
  * Lost Pixel — visual regression configuration
  *
- * Workflow:
- *   Generate/update baselines (run locally after intentional design changes):
- *     npm run test:visual:update
- *   Commit the .lostpixel/baseline/ directory to the repo.
+ * A baseline is not a screenshot. It is the specification: every pixel in it has been
+ * accepted as correct, and every future run is judged against it. Two things follow.
  *
- *   CI comparison (run on every PR that touches components):
- *     npm run test:visual
- *   Fails if any story screenshot differs from the committed baseline
- *   by more than the configured threshold.
+ * 1. Baselines are generated in CI, never on a laptop.
+ *    Font rasterisation on macOS and on ubuntu-latest differ by far more than any
+ *    sane threshold. A baseline taken locally fails in CI for reasons unrelated to the
+ *    change under review — which is how a visual gate ends up permanently red and then
+ *    permanently ignored. Run the "Generate Visual Baselines" workflow; it renders on
+ *    the same image the comparison job uses and opens a PR for review.
+ *    `npm run test:visual:update` refuses to run outside CI for this reason.
  *
- * The storybook-static/ folder must be built before running lost-pixel:
+ * 2. Baselines are generated from the branch you intend to ship, after it is correct.
+ *    Baselines taken while something is broken make the breakage the specification,
+ *    and the gate then defends it.
+ *
+ * Comparison (CI, and locally against committed baselines):
  *     npm run build-storybook && npm run test:visual
  */
 export const config: CustomProjectConfig = {
@@ -32,7 +37,8 @@ export const config: CustomProjectConfig = {
   // Pixel difference tolerance — 0.5% allows for minor anti-aliasing variance
   threshold: 0.005,
 
-  // Where baseline, current and diff images are stored (committed to git)
+  // baseline/ is committed — it is the specification. current/ and difference/ are run
+  // output and are ignored (see .lostpixel/.gitignore).
   imagePathBaseline: '.lostpixel/baseline',
   imagePathCurrent: '.lostpixel/current',
   imagePathDifference: '.lostpixel/difference',

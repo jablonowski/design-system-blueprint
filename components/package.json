@@ -21,7 +21,7 @@
     "test:a11y": "test-storybook --ci --url http://localhost:6006",
     "test:interactions": "TEST_A11Y=false test-storybook --ci --url http://localhost:6006",
     "test:visual": "lost-pixel",
-    "test:visual:update": "LP_UPDATE=true lost-pixel",
+    "test:visual:update": "node scripts/guard-visual-update.js && LP_UPDATE=true lost-pixel",
     "test": "npm run test:unit && npm run test:contracts"
   },
   "repository": {
