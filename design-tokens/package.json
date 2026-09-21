@@ -1,6 +1,6 @@
 {
   "name": "@jablonowski/dsb-tokens",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "Design System Blueprint — three-tier design tokens (options, decisions, component).",
   "license": "MIT",
   "author": "Mateusz Jablonowski",

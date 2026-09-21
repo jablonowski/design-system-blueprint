@@ -258,8 +258,14 @@ jobs:
         run: npm run test:contracts
       - name: Build library
         run: npm run build
-      - name: Verify client LLM guide in package
-        run: test -f dist/llms.client.txt
+      # What reaches npm is not the manifest in this repository — it is whatever
+      # ng-packagr produced from it. 1.0.4 and 1.0.5 both shipped a library referencing
+      # 261 custom properties while declaring no package that defines a single one,
+      # because the token link lived in devDependencies where the build needs it and
+      # nothing carried it across. This checks the built package instead of the source,
+      # and checks which token version the build actually resolved.
+      - name: Verify the built package is consumable
+        run: npm run verify:manifest
       - name: Bump version from npm registry
         working-directory: components/dist
         run: |
