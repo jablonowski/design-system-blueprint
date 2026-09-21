@@ -29,6 +29,13 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
+      # The components package links the token package from disk and the built CSS is
+      # not committed, so it has to be produced before anything reads it. Storybook is
+      # rendered against the tokens this repository declares — the same thing a developer
+      # sees locally — rather than whatever version happens to be on npm.
+      - name: Build tokens the components link against
+        working-directory: design-tokens
+        run: npm ci && npm run build
       - run: npm ci
       - name: Lint raw values (strict)
         run: npm run lint:raw-values:strict
@@ -65,13 +72,20 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
+      # The components package links the token package from disk and the built CSS is
+      # not committed, so it has to be produced before anything reads it. Storybook is
+      # rendered against the tokens this repository declares — the same thing a developer
+      # sees locally — rather than whatever version happens to be on npm.
+      - name: Build tokens the components link against
+        working-directory: design-tokens
+        run: npm ci && npm run build
       - run: npm ci
-      - name: Update tokens to latest published
-        run: npm install @jablonowski/dsb-tokens@latest
-      # Guard against building the whole visual suite on a token package that predates
-      # the component source: every missing variable renders as a collapsed layout, and
-      # a11y and visual regression would both be measuring the wrong thing.
-      - name: Verify the published tokens cover what the components use
+      # Guard against building the whole visual suite on a token package that does not
+      # cover the component source: every missing variable renders as a collapsed layout,
+      # and a11y and visual regression would both be measuring the wrong thing. This job
+      # previously pulled @latest from npm here, which is precisely how Storybook ended up
+      # rendering against 294 variables while the source defined 468.
+      - name: Verify the tokens cover every variable the components use
         run: npm run test:contracts
       - run: npm run build-storybook
       - uses: actions/upload-artifact@v4
@@ -201,6 +215,11 @@ jobs:
       - run: npm ci
       - name: Update tokens to latest published
         run: npm install @jablonowski/dsb-tokens@latest
+      # The published package must already contain every variable the components use.
+      # Publishing components against a token version that lags source is how a release
+      # ships collapsed spacing to consumers while every gate upstream stayed green.
+      - name: Refuse to publish against token versions that lag the source
+        run: npm run test:contracts
       - name: Build library
         run: npm run build
       - name: Verify client LLM guide in package

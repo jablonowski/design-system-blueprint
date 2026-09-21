@@ -37,6 +37,13 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: components/package-lock.json
+      # The components package links the token package from disk and the built CSS is
+      # not committed, so it has to be produced before anything reads it. Storybook is
+      # rendered against the tokens this repository declares — the same thing a developer
+      # sees locally — rather than whatever version happens to be on npm.
+      - name: Build tokens the components link against
+        working-directory: design-tokens
+        run: npm ci && npm run build
       - run: npm ci
 
       - name: Build Storybook
@@ -45,8 +52,17 @@ jobs:
       - name: Install Lost Pixel's Playwright browser
         run: node node_modules/lost-pixel/node_modules/playwright-core/cli.js install chromium
 
+      # lost-pixel exits 1 after an update run: from its point of view it just found a
+      # pile of missing baselines. It writes them all the same. Whether the run produced
+      # anything usable is asserted by the coverage check below — which fails on an empty
+      # or incomplete baseline set — rather than by this exit code.
       - name: Generate baselines
-        run: npm run test:visual:update
+        run: npm run test:visual:update || true
+
+      # A baseline set that silently covers fewer stories than exist is the failure
+      # mode this whole gate is meant to avoid, so it is checked before the PR is opened.
+      - name: Check the baselines cover every story
+        run: npm run test:contracts
 
       - name: Summarise
         run: |
@@ -68,6 +84,10 @@ jobs:
             comparison job runs on.
 
             **Reason given:** ${{ inputs.reason }}
+            **Generated from:** `${{ github.ref_name }}`
+
+            A baseline is the specification. If the branch above was not already
+            rendering correctly, these images make the breakage the new truth.
 
             Review the image diff in the Files changed tab before merging. Every changed
             image is an intentional design change being accepted as the new truth — if
