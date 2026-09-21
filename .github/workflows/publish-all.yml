@@ -1,7 +1,10 @@
 name: Publish All
 
-# Full release: tokens first, then components.
-# Components release only starts after tokens release succeeds.
+# Full release: tokens first, then everything that depends on them.
+#
+# The Token MCP and the components both wait for the token publish, for the same reason:
+# each is validated against the token set, and publishing either against a token version
+# that lags the source is how a consumer ends up with variables that resolve to nothing.
 on:
   workflow_dispatch:
 
@@ -10,6 +13,12 @@ jobs:
   publish-tokens:
     name: Publish Tokens
     uses: ./.github/workflows/publish-tokens.yml
+    secrets: inherit
+
+  publish-token-mcp:
+    name: Publish Token MCP
+    uses: ./.github/workflows/publish-tokens-mcp.yml
+    needs: publish-tokens
     secrets: inherit
 
   publish-components:

@@ -5,8 +5,47 @@ const path = require('path');
 
 const REFERENCE_RE = /^\{([\w.-]+)\}$/;
 
+const BUNDLED_TOKENS = path.resolve(__dirname, '..', 'tokens', 'tokens.json');
+const MONOREPO_TOKENS = path.resolve(__dirname, '..', '..', 'design-tokens', 'tokens', 'tokens.json');
+const MONOREPO_MARKER = path.resolve(__dirname, '..', '..', 'design-tokens', 'package.json');
+
+/**
+ * Where the resolver reads its tokens from, in order:
+ *
+ *   1. DSB_TOKENS_PATH          — an explicit override, for tests and for pointing the
+ *                                 resolver at a fork of the token set.
+ *   2. the monorepo source      — only when a sibling design-tokens package is actually
+ *                                 there. Inside a checkout this is what you want: edit
+ *                                 tokens.json and the resolver answers from the edit,
+ *                                 with no sync step in between.
+ *   3. the bundled snapshot     — what an installed copy of this package uses.
+ *
+ * The snapshot and the source cannot drift: a test asserts they are byte-identical, and
+ * `npm run sync:tokens` regenerates it. It had to be a snapshot rather than a dependency
+ * because the token package deliberately stops shipping the three-tier source to
+ * consumers — see the distribution boundary in the token package README.
+ */
+function isMonorepoCheckout() {
+  if (!fs.existsSync(MONOREPO_TOKENS) || !fs.existsSync(MONOREPO_MARKER)) return false;
+  try {
+    return JSON.parse(fs.readFileSync(MONOREPO_MARKER, 'utf8')).name === '@jablonowski/dsb-tokens';
+  } catch {
+    return false;
+  }
+}
+
 function getDefaultTokensPath() {
-  return path.resolve(__dirname, '..', '..', 'design-tokens', 'tokens', 'tokens.json');
+  const override = process.env.DSB_TOKENS_PATH;
+  if (override) return path.resolve(override);
+  if (isMonorepoCheckout()) return MONOREPO_TOKENS;
+  return BUNDLED_TOKENS;
+}
+
+function describeTokenSource(tokensPath = getDefaultTokensPath()) {
+  if (process.env.DSB_TOKENS_PATH) return { origin: 'override', tokensPath };
+  if (tokensPath === MONOREPO_TOKENS) return { origin: 'monorepo-source', tokensPath };
+  if (tokensPath === BUNDLED_TOKENS) return { origin: 'bundled-snapshot', tokensPath };
+  return { origin: 'explicit-argument', tokensPath };
 }
 
 function isObject(value) {
@@ -78,6 +117,9 @@ function loadTokens(tokensPath = getDefaultTokensPath()) {
 
 module.exports = {
   getDefaultTokensPath,
+  describeTokenSource,
+  BUNDLED_TOKENS,
+  MONOREPO_TOKENS,
   loadTokens,
   parseReference,
   toCssVariableName,

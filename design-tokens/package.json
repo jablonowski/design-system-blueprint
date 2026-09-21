@@ -25,9 +25,11 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist",
-    "figma",
-    "tokens/tokens.json",
+    "dist/css",
+    "dist/scss",
+    "dist/js",
+    "dist/ts",
+    "dist/json",
     "README.md"
   ],
   "scripts": {
