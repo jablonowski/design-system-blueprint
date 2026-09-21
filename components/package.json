@@ -22,7 +22,8 @@
     "test:interactions": "TEST_A11Y=false test-storybook --ci --url http://localhost:6006",
     "test:visual": "lost-pixel",
     "test:visual:update": "node scripts/guard-visual-update.js && lost-pixel update",
-    "test": "npm run test:unit && npm run test:contracts"
+    "test": "npm run test:unit && npm run test:contracts",
+    "verify:manifest": "node scripts/verify-published-manifest.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "access": "public"
   },
   "peerDependencies": {
+    "@jablonowski/dsb-tokens": "^1.0.8",
     "@angular/common": ">=19.0.0",
     "@angular/core": ">=19.0.0",
     "@angular/forms": ">=19.0.0",

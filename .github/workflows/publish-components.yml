@@ -11,6 +11,41 @@ defaults:
 
 jobs:
 
+  # ── npm credentials ──────────────────────────────────────────────────────
+  # npm answers an unauthorised write with 404, not 401, so a missing or expired token
+  # surfaces as "package not found" — after every gate has run and the version has already
+  # been bumped. Granular access tokens also expire, silently, at most 90 days after they
+  # are made. This runs first and names the actual cause.
+  #
+  # working-directory is pinned because the workflow default points at a package folder
+  # that does not exist in a job with no checkout.
+  npm-auth:
+    name: npm credentials
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Verify the token can publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN is empty. Add it as a secret on the 'npm-publish' environment (Settings -> Environments), or as a repository secret."
+            exit 1
+          fi
+          if ! WHO=$(npm whoami 2>&1); then
+            echo "::error::npm rejected the token: ${WHO}"
+            echo "::error::Most likely expired — granular access tokens last 90 days at most. Create a new one at npmjs.com -> Access Tokens with read and write on @jablonowski, then update the NPM_TOKEN secret."
+            exit 1
+          fi
+          echo "Authenticated as ${WHO}."
+
   # ── Static gates ──────────────────────────────────────────────────────────
   # Runs first and fast. Two things are checked here that nothing else can catch:
   #   1. lint:raw-values in STRICT mode — no raw design values in component source.
@@ -198,6 +233,7 @@ jobs:
     name: Release — publish to npm
     runs-on: ubuntu-latest
     needs:
+      - npm-auth
       - accessibility-tests
       - visual-regression
       - ui-functionalities
@@ -222,8 +258,14 @@ jobs:
         run: npm run test:contracts
       - name: Build library
         run: npm run build
-      - name: Verify client LLM guide in package
-        run: test -f dist/llms.client.txt
+      # What reaches npm is not the manifest in this repository — it is whatever
+      # ng-packagr produced from it. 1.0.4 and 1.0.5 both shipped a library referencing
+      # 261 custom properties while declaring no package that defines a single one,
+      # because the token link lived in devDependencies where the build needs it and
+      # nothing carried it across. This checks the built package instead of the source,
+      # and checks which token version the build actually resolved.
+      - name: Verify the built package is consumable
+        run: npm run verify:manifest
       - name: Bump version from npm registry
         working-directory: components/dist
         run: |
