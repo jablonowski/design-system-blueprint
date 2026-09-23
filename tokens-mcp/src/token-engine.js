@@ -96,6 +96,18 @@ const STATE_HINTS = [
  * is not a resolved answer, it is an ambiguous one — and the contract says
  * ambiguity returns no-coverage.
  */
+/**
+ * Returned with every component explanation.
+ *
+ * This used to be belt and braces: a tier 3 variable was absent from the public
+ * stylesheet, so an application that ignored the advice got an undefined custom
+ * property and a visibly broken element. That absence also broke the component library
+ * itself, so it had to go — which leaves this string, the raw-value linter and code
+ * review as the whole of the enforcement. Worth saying out loud rather than implying.
+ */
+const WARNING_TIER3 =
+  'Component tokens are private: do not author against them. They are declared in the public stylesheet because the component library cannot render without them, so using one will not visibly break anything — it will quietly tie your code to a decision this component\'s owner can repoint without telling you. Use the tier 2 token in useInYourCode instead.';
+
 const MIN_SCORE = 3;
 const MIN_MARGIN = 2;
 
@@ -466,8 +478,7 @@ function createTokenEngine(tokensPath) {
       component: input.component,
       variant: input.variant || null,
       tokens,
-      warning:
-        'Component tokens are private. Use tier 2 semantic tokens from useInYourCode to avoid coupling to internal component implementation.',
+      warning: WARNING_TIER3,
     };
   }
 

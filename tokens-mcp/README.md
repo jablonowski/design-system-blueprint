@@ -96,7 +96,9 @@ release workflow runs that test before publishing. After editing `tokens.json`, 
 
 A resolved answer is always a tier 2 decision token, marked `visibility: "public"`. Tier 3
 tokens appear only in `explain_component_tokens`, marked `visibility: "private"`, each
-mapped to the tier 2 token to use instead. **No response carries a tier 1 path, a raw
+mapped to the tier 2 token to use instead — with a warning that says why the rule needs
+stating: those variables *are* declared in the public stylesheet, because the component
+library cannot render without them, so misusing one works and couples you silently. **No response carries a tier 1 path, a raw
 colour or a raw measurement** — asserted by driving the real server over stdio and
 scanning every string in every payload.
 

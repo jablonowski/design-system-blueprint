@@ -84,13 +84,29 @@ test('a README ships with the package', () => {
 
 // ─── The public surface ──────────────────────────────────────────────────────
 
-test('the public CSS and SCSS expose decisions only', () => {
+test('the public CSS and SCSS carry no raw palette', () => {
+  // Tier 1 is the only layer holding literal values, and the only one an application has
+  // no business reaching. Tier 3 holds no values at all — it is 215 pointers into tier 2,
+  // and the compiled component CSS reads every one of them while defining none.
   for (const file of ['dist/css/public.css', 'dist/scss/_public.scss']) {
     const source = read(file);
-    assert.doesNotMatch(source, TIER1, `${file} leaks tier 1`);
-    assert.doesNotMatch(source, TIER3, `${file} leaks tier 3`);
+    assert.doesNotMatch(source, TIER1, `${file} leaks the raw palette`);
     assert.match(source, /decisions/, `${file} contains no decisions at all`);
+    assert.match(source, TIER3, `${file} omits the component layer the library needs to render`);
   }
+});
+
+test('component tokens in the public surface stay references, never literals', () => {
+  const flattened = [...read('dist/css/public.css').matchAll(/^\s*(--ds-component-[\w-]+):\s*([^;]+);/gm)]
+    .filter((m) => !m[2].trim().startsWith('var('))
+    .map((m) => m[1]);
+
+  assert.deepEqual(
+    flattened,
+    [],
+    'a flattened component token ignores whatever decision the consumer overrides, ' +
+    'which removes the only reason the layer exists'
+  );
 });
 
 test('the public JSON has a decisions root and nothing beside it', () => {
@@ -114,10 +130,42 @@ test('the full artifacts still carry every tier', () => {
 });
 
 test('public and full are not the same file', () => {
+  // They now differ by exactly one layer: the raw palette.
   assert.notEqual(read('dist/css/public.css'), read('dist/css/variables.css'));
   assert.ok(
     read('dist/css/variables.css').length > read('dist/css/public.css').length,
     'the full CSS is not larger than the public one'
+  );
+});
+
+test('the public stylesheet can actually run the component library', () => {
+  // The assertion this file was missing. Every earlier test here described dist/, and
+  // every one of them passed while the published public artifact left 215 of the 261
+  // variables the components read undefined — a component library that renders with no
+  // spacing, no control heights and no colour, shipped by the boundary meant to protect it.
+  const declared = new Set(
+    [...read('dist/css/public.css').matchAll(/^\s*(--ds-[\w-]+):/gm)].map((m) => m[1])
+  );
+
+  const src = path.resolve(ROOT, '..', 'components', 'src');
+  const used = new Set();
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (/\.(css|html)$/.test(entry.name)) {
+        for (const m of fs.readFileSync(full, 'utf8').matchAll(/var\(\s*(--ds-[\w-]+)/g)) used.add(m[1]);
+      }
+    }
+  };
+  walk(src);
+
+  const missing = [...used].filter((name) => !declared.has(name)).sort();
+  assert.deepEqual(
+    missing,
+    [],
+    `\n  ${missing.length} of ${used.size} variables are undefined in the public stylesheet:\n    ` +
+    missing.slice(0, 10).join('\n    ') + '\n'
   );
 });
 

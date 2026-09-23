@@ -271,20 +271,70 @@ describe('Style Dictionary output', () => {
     });
 
     it('exposes no raw options', () => {
-      // This is the distribution half of the firewall: a consumer importing the public
-      // entry point is unable to reach tier 1, not merely asked not to.
+      // The distribution half of the firewall: a consumer importing the public entry
+      // point cannot reach tier 1, rather than merely being asked not to.
       const leaks = [...publicCss.matchAll(/^\s*(--ds-[\w-]*-options-[\w-]+):/gm)].map((m) => m[1]);
       assert.deepEqual(leaks, []);
     });
 
-    it('exposes no component tokens', () => {
-      const leaks = [...publicCss.matchAll(/^\s*(--ds-component-[\w-]+):/gm)].map((m) => m[1]);
-      assert.deepEqual(leaks, []);
+    it('carries the component layer, because the library cannot render without it', () => {
+      // Tier 3 is private in the sense that applications must not author against it.
+      // It is not absent at runtime: a component's compiled CSS reads these and defines
+      // none of them. A public artifact without them renders every component with no
+      // spacing, no control heights and no colour.
+      const component = [...publicCss.matchAll(/^\s*(--ds-component-[\w-]+):/gm)];
+      assert.ok(component.length > 200, `only ${component.length} component tokens in the public surface`);
     });
 
-    it('resolves values so the file stands alone', () => {
-      assert.doesNotMatch(publicCss, /var\(--ds-[\w-]*-options-/);
+    it('keeps component tokens pointing at decisions rather than flattening them', () => {
+      // A component token resolved to a literal ignores any decision the consumer
+      // overrides, which removes the only reason the layer exists.
+      const flattened = [...publicCss.matchAll(/^\s*(--ds-component-[\w-]+):\s*([^;]+);/gm)]
+        .filter((m) => !m[2].trim().startsWith('var('))
+        .map((m) => `${m[1]}: ${m[2].trim()}`);
+
+      assert.deepEqual(flattened, [], '\n  ' + flattened.slice(0, 5).join('\n  ') + '\n');
+    });
+
+    it('resolves decision values so the file stands alone', () => {
+      // Decisions may not reference tier 1 here: tier 1 is not in this file, so a
+      // reference would resolve to nothing.
+      const dangling = [...publicCss.matchAll(/^\s*(--ds-decisions-[\w-]+):\s*var\(([^)]+)\)/gm)]
+        .map((m) => `${m[1]} -> ${m[2]}`);
+      assert.deepEqual(dangling, []);
       assert.match(publicCss, /--ds-decisions-color-text-primary:\s*#111111/);
+    });
+
+    it('defines every variable the component source reads', () => {
+      // The assertion that actually matters, and the one that was missing: an
+      // application importing the public stylesheet gets a component library that works.
+      const declared = new Set(
+        [...publicCss.matchAll(/^\s*(--ds-[\w-]+):/gm)].map((m) => m[1])
+      );
+
+      const componentsDir = path.resolve(__dirname, '..', '..', 'components', 'src');
+      const used = new Set();
+      const walk = (dir) => {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+          const full = path.join(dir, entry.name);
+          if (entry.isDirectory()) walk(full);
+          else if (/\.(css|html)$/.test(entry.name)) {
+            for (const m of fs.readFileSync(full, 'utf8').matchAll(/var\(\s*(--ds-[\w-]+)/g)) {
+              used.add(m[1]);
+            }
+          }
+        }
+      };
+      walk(componentsDir);
+
+      const missing = [...used].filter((name) => !declared.has(name)).sort();
+      assert.deepEqual(
+        missing,
+        [],
+        `\n  the public stylesheet leaves ${missing.length} of ${used.size} variables ` +
+        `undefined; every one of them is a declaration the browser will discard:\n    ` +
+        missing.slice(0, 10).join('\n    ') + '\n'
+      );
     });
   });
 });
