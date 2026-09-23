@@ -197,3 +197,30 @@ test('a resolved answer is a tier 2 token marked public', async () => {
   assert.equal(result.visibility, 'public');
   assert.match(result.token, /^decisions\./);
 });
+
+// ─── The advice is now the control ───────────────────────────────────────────
+
+test('the component warning says why the rule needs stating', () => {
+  // Until the public stylesheet carried tier 3, an application that ignored this advice
+  // got an undefined custom property and a visibly broken element. That absence also
+  // broke the component library, so it is gone — and this string, the raw-value linter
+  // and code review are the whole of the enforcement now. A warning that has become a
+  // control deserves a test.
+  const { createTokenEngine } = require('../src/token-engine');
+  const { warning } = createTokenEngine().explainComponentTokens({ component: 'button' });
+
+  assert.match(warning, /do not author against them/i);
+  assert.match(warning, /will not visibly break/i, 'the warning must say the misuse is silent');
+  assert.match(warning, /useInYourCode/, 'the warning must name the alternative');
+
+  // The contract document and the server must not drift apart: an agent reads one and
+  // a human reads the other.
+  const contract = fs.readFileSync(
+    path.resolve(ROOT, '..', 'design-tokens', 'token-mcp-contract.md'),
+    'utf8'
+  );
+  assert.ok(
+    contract.includes(warning),
+    'token-mcp-contract.md quotes a different warning than the server returns'
+  );
+});

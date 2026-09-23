@@ -188,7 +188,7 @@ component tokens.
       "resolutionStrategy": "direct-alias"
     }
   ],
-  "warning": "Component tokens are private. Use tier 2 semantic tokens from useInYourCode to avoid coupling to internal component implementation."
+  "warning": "Component tokens are private: do not author against them. They are declared in the public stylesheet because the component library cannot render without them, so using one will not visibly break anything — it will quietly tie your code to a decision this component's owner can repoint without telling you. Use the tier 2 token in useInYourCode instead."
 }
 ```
 
