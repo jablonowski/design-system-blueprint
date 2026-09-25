@@ -4,6 +4,20 @@ Proof-of-concept repository for design system engineering, showing the full path
 design tokens to components, documentation, testing, agent-facing contracts, and npm
 publishing.
 
+## Is any of this measurable?
+
+A companion repository puts it to the test:
+**[demo-blueprint](https://github.com/jablonowski/demo-blueprint)** — a pre-registered
+experiment asking whether this design system changes what a coding agent actually writes.
+One specification, one application, several levels of infrastructure, committed scorers,
+raw data published per run.
+
+The study is running: three runs per arm of five planned, two of five arms still to go. The
+results table, the method, the pre-registration and every discarded run are in that
+repository. Readings are deliberately held back until the grid supports them.
+
+→ [Raw results and methodology](https://github.com/jablonowski/demo-blueprint)
+
 ## Purpose
 
 This project demonstrates six layers:
