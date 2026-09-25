@@ -1,5 +1,14 @@
 # design-system-blueprint
 
+[![CI](https://github.com/jablonowski/design-system-blueprint/actions/workflows/verify.yml/badge.svg?branch=master)](https://github.com/jablonowski/design-system-blueprint/actions/workflows/verify.yml)
+[![License](https://img.shields.io/github/license/jablonowski/design-system-blueprint)](https://github.com/jablonowski/design-system-blueprint/blob/master/LICENSE)
+[![npm tokens](https://img.shields.io/npm/v/@jablonowski/dsb-tokens.svg)](https://www.npmjs.com/package/@jablonowski/dsb-tokens)
+[![npm components](https://img.shields.io/npm/v/@jablonowski/dsb-components.svg)](https://www.npmjs.com/package/@jablonowski/dsb-components)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)](https://angular.io/)
+[![Storybook](https://img.shields.io/badge/Storybook-8-FF4785?logo=storybook&logoColor=white)](https://storybook.js.org/)
+[![Design Tokens](https://img.shields.io/badge/Tokens-Style%20Dictionary-5D8AA8)](https://styledictionary.com/)
+
 Proof-of-concept repository for design system engineering, showing the full path from
 design tokens to components, documentation, testing, agent-facing contracts, and npm
 publishing.
