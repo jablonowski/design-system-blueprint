@@ -13,6 +13,8 @@ Proof-of-concept repository for design system engineering, showing the full path
 design tokens to components, documentation, testing, agent-facing contracts, and npm
 publishing.
 
+⭐ This project is 100% powered by caffeine and unpaid passion. Give it a ⭐ if you like it 😊 Thanks ❤️
+
 ## Is any of this measurable?
 
 A companion repository puts it to the test:
