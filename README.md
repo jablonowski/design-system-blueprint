@@ -23,9 +23,10 @@ experiment asking whether this design system changes what a coding agent actuall
 One specification, one application, several levels of infrastructure, committed scorers,
 raw data published per run.
 
-The study is running: three runs per arm of five planned, two of five arms still to go. The
-results table, the method, the pre-registration and every discarded run are in that
-repository. Readings are deliberately held back until the grid supports them.
+Stage one is complete: sixteen scored runs, four arms at n = 3 on one model and n = 1 on a
+second. The results table, the method, the pre-registration and every discarded run are in
+that repository — including the comparison that went against this repository's own premise.
+One arm and two measurements are still outstanding, so the numbers will move.
 
 → [Raw results and methodology](https://github.com/jablonowski/demo-blueprint)
 
