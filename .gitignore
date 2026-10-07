@@ -15,6 +15,9 @@ llms.txt
 .DS_Store
 Thumbs.db
 
+# Scratch that is not part of the system
+Claude outputs/
+
 # Logs
 *.log
 npm-debug.log*
