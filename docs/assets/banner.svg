@@ -1,0 +1,66 @@
+<!-- Generated with Claude (Opus 5) for design-system-blueprint.
+     Hand-written SVG, no raster assets, no external fonts. Edit freely. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="design-system-blueprint — a design system built as platform infrastructure, and measured against a coding agent">
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#c8c8c8" stroke-opacity="0.18" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dff0e5"/>
+      <stop offset="1" stop-color="#eef7f1"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbe9b6"/>
+      <stop offset="1" stop-color="#fdf3d4"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="320" fill="#f9f9f9"/>
+  <rect width="1200" height="320" fill="url(#grid)"/>
+
+  <!-- decorative tier stack, right -->
+  <g opacity="0.95">
+    <text x="1148" y="72" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="1.6" fill="#97a29b">THREE ENFORCED TIERS</text>
+    <rect x="962" y="88"  width="186" height="36" rx="8" fill="url(#sun)"/>
+    <rect x="934" y="134" width="214" height="36" rx="8" fill="url(#mint)"/>
+    <rect x="906" y="180" width="242" height="36" rx="8" fill="#c3ded0"/>
+    <text x="1132" y="112" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#6b4e0a">3 · component</text>
+    <text x="1132" y="158" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#2f5a3f">2 · decisions</text>
+    <text x="1132" y="204" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#1d3a28">1 · options</text>
+    <text x="1148" y="240" text-anchor="end" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">only tier 2 is reachable from an application</text>
+  </g>
+
+  <!-- spine -->
+  <line x1="64" y1="46" x2="64" y2="274" stroke="#c3ded0" stroke-width="2" stroke-dasharray="5 7"/>
+  <circle cx="64" cy="81"  r="7" fill="#5b8a6b" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="64" cy="190" r="7" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="64" cy="245" r="7" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+
+  <text x="104" y="86" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="14" letter-spacing="2.5" fill="#2f5a3f">DESIGN SYSTEM ENGINEERING · PROOF OF CONCEPT</text>
+
+  <text x="102" y="152" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="54" fill="#161a17">design-system-blueprint</text>
+
+  <text x="104" y="196" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="20" fill="#455049">Not a component library. Platform infrastructure — with the measurements to prove it.</text>
+
+  <!-- pipeline -->
+  <g font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13">
+    <rect x="102" y="228" width="92"  height="34" rx="17" fill="#ffffff" stroke="#c3ded0"/>
+    <text x="148" y="250" text-anchor="middle" fill="#1d3a28">Figma</text>
+    <text x="206" y="250" text-anchor="middle" fill="#97a29b">›</text>
+
+    <rect x="218" y="228" width="100" height="34" rx="17" fill="#ffffff" stroke="#c3ded0"/>
+    <text x="268" y="250" text-anchor="middle" fill="#1d3a28">Tokens</text>
+    <text x="330" y="250" text-anchor="middle" fill="#97a29b">›</text>
+
+    <rect x="342" y="228" width="128" height="34" rx="17" fill="#ffffff" stroke="#c3ded0"/>
+    <text x="406" y="250" text-anchor="middle" fill="#1d3a28">Components</text>
+    <text x="482" y="250" text-anchor="middle" fill="#97a29b">›</text>
+
+    <rect x="494" y="228" width="176" height="34" rx="17" fill="#ffffff" stroke="#c3ded0"/>
+    <text x="582" y="250" text-anchor="middle" fill="#1d3a28">Agent contracts</text>
+    <text x="682" y="250" text-anchor="middle" fill="#97a29b">›</text>
+
+    <rect x="694" y="228" width="80"  height="34" rx="17" fill="#2f5a3f"/>
+    <text x="734" y="250" text-anchor="middle" fill="#ffffff">npm</text>
+  </g>
+</svg>

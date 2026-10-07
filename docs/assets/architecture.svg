@@ -1,0 +1,112 @@
+<!-- Generated with Claude (Opus 5) for design-system-blueprint.
+     Hand-written SVG, no raster assets, no external fonts. Edit freely. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700" role="img" aria-label="Architecture: Figma design source generates tokens, tokens build into three enforced tiers, components consume tier 2 and 3, agent contracts describe the components, and all three packages publish to npm. Every layer has a gate that runs on every pull request.">
+  <defs>
+    <pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#c8c8c8" stroke-opacity="0.16" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b8a6b"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="700" fill="#f9f9f9"/>
+  <rect width="1200" height="700" fill="url(#g)"/>
+
+  <!-- column headings -->
+  <text x="150" y="42" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="1.6" fill="#97a29b">LAYER</text>
+  <text x="196" y="42" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="1.6" fill="#97a29b">WHAT IT HOLDS</text>
+  <text x="938" y="42" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="1.6" fill="#97a29b">THE GATE</text>
+  <line x1="24" y1="56" x2="1176" y2="56" stroke="#e6e8e5" stroke-width="1"/>
+
+  <!-- flow arrows -->
+  <g stroke="#5b8a6b" stroke-width="2" marker-end="url(#arrow)" fill="none">
+    <path d="M548 176 L548 198"/>
+    <path d="M548 300 L548 322"/>
+    <path d="M548 424 L548 446"/>
+    <path d="M548 548 L548 570"/>
+  </g>
+
+  <!-- ─── 1 · DESIGN ─── -->
+  <text x="150" y="112" text-anchor="end" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="19" fill="#161a17">Design</text>
+  <text x="150" y="132" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#97a29b">one source</text>
+  <rect x="196" y="78" width="704" height="98" rx="12" fill="#ffffff" stroke="#c3ded0" stroke-width="1.5"/>
+  <text x="220" y="108" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#161a17">Figma file — variable collections, one frame per component</text>
+  <text x="220" y="134" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#2f5a3f">tokens.json  ──generate:figma──▶  figma/tokens.dtcg.json + import script</text>
+  <text x="220" y="158" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">The design file is a generated view, not a second source of truth.</text>
+  <text x="938" y="112" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">export is behind the</text>
+  <text x="938" y="130" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">source → test fails</text>
+
+  <!-- ─── 2 · TOKENS ─── -->
+  <text x="150" y="236" text-anchor="end" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="19" fill="#161a17">Tokens</text>
+  <text x="150" y="256" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#97a29b">three tiers</text>
+  <rect x="196" y="202" width="704" height="98" rx="12" fill="#ffffff" stroke="#c3ded0" stroke-width="1.5"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5">
+    <rect x="220" y="222" width="188" height="30" rx="7" fill="#eef7f1" stroke="#c3ded0"/>
+    <text x="314" y="242" text-anchor="middle" fill="#1d3a28">1 · options</text>
+    <text x="420" y="242" text-anchor="middle" fill="#97a29b">▶</text>
+    <rect x="432" y="222" width="188" height="30" rx="7" fill="#c3ded0"/>
+    <text x="526" y="242" text-anchor="middle" fill="#1d3a28">2 · decisions</text>
+    <text x="632" y="242" text-anchor="middle" fill="#97a29b">▶</text>
+    <rect x="644" y="222" width="188" height="30" rx="7" fill="#fbe9b6"/>
+    <text x="738" y="242" text-anchor="middle" fill="#6b4e0a">3 · component</text>
+  </g>
+  <text x="220" y="276" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">Style Dictionary → css · scss · json.  The published entry point exposes tier 2 only,</text>
+  <text x="220" y="294" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">so an application cannot reach a raw value rather than being asked not to.</text>
+  <text x="938" y="236" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">schema + tier</text>
+  <text x="938" y="254" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">validation;  release</text>
+  <text x="938" y="272" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">greps public.css</text>
+  <text x="938" y="290" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">for -options-</text>
+
+  <!-- ─── 3 · COMPONENTS ─── -->
+  <text x="150" y="360" text-anchor="end" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="19" fill="#161a17">Components</text>
+  <text x="150" y="380" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#97a29b">14, standalone</text>
+  <rect x="196" y="326" width="704" height="98" rx="12" fill="#ffffff" stroke="#c3ded0" stroke-width="1.5"/>
+  <text x="220" y="356" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#161a17">Angular 19 · Storybook · ng-packagr · semver</text>
+  <text x="220" y="382" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">accordion avatar breadcrumbs button checkbox dropdown footer header</text>
+  <text x="220" y="400" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">input list modal radio table tag</text>
+  <text x="938" y="360" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">raw-value lint,</text>
+  <text x="938" y="378" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">unit · a11y ·</text>
+  <text x="938" y="396" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">interaction · visual</text>
+
+  <!-- ─── 4 · AGENT CONTRACTS ─── -->
+  <text x="150" y="484" text-anchor="end" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="19" fill="#161a17">Agent contracts</text>
+  <text x="150" y="504" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#97a29b">AX</text>
+  <rect x="196" y="450" width="704" height="98" rx="12" fill="#ffffff" stroke="#f5d98a" stroke-width="1.5"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12">
+    <rect x="220" y="470" width="96"  height="28" rx="14" fill="#fdf3d4"/><text x="268" y="488" text-anchor="middle" fill="#6b4e0a">.d.ts</text>
+    <rect x="326" y="470" width="150" height="28" rx="14" fill="#fdf3d4"/><text x="401" y="488" text-anchor="middle" fill="#6b4e0a">contracts.json</text>
+    <rect x="486" y="470" width="166" height="28" rx="14" fill="#fdf3d4"/><text x="569" y="488" text-anchor="middle" fill="#6b4e0a">llms.client.txt</text>
+    <rect x="662" y="470" width="116" height="28" rx="14" fill="#fdf3d4"/><text x="720" y="488" text-anchor="middle" fill="#6b4e0a">AGENTS.md</text>
+    <rect x="788" y="470" width="88"  height="28" rx="14" fill="#fdf3d4"/><text x="832" y="488" text-anchor="middle" fill="#6b4e0a">token MCP</text>
+  </g>
+  <text x="220" y="522" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">What a coding agent can read before it writes a line: the real prop surface, the</text>
+  <text x="220" y="540" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#455049">conventions no type declaration carries, and a resolver for intent → token.</text>
+  <text x="938" y="484" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">contracts.test.js</text>
+  <text x="938" y="502" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">reads the real</text>
+  <text x="938" y="520" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">@Input/@Output</text>
+  <text x="938" y="538" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">and compares</text>
+
+  <!-- ─── 5 · DISTRIBUTION ─── -->
+  <text x="150" y="608" text-anchor="end" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="19" fill="#161a17">Distribution</text>
+  <text x="150" y="628" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#97a29b">npm</text>
+  <rect x="196" y="574" width="704" height="96" rx="12" fill="#2f5a3f"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#ffffff">
+    <text x="220" y="602">@jablonowski/dsb-tokens</text>
+    <text x="220" y="626">@jablonowski/dsb-components</text>
+    <text x="220" y="650">@jablonowski/dsb-tokens-mcp</text>
+  </g>
+  <text x="600" y="618" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#c3ded0">Consuming an update is a</text>
+  <text x="600" y="638" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#c3ded0">dependency bump, not a copy-paste.</text>
+  <text x="938" y="608" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">distribution.test.js</text>
+  <text x="938" y="626" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">pins the packed</text>
+  <text x="938" y="644" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#2f5a3f">file list</text>
+
+  <!-- gate rail -->
+  <line x1="920" y1="78" x2="920" y2="670" stroke="#c3ded0" stroke-width="2" stroke-dasharray="5 7"/>
+  <circle cx="920" cy="108" r="6" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="920" cy="232" r="6" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="920" cy="356" r="6" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="920" cy="480" r="6" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+  <circle cx="920" cy="604" r="6" fill="#2f5a3f" stroke="#f9f9f9" stroke-width="3"/>
+</svg>
