@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Storybook-8-FF4785?logo=storybook&logoColor=white" alt="Storybook 8">
   <img src="https://img.shields.io/badge/Tokens-Style%20Dictionary-5D8AA8" alt="Style Dictionary">
   <img src="https://img.shields.io/badge/Node.js-20.x-339933?logo=node.js&logoColor=white" alt="Node 20">
-  <a href="https://github.com/jablonowski/demo-blueprint"><img src="https://img.shields.io/badge/measured-30%20scored%20runs-2f5a3f" alt="Measured: 30 scored runs"></a>
+  <a href="https://github.com/jablonowski/demo-blueprint"><img src="https://img.shields.io/badge/measured-35%20scored%20runs-2f5a3f" alt="Measured: 35 scored runs"></a>
 </p>
 
 ---
@@ -68,10 +68,11 @@ a pre-registered experiment asking whether this design system changes what a cod
 actually writes. One specification, one application, five levels of infrastructure,
 committed scorers, raw data published per run.
 
-Stage one is complete: thirty scored runs, five arms at n = 5 on one model and n = 1 on a
-second. Published in that repository: the results, the method, every discarded run — and
+Stage one is complete: thirty-five scored runs, five arms at n = 5 on one model and n = 2 on
+a second. Published in that repository: the results, the method, every discarded run — and
 the comparisons that went against this repository's own premise, including a scorer removed
-mid-study because it was producing a difference that was not there.
+mid-study because it was producing a difference that was not there, and two claims withdrawn
+once a second run failed to reproduce them.
 
 → [Raw results and methodology](https://github.com/jablonowski/demo-blueprint)
 
